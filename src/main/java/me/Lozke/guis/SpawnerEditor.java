@@ -1,6 +1,5 @@
 package me.Lozke.guis;
 
-import me.Lozke.FallingAutism;
 import me.Lozke.MobMechanics;
 import me.Lozke.data.Rarity;
 import me.Lozke.data.Tier;
@@ -231,7 +230,7 @@ public class SpawnerEditor implements Listener {
                                         Text.colorize("&8Middle click to force spawn (spawner must be on)"),
                                         Text.colorize("&8Press drop key on this item to set to minimum value")}));
                     }
-                }.runTaskTimer(FallingAutism.getPluginInstance(), 0, 20);
+                }.runTaskTimer(MobMechanics.getInstance(), 0, 20);
                 if (spawner.isSpawnerActive()) {
                     menu.addDisplayItem(Items.formatItem(new ItemStack(Material.LIME_DYE),
                             "&fSpawner Status: &a&lON"));

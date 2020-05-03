@@ -1,13 +1,10 @@
 package me.Lozke.events;
 
-import me.Lozke.FallingAutism;
 import me.Lozke.MobMechanics;
 import me.Lozke.data.ActionBarMessage;
 import me.Lozke.data.items.NamespacedKeys;
-import me.Lozke.handlers.ItemHandler;
 import me.Lozke.tasks.actionbar.ActionBarMessageTickTask;
 import me.Lozke.utils.Text;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -64,7 +61,7 @@ public class ItemInteraction implements Listener {
             public void run() {
                 ignoredPlayers.remove(uuid);
             }
-        }.runTaskLaterAsynchronously(FallingAutism.getPluginInstance(), 1);
+        }.runTaskLaterAsynchronously(MobMechanics.getInstance(), 1);
 
 
         //TODO: Check player's Rank and if too low return here.

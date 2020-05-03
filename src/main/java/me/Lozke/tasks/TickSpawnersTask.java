@@ -1,6 +1,6 @@
 package me.Lozke.tasks;
 
-import me.Lozke.FallingAutism;
+import me.Lozke.MobMechanics;
 import me.Lozke.data.MobSpawner;
 import me.Lozke.managers.SpawnerManager;
 import me.Lozke.utils.NumGenerator;
@@ -15,7 +15,7 @@ public class TickSpawnersTask extends BukkitRunnable {
 
     public TickSpawnersTask(SpawnerManager spawnerManager) {
         this.spawnerManager = spawnerManager;
-        runTaskTimerAsynchronously(FallingAutism.getPluginInstance(), 0L, 20L);
+        runTaskTimerAsynchronously(MobMechanics.getInstance(), 0L, 20L);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class TickSpawnersTask extends BukkitRunnable {
                             entity.setHealth(1);
                         }
                     }
-                }.runTask(FallingAutism.getPluginInstance());
+                }.runTask(MobMechanics.getInstance());
             }
             timeLeft = timeLeft > 0 ? timeLeft-1 : spawner.getSpawnTime()-1;
             spawner.setTimeLeft(timeLeft);
