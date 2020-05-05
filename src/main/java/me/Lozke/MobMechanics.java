@@ -25,7 +25,7 @@ public class MobMechanics extends JavaPlugin {
         pm.registerEvents(new SpawnerWandToggleListener(), this);
 
         try {
-            String name = FallingAutism.getPluginInstance().getName();
+            String name = AgorianRifts.getPluginInstance().getName();
             Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
             bukkitCommandMap.setAccessible(true);
             CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());

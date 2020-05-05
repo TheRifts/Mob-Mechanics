@@ -44,6 +44,10 @@
 
     <repositories>
         <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/Lozke/AgorianRifts-Core</url>
+        </repository>
+        <repository>
             <id>spigotmc-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
