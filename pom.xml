@@ -56,8 +56,8 @@
     <dependencies>
         <dependency>
             <groupId>me.Lozke</groupId>
-            <artifactId>FallingAutism</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <artifactId>AgorianRifts</artifactId>
+            <version>1.0.0-alpha</version>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
