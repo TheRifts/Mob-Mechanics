@@ -1,12 +1,12 @@
 package me.Lozke.tasks;
 
 import me.Lozke.MobMechanics;
+import me.Lozke.data.CustomMob;
 import me.Lozke.data.MobSpawner;
 import me.Lozke.managers.SpawnerManager;
 import me.Lozke.utils.NumGenerator;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class TickSpawnersTask extends BukkitRunnable {
@@ -35,9 +35,8 @@ public class TickSpawnersTask extends BukkitRunnable {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        for (Location loc : locations) {
-                            LivingEntity entity = (LivingEntity) loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
-                            entity.setHealth(1);
+                        for (Location location : locations) {
+                            new CustomMob(EntityType.ZOMBIE, spawner.getMobType(), spawner.getTier(), spawner.getRarity(), spawner, location);
                         }
                     }
                 }.runTask(MobMechanics.getInstance());

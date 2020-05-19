@@ -14,25 +14,29 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SpawnerManager {
 
     private MobMechanics plugin;
 
-    private List<MobSpawner> mobSpawners;
+    private Map<UUID, MobSpawner> defaultMobSpawners;
+
+    private Set<MobSpawner> mobSpawners;
     private boolean visible;
     private TickSpawnersTask tickSpawnersTask;
 
     public SpawnerManager(MobMechanics plugin) {
         this.plugin = plugin;
-        mobSpawners = new ArrayList<>();
+
+        defaultMobSpawners = new HashMap<>();
+
+        mobSpawners = new HashSet<>();
         visible = false;
         tickSpawnersTask = new TickSpawnersTask(this);
     }
 
-    public List<MobSpawner> getSpawners() {
+    public Set<MobSpawner> getSpawners() {
         return mobSpawners;
     }
 
@@ -95,7 +99,7 @@ public class SpawnerManager {
         }
     }
 
-    //This method needs a better naming convention
+    //This method needs a better naming convention (or does it?)
     public boolean isSpawner(Location location) {
         return getSpawner(location) != null;
     }

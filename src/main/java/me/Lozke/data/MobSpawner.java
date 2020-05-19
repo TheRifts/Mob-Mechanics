@@ -6,7 +6,10 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public class MobSpawner {
 
@@ -21,7 +24,7 @@ public class MobSpawner {
     private int amount;
     private transient int timeLeft;
     private transient BukkitTask task;
-
+    private Set<CustomMob> spawnedMobs;
 
     public MobSpawner(MobSpawner mobSpawner) {
         this.location = mobSpawner.getSerializedLocation();
@@ -34,6 +37,7 @@ public class MobSpawner {
         this.timeLeft = spawnTime;
         this.radius = mobSpawner.getRadius();
         this.amount = mobSpawner.getAmount();
+        this.spawnedMobs = new HashSet<>();
     }
     public MobSpawner(Location location, Tier tier, Rarity rarity, String mobType, boolean elite, boolean spawnerActive, int timer, int radius, int amount) {
         this.location = location.serialize();
@@ -46,8 +50,8 @@ public class MobSpawner {
         this.timeLeft = spawnTime;
         this.radius = radius;
         this.amount = amount;
+        this.spawnedMobs = new HashSet<>();
     }
-
 
     public Location getLocation() {
         return Location.deserialize(location);
@@ -131,6 +135,7 @@ public class MobSpawner {
     }
 
 
+    //Does not copy associated spawned mobs
     public MobSpawner copy() {
         return new MobSpawner(this);
     }
@@ -150,5 +155,24 @@ public class MobSpawner {
     public MobSpawner hideSpawner() {
         Location.deserialize(location).getBlock().setType(Material.AIR);
         return this;
+    }
+
+    public boolean canSpawn() {
+        return spawnedMobs.size() < amount;
+    }
+
+    public void addMob(CustomMob mob) {
+        spawnedMobs.add(mob);
+    }
+    public void removeMob(UUID uuid) {
+        spawnedMobs.removeIf(mob -> uuid == mob.getUniqueId());
+    }
+    public CustomMob getCustomMob(UUID uuid) {
+        for (CustomMob mob : spawnedMobs) {
+            if(uuid == mob.getUniqueId()) {
+                return mob;
+            }
+        }
+        return null;
     }
 }

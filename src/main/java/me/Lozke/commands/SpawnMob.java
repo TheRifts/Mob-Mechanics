@@ -1,6 +1,7 @@
 package me.Lozke.commands;
 
-import me.Lozke.data.Mob;
+import me.Lozke.data.CustomMob;
+import me.Lozke.data.Rarity;
 import me.Lozke.data.Tier;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -15,8 +16,7 @@ public class SpawnMob extends Command {
 
     @Override
     public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-        EntityType entityType = EntityType.valueOf(args[0]);
-        new Mob(entityType, args[1], args[2], Tier.valueOf(args[3])).spawnMob(((Player) sender).getLocation());
+        new CustomMob(EntityType.valueOf(args[0]), args[1], Tier.values()[Integer.parseInt(args[2])], Rarity.values()[Integer.parseInt(args[3])], null, ((Player)sender).getLocation());
         return true;
     }
 }

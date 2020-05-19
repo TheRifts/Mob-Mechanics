@@ -24,7 +24,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
-public class ItemInteraction implements Listener {
+public class SpawnerWandInteraction implements Listener {
 
     private static int weight = 10;
 
@@ -34,12 +34,11 @@ public class ItemInteraction implements Listener {
     private Map<UUID, ActionBarMessageTickTask> messages;
 
 
-    public ItemInteraction(MobMechanics plugin) {
+    public SpawnerWandInteraction(MobMechanics plugin) {
         this.plugin = plugin;
         ignoredPlayers = new ArrayList<>();
         messages = new HashMap<>();
     }
-
 
     @EventHandler
     public void onInteraction(PlayerInteractEvent event) {

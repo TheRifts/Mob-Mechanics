@@ -33,7 +33,6 @@ public class SpawnerEditor implements Listener {
         setPage(Page.Main);
     }
 
-
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getInventory().equals(menu.getInventory()))) {

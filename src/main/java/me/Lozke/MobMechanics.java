@@ -1,9 +1,13 @@
 package me.Lozke;
 
 import me.Lozke.commands.*;
-import me.Lozke.events.ItemInteraction;
-import me.Lozke.events.SpawnerWandToggleListener;
+import me.Lozke.events.MobDamage;
+import me.Lozke.events.SpawnerWandInteraction;
+import me.Lozke.events.MobDeath;
+import me.Lozke.events.SpawnerWandToggle;
+import me.Lozke.managers.MobManager;
 import me.Lozke.managers.SpawnerManager;
+import me.Lozke.tasks.HealthNameFlashTask;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.PluginManager;
@@ -15,14 +19,17 @@ public class MobMechanics extends JavaPlugin {
 
     private static MobMechanics plugin;
     private SpawnerManager spawnerManager;
+    private MobManager mobManager;
 
     @Override
     public void onEnable() {
         plugin = this;
 
         PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(new ItemInteraction(this), this);
-        pm.registerEvents(new SpawnerWandToggleListener(), this);
+        pm.registerEvents(new SpawnerWandInteraction(this), this);
+        pm.registerEvents(new SpawnerWandToggle(), this);
+        pm.registerEvents(new MobDeath(this), this);
+        pm.registerEvents(new MobDamage(this), this);
 
         try {
             String name = AgorianRifts.getPluginInstance().getName();
@@ -38,6 +45,10 @@ public class MobMechanics extends JavaPlugin {
 
         spawnerManager = new SpawnerManager(this);
         spawnerManager.loadSpawners();
+
+        mobManager = new MobManager(this);
+
+        HealthNameFlashTask healthNameFlashTask = new HealthNameFlashTask(mobManager);
     }
 
     @Override
@@ -52,5 +63,9 @@ public class MobMechanics extends JavaPlugin {
 
     public SpawnerManager getSpawnerManager() {
         return spawnerManager;
+    }
+
+    public MobManager getMobManager() {
+        return mobManager;
     }
 }

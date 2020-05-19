@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class SpawnerWandToggleListener implements Listener {
+public class SpawnerWandToggle implements Listener {
 
     private static final int weight = 100;
     private static final int time = 3;
@@ -27,11 +27,9 @@ public class SpawnerWandToggleListener implements Listener {
 
     private Map<UUID, ActionBarMessageTickTask> messages;
 
-
-    public SpawnerWandToggleListener() {
+    public SpawnerWandToggle() {
         messages = new HashMap<>();
     }
-
 
     @EventHandler
     public void onHandSwap(PlayerSwapHandItemsEvent event) {
@@ -60,7 +58,6 @@ public class SpawnerWandToggleListener implements Listener {
             event.setCancelled(true);
         }
     }
-
 
     private void handleNewMessage(ActionBarMessageTickTask actionBarMessageTickTask) {
         UUID recipient = actionBarMessageTickTask.getRecipient();
