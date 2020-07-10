@@ -98,6 +98,7 @@ public class ModifiableEntity {
             le.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(100);
         }
 
+        le.setCustomName(name);
         le.setCustomNameVisible(showName);
         le.setCanPickupItems(false);
         le.getEquipment().setHelmet(Items.formatItem(Material.STONE_BUTTON, ""));

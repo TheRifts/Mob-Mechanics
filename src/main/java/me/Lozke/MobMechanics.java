@@ -52,7 +52,7 @@ public class MobMechanics extends JavaPlugin {
         spawnerManager.hideSpawners();
         Bukkit.getScheduler().cancelTasks(this);
     }
-    
+
     public static MobMechanics getInstance() {
         return plugin;
     }

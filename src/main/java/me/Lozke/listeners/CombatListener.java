@@ -4,7 +4,6 @@
 package me.Lozke.listeners;
 
 import me.Lozke.MobMechanics;
-import me.Lozke.data.items.NamespacedKeys;
 import me.Lozke.handlers.ItemHandler;
 import me.Lozke.managers.MobManager;
 import me.Lozke.managers.SpawnerManager;
@@ -19,8 +18,6 @@ import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 public class CombatListener implements Listener {
 
@@ -60,18 +57,10 @@ public class CombatListener implements Listener {
     }
 
     private double getDamage(Entity attacker) {
-        double dmg = 1D;
         if (attacker instanceof LivingEntity) {
             ItemStack weapon = ((LivingEntity) attacker).getEquipment().getItemInMainHand();
-            //Create ItemHandler method to get weapon stat instead of doing the below process everytime
-            if (ItemHandler.isRealItem(weapon)) {
-                //TODO: create a getDamage method in ItemHandler class
-                PersistentDataContainer dataContainer = weapon.getItemMeta().getPersistentDataContainer();
-                if (dataContainer.has(NamespacedKeys.dmg_hi, PersistentDataType.INTEGER)) {
-                    return dataContainer.get(NamespacedKeys.dmg_hi, PersistentDataType.INTEGER);
-                }
-            }
+            return ItemHandler.getDamage(weapon);
         }
-        return dmg;
+        return 1D;
     }
 }

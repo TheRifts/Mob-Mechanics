@@ -1,5 +1,6 @@
 package me.Lozke.data;
 
+import me.Lozke.utils.Text;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
@@ -22,9 +23,14 @@ public class CalamityMob extends ModifiableEntity {
 
     @Override
     public LivingEntity spawnEntity(Location location) {
-        if (location == null) {
-            this.entity = super.spawnEntity(location);
+        entity = super.spawnEntity(location);
+
+        entity.setCustomName(Text.colorize(tier.getColorCode() + "[" + rarity.getSymbol() + "] " + entity.getCustomName()));
+
+        if (this.location == null) {
+            this.location = location;
         }
+
         return entity;
     }
 

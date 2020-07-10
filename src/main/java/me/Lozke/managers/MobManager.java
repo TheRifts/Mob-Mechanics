@@ -89,7 +89,6 @@ public class MobManager {
         CalamityMob spawnedMob = new CalamityMob(modifiableEntity, tier, rarity);
         spawnedMob.spawnEntity(location);
         trackEntity(spawnedMob);
-        updateHealthDisplay(spawnedMob.getEntity());
         return spawnedMob;
     }
 
@@ -98,7 +97,7 @@ public class MobManager {
     }
 
     public boolean isTracked(Entity entity) {
-        return trackedEntities.containsKey((LivingEntity) entity);
+        return trackedEntities.containsKey(entity);
     }
 
     public boolean canResist(Entity entity, EntityDamageEvent.DamageCause damageCause) {
