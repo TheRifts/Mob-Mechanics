@@ -1,6 +1,6 @@
 package me.Lozke.data;
 
-import me.Lozke.guis.SpawnerEditor;
+import me.Lozke.menus.SpawnerEditor.pages.SpawnerEditorMenu;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -9,28 +9,26 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 public class MobSpawner {
-
     private Map<String, Object> location;
     private Tier tier;
     private Rarity rarity;
-    private String mobType; //Convert this to an Object
+    private String entityID;
     private boolean elite;
     private boolean spawnerActive;
     private int spawnTime;
     private int radius;
     private int amount;
-    private transient int timeLeft;
-    private transient BukkitTask task;
-    private Set<CustomMob> spawnedMobs;
+    private int timeLeft;
+
+    private transient Set<CustomMob> spawnedMobs;
 
     public MobSpawner(MobSpawner mobSpawner) {
         this.location = mobSpawner.getSerializedLocation();
         this.tier = mobSpawner.getTier();
         this.rarity = mobSpawner.getRarity();
-        this.mobType = mobSpawner.getMobType();
+        this.entityID = mobSpawner.getEntityID();
         this.elite = mobSpawner.isElite();
         this.spawnerActive = mobSpawner.isSpawnerActive();
         this.spawnTime = mobSpawner.getSpawnTime();
@@ -39,11 +37,12 @@ public class MobSpawner {
         this.amount = mobSpawner.getAmount();
         this.spawnedMobs = new HashSet<>();
     }
-    public MobSpawner(Location location, Tier tier, Rarity rarity, String mobType, boolean elite, boolean spawnerActive, int timer, int radius, int amount) {
+
+    public MobSpawner(Location location, Tier tier, Rarity rarity, String entityID, boolean elite, boolean spawnerActive, int timer, int radius, int amount) {
         this.location = location.serialize();
         this.tier = tier;
         this.rarity = rarity;
-        this.mobType = mobType;
+        this.entityID = entityID;
         this.elite = elite;
         this.spawnerActive = spawnerActive;
         this.spawnTime = timer;
@@ -79,13 +78,6 @@ public class MobSpawner {
     }
     public void setRarity(Rarity rarity) {
         this.rarity = rarity;
-    }
-
-    public String getMobType() {
-        return mobType;
-    }
-    public void setMobType(String mobType) {
-        this.mobType = mobType;
     }
 
     public boolean isElite() {
@@ -134,14 +126,13 @@ public class MobSpawner {
         this.amount = amount;
     }
 
-
     //Does not copy associated spawned mobs
     public MobSpawner copy() {
         return new MobSpawner(this);
     }
 
     public Inventory editor() {
-        return new SpawnerEditor(this).getGui();
+        return new SpawnerEditorMenu(this).getInventory();
     }
 
     public MobSpawner showSpawner() {
@@ -161,6 +152,15 @@ public class MobSpawner {
         return spawnedMobs.size() < amount;
     }
 
+    public String getEntityID() {
+        return entityID;
+    }
+
+    public void setEntityID(String entityID) {
+        this.entityID = entityID;
+    }
+
+    /*
     public void addMob(CustomMob mob) {
         spawnedMobs.add(mob);
     }
@@ -169,10 +169,11 @@ public class MobSpawner {
     }
     public CustomMob getCustomMob(UUID uuid) {
         for (CustomMob mob : spawnedMobs) {
-            if(uuid == mob.getUniqueId()) {
+            if (uuid == mob.getUniqueId()) {
                 return mob;
             }
         }
         return null;
     }
+     */
 }

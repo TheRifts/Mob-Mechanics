@@ -1,6 +1,5 @@
 package me.Lozke.data;
 
-import me.Lozke.MobMechanics;
 import me.Lozke.data.items.NamespacedKeys;
 import me.Lozke.handlers.ItemHandler;
 import me.Lozke.utils.NumGenerator;
@@ -54,7 +53,6 @@ public class CustomMob {
         this.uuid = spawnMob(location);
 
         handleStats();
-        MobMechanics.getInstance().getMobManager().addMob(this);
     }
 
     private UUID spawnMob(Location location) {

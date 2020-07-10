@@ -1,13 +1,9 @@
 package me.Lozke;
 
 import me.Lozke.commands.*;
-import me.Lozke.events.MobDamage;
-import me.Lozke.events.SpawnerWandInteraction;
-import me.Lozke.events.MobDeath;
-import me.Lozke.events.SpawnerWandToggle;
+import me.Lozke.listeners.*;
 import me.Lozke.managers.MobManager;
 import me.Lozke.managers.SpawnerManager;
-import me.Lozke.tasks.HealthNameFlashTask;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.PluginManager;
@@ -18,6 +14,7 @@ import java.lang.reflect.Field;
 public class MobMechanics extends JavaPlugin {
 
     private static MobMechanics plugin;
+
     private SpawnerManager spawnerManager;
     private MobManager mobManager;
 
@@ -25,11 +22,14 @@ public class MobMechanics extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
+        mobManager = new MobManager(this);
+        spawnerManager = new SpawnerManager(this);
+
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new SpawnerWandInteraction(this), this);
         pm.registerEvents(new SpawnerWandToggle(), this);
         pm.registerEvents(new MobDeath(this), this);
-        pm.registerEvents(new MobDamage(this), this);
+        pm.registerEvents(new CombatListener(this), this);
 
         try {
             String name = AgorianRifts.getPluginInstance().getName();
@@ -39,24 +39,20 @@ public class MobMechanics extends JavaPlugin {
             commandMap.register(name, new Spawners());
             commandMap.register(name, new SpawnerWand());
             commandMap.register(name, new SpawnMob());
+            commandMap.register(name, new Mobs());
+            commandMap.register(name, new HoloTest());
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
-
-        spawnerManager = new SpawnerManager(this);
-        spawnerManager.loadSpawners();
-
-        mobManager = new MobManager(this);
-
-        HealthNameFlashTask healthNameFlashTask = new HealthNameFlashTask(mobManager);
     }
 
     @Override
     public void onDisable() {
         spawnerManager.saveSpawners();
         spawnerManager.hideSpawners();
+        Bukkit.getScheduler().cancelTasks(this);
     }
-
+    
     public static MobMechanics getInstance() {
         return plugin;
     }

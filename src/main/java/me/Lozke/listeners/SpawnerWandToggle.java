@@ -1,8 +1,6 @@
-package me.Lozke.events;
+package me.Lozke.listeners;
 
-import me.Lozke.data.ActionBarMessage;
 import me.Lozke.data.items.NamespacedKeys;
-import me.Lozke.tasks.actionbar.ActionBarMessageTickTask;
 import me.Lozke.utils.Text;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -15,8 +13,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class SpawnerWandToggle implements Listener {
@@ -25,10 +21,10 @@ public class SpawnerWandToggle implements Listener {
     private static final int time = 3;
     private static final boolean showTime = false;
 
-    private Map<UUID, ActionBarMessageTickTask> messages;
+    //private Map<UUID, ActionBarMessageTickTask> messages;
 
     public SpawnerWandToggle() {
-        messages = new HashMap<>();
+        //messages = new HashMap<>();
     }
 
     @EventHandler
@@ -47,11 +43,11 @@ public class SpawnerWandToggle implements Listener {
                 UUID uuid = player.getUniqueId();
                 if (value == 0) {
                     dataContainer.set(key, PersistentDataType.INTEGER, 1);
-                    handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&eEdit Mode Activated", weight, time, showTime), uuid));
+                    //handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&eEdit Mode Activated", weight, time, showTime), uuid));
                 }
                 if (value == 1) {
                     dataContainer.set(key, PersistentDataType.INTEGER, 0);
-                    handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&ePlacement Mode Activated", weight, time, showTime), uuid));
+                    //handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&ePlacement Mode Activated", weight, time, showTime), uuid));
                 }
             }
             handItem.setItemMeta(itemMeta);
@@ -59,6 +55,7 @@ public class SpawnerWandToggle implements Listener {
         }
     }
 
+    /*
     private void handleNewMessage(ActionBarMessageTickTask actionBarMessageTickTask) {
         UUID recipient = actionBarMessageTickTask.getRecipient();
         if (messages.containsKey(recipient)) {
@@ -69,4 +66,5 @@ public class SpawnerWandToggle implements Listener {
         }
         messages.put(recipient, actionBarMessageTickTask);
     }
+     */
 }

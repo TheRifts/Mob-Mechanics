@@ -1,7 +1,7 @@
 /*
  * Created by Noah Pritchard on 5/6/2020
  */
-package me.Lozke.events;
+package me.Lozke.listeners;
 
 import me.Lozke.MobMechanics;
 import me.Lozke.data.CustomMob;
@@ -22,6 +22,7 @@ public class MobDeath implements Listener {
 
     @EventHandler
     public void onMobDeath(EntityDeathEvent event) {
+        /*
         UUID uuid = event.getEntity().getUniqueId();
         CustomMob customMob = plugin.getMobManager().getCustomMob(uuid);
         ItemStack drop;
@@ -31,6 +32,7 @@ public class MobDeath implements Listener {
                 event.getDrops().add(drop);
             }
         }
-        plugin.getMobManager().removeMob(event.getEntity().getUniqueId());
+        plugin.getMobManager().killMob(event.getEntity().getUniqueId());
+         */
     }
 }
