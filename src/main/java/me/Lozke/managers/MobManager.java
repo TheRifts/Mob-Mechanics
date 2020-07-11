@@ -100,6 +100,10 @@ public class MobManager {
         return trackedEntities.containsKey(entity);
     }
 
+    public CalamityMob asCalamityMob(Entity entity) {
+        return trackedEntities.get(entity);
+    }
+
     public boolean canResist(Entity entity, EntityDamageEvent.DamageCause damageCause) {
         if (!isTracked(entity)) {
             return false;

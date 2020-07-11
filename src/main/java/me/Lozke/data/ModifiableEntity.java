@@ -18,6 +18,9 @@ public class ModifiableEntity {
     private int followRange = -1;
     private boolean showName;
     private int size;
+    private int minSize;
+    private boolean canSplit;
+    private int splitSpawnCount;
     private boolean baby;
     private boolean angry;
     private boolean armsRaised;
@@ -113,6 +116,9 @@ public class ModifiableEntity {
         this.followRange = newModifiableEntity.followRange;
         this.showName = newModifiableEntity.showName;
         this.size = newModifiableEntity.size;
+        this.minSize = newModifiableEntity.minSize;
+        this.canSplit = newModifiableEntity.canSplit;
+        this.splitSpawnCount = newModifiableEntity.splitSpawnCount;
         this.baby = newModifiableEntity.baby;
         this.angry = newModifiableEntity.angry;
         this.armsRaised = newModifiableEntity.armsRaised;
@@ -262,5 +268,29 @@ public class ModifiableEntity {
 
     public void setPowered(boolean powered) {
         this.powered = powered;
+    }
+
+    public boolean isSplittable() {
+        return canSplit;
+    }
+
+    public void setCanSplit(boolean canSplit) {
+        this.canSplit = canSplit;
+    }
+
+    public int getMinSize() {
+        return minSize;
+    }
+
+    public void setMinSize(int minSize) {
+        this.minSize = minSize;
+    }
+
+    public int getSplitSpawnCount() {
+        return splitSpawnCount;
+    }
+
+    public void setSplitSpawnCount(int splitSpawnCount) {
+        this.splitSpawnCount = splitSpawnCount;
     }
 }

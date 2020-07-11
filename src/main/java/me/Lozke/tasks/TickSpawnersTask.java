@@ -1,7 +1,6 @@
 package me.Lozke.tasks;
 
 import me.Lozke.MobMechanics;
-import me.Lozke.data.CalamityMob;
 import me.Lozke.data.MobSpawner;
 import me.Lozke.managers.SpawnerManager;
 import me.Lozke.utils.NumGenerator;
