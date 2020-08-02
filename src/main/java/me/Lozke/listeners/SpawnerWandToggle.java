@@ -1,6 +1,6 @@
 package me.Lozke.listeners;
 
-import me.Lozke.data.items.NamespacedKeys;
+import me.Lozke.data.NamespacedKeys;
 import me.Lozke.utils.Text;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

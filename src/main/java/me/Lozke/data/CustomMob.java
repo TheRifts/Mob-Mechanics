@@ -1,20 +1,15 @@
 package me.Lozke.data;
 
-import me.Lozke.data.items.NamespacedKeys;
-import me.Lozke.handlers.ItemHandler;
 import me.Lozke.utils.NumGenerator;
 import me.Lozke.utils.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.UUID;
 
@@ -46,13 +41,13 @@ public class CustomMob {
         this.name = name;
         this.tier = tier;
         this.rarity = rarity;
-        this.gear = ItemHandler.newSet(tier, rarity);
-        this.weapon = ItemHandler.newWeapon(tier, rarity, "Sword");
+        //this.gear = ItemHandler.newSet(tier, rarity);
+        //this.weapon = ItemHandler.newWeapon(tier, rarity, "Sword");
 
         this.spawner = spawner;
         this.uuid = spawnMob(location);
 
-        handleStats();
+        //handleStats();
     }
 
     private UUID spawnMob(Location location) {
@@ -65,6 +60,7 @@ public class CustomMob {
         return entity.getUniqueId();
     }
 
+    /*
     private void handleStats() {
         for (ItemStack item: gear) {
             PersistentDataContainer dataContainer = item.getItemMeta().getPersistentDataContainer();
@@ -79,6 +75,7 @@ public class CustomMob {
         }
         getLivingEntity().setHealth(getAttributable().getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
     }
+     */
 
     public UUID getUniqueId() {
         return uuid;

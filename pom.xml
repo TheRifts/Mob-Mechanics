@@ -44,16 +44,16 @@
 
     <repositories>
         <repository>
-            <id>github</id>
-            <url>https://maven.pkg.github.com/Lozke/AgorianRifts-Core</url>
-        </repository>
-        <repository>
             <id>spigotmc-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
             <id>papermc</id>
             <url>https://papermc.io/repo/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/AgorianRifts/packages/</url>
         </repository>
         <repository>
             <id>dmulloy2-repo</id>
@@ -63,20 +63,21 @@
 
     <dependencies>
         <dependency>
-            <groupId>me.Lozke</groupId>
-            <artifactId>AgorianRifts</artifactId>
-            <version>1.0.0-alpha</version>
-        </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper-api</artifactId>
             <version>1.16.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.destroystokyo.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.16.1-R0.1-SNAPSHOT</version>
+            <groupId>me.Lozke</groupId>
+            <artifactId>AgorianRifts</artifactId>
+            <version>1.0.0-alpha</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.Lozke</groupId>
+            <artifactId>LootPlugin</artifactId>
+            <version>1.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

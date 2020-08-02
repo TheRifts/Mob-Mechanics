@@ -4,7 +4,7 @@
 package me.Lozke.listeners;
 
 import me.Lozke.MobMechanics;
-import me.Lozke.handlers.ItemHandler;
+import me.Lozke.managers.ItemWrapper;
 import me.Lozke.managers.MobManager;
 import me.Lozke.managers.SpawnerManager;
 import org.bukkit.EntityEffect;
@@ -59,7 +59,7 @@ public class CombatListener implements Listener {
     private double getDamage(Entity attacker) {
         if (attacker instanceof LivingEntity) {
             ItemStack weapon = ((LivingEntity) attacker).getEquipment().getItemInMainHand();
-            return ItemHandler.getDamage(weapon);
+            return new ItemWrapper(weapon).getDamage();
         }
         return 1D;
     }

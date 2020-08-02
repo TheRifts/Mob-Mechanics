@@ -1,7 +1,7 @@
 package me.Lozke.listeners;
 
 import me.Lozke.MobMechanics;
-import me.Lozke.data.items.NamespacedKeys;
+import me.Lozke.data.NamespacedKeys;
 import me.Lozke.utils.Text;
 import org.bukkit.Location;
 import org.bukkit.Material;
