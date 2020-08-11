@@ -23,8 +23,7 @@ public class SpawnerWand extends Command {
                         Text.colorize("&8Press swap key to switch between placement and edit modes"),
                         Text.colorize("&8Placement mode: Right click to place, Left click to destroy"),
                         Text.colorize("&8Edit mode: Left click to access spawner GUI, Right click to place fixed spawn locations"))
-                .addKey(ARNamespacedKey.SPAWNER_WAND_TOGGLE, 0);
-
+                .addKey(ARNamespacedKey.SPAWNER_WAND_TOGGLE);
         ((Player) sender).getInventory().addItem(wrapper.getItem());
         return true;
     }
