@@ -1,13 +1,12 @@
 package me.Lozke.listeners;
 
 import me.Lozke.MobMechanics;
+import me.Lozke.data.ARNamespacedKey;
 import me.Lozke.data.ActionBarMessage;
-import me.Lozke.data.NamespacedKeys;
 import me.Lozke.tasks.ActionBarMessageTickTask;
-import me.Lozke.utils.Text;
+import me.Lozke.utils.NamespacedKeyWrapper;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -18,8 +17,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -67,7 +64,7 @@ public class SpawnerWandInteraction implements Listener {
 
         ItemStack handItem = player.getInventory().getItemInMainHand();
         ItemMeta itemMeta = handItem.getItemMeta();
-        if (handItem.getType() != Material.SHEARS || itemMeta == null || !itemMeta.getDisplayName().equals(Text.colorize("&eSpawner Wand"))) {
+        if (handItem.getType() != Material.SHEARS) {
             return;
         }
 
@@ -88,11 +85,10 @@ public class SpawnerWandInteraction implements Listener {
             return;
         }
 
-        PersistentDataContainer dataContainer = itemMeta.getPersistentDataContainer();
-        NamespacedKey key = NamespacedKeys.spawnerWandToggle;
-        if (dataContainer.has(key, PersistentDataType.INTEGER)) {
-            int value = dataContainer.get(key, PersistentDataType.INTEGER); //TODO Let's convert this to a boolean DataType!
-            if (value == 0) { //Placement Mode
+        NamespacedKeyWrapper wrapper = new NamespacedKeyWrapper(handItem);
+        if (wrapper.hasKey(ARNamespacedKey.SPAWNER_WAND_TOGGLE)) {
+            boolean val = wrapper.getBoolean(ARNamespacedKey.SPAWNER_WAND_TOGGLE);
+            if (val) { //Placement Mode
                 switch(event.getAction()) {
                     case LEFT_CLICK_BLOCK:
                     case LEFT_CLICK_AIR:
@@ -124,7 +120,7 @@ public class SpawnerWandInteraction implements Listener {
                         break;
                 }
             }
-            if (value == 1) { //Edit Mode
+            else { //Edit Mode
                 switch(event.getAction()) {
                     case LEFT_CLICK_BLOCK:
                     case LEFT_CLICK_AIR:

@@ -1,9 +1,9 @@
 package me.Lozke.listeners;
 
+import me.Lozke.data.ARNamespacedKey;
 import me.Lozke.data.ActionBarMessage;
-import me.Lozke.data.NamespacedKeys;
 import me.Lozke.tasks.ActionBarMessageTickTask;
-import me.Lozke.utils.Text;
+import me.Lozke.utils.NamespacedKeyWrapper;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -35,26 +35,23 @@ public class SpawnerWandToggle implements Listener {
     public void onHandSwap(PlayerSwapHandItemsEvent event) {
         Player player = event.getPlayer();
         ItemStack handItem = player.getInventory().getItemInMainHand();
-        if (handItem.getType() != Material.SHEARS || !handItem.getItemMeta().getDisplayName().equals(Text.colorize("&eSpawner Wand"))) {
+
+        if (handItem.getType() != Material.SHEARS) {
             return;
         }
-        ItemMeta itemMeta = handItem.getItemMeta();
-        if (itemMeta != null) {
-            PersistentDataContainer dataContainer = itemMeta.getPersistentDataContainer();
-            NamespacedKey key = NamespacedKeys.spawnerWandToggle;
-            if (dataContainer.has(key, PersistentDataType.INTEGER)) { //TODO Let's convert this to a boolean DataType!
-                int value = dataContainer.get(key, PersistentDataType.INTEGER);
-                UUID uuid = player.getUniqueId();
-                if (value == 0) {
-                    dataContainer.set(key, PersistentDataType.INTEGER, 1);
-                    handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&eEdit Mode Activated", weight, time, showTime), uuid));
-                }
-                if (value == 1) {
-                    dataContainer.set(key, PersistentDataType.INTEGER, 0);
-                    handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&ePlacement Mode Activated", weight, time, showTime), uuid));
-                }
+
+        NamespacedKeyWrapper wrapper = new NamespacedKeyWrapper(handItem);
+        ARNamespacedKey toggle = ARNamespacedKey.SPAWNER_WAND_TOGGLE;
+        if (wrapper.hasKey(toggle)) {
+            boolean keyVal = wrapper.getBoolean(toggle);
+            wrapper.addKey(toggle, !keyVal);
+            UUID uuid = player.getUniqueId();
+            if (keyVal) {
+                handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&eEdit Mode Activated", weight, time, showTime), uuid));
             }
-            handItem.setItemMeta(itemMeta);
+            else {
+                handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&ePlacement Mode Activated", weight, time, showTime), uuid));
+            }
             event.setCancelled(true);
         }
     }
