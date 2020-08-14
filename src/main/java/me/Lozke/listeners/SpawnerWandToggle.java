@@ -42,7 +42,7 @@ public class SpawnerWandToggle implements Listener {
         if (itemMeta != null) {
             PersistentDataContainer dataContainer = itemMeta.getPersistentDataContainer();
             NamespacedKey key = NamespacedKeys.spawnerWandToggle;
-            if (dataContainer.has(key, PersistentDataType.INTEGER)) {
+            if (dataContainer.has(key, PersistentDataType.INTEGER)) { //TODO Let's convert this to a boolean DataType!
                 int value = dataContainer.get(key, PersistentDataType.INTEGER);
                 UUID uuid = player.getUniqueId();
                 if (value == 0) {

@@ -91,7 +91,7 @@ public class SpawnerWandInteraction implements Listener {
         PersistentDataContainer dataContainer = itemMeta.getPersistentDataContainer();
         NamespacedKey key = NamespacedKeys.spawnerWandToggle;
         if (dataContainer.has(key, PersistentDataType.INTEGER)) {
-            int value = dataContainer.get(key, PersistentDataType.INTEGER); //Let's convert this to a boolean DataType!
+            int value = dataContainer.get(key, PersistentDataType.INTEGER); //TODO Let's convert this to a boolean DataType!
             if (value == 0) { //Placement Mode
                 switch(event.getAction()) {
                     case LEFT_CLICK_BLOCK:
