@@ -1,7 +1,9 @@
 package me.Lozke.listeners;
 
 import me.Lozke.MobMechanics;
+import me.Lozke.data.ActionBarMessage;
 import me.Lozke.data.NamespacedKeys;
+import me.Lozke.tasks.ActionBarMessageTickTask;
 import me.Lozke.utils.Text;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -29,7 +31,7 @@ public class SpawnerWandInteraction implements Listener {
     private MobMechanics plugin;
 
     private List<UUID> ignoredPlayers;
-    //private Map<UUID, ActionBarMessageTickTask> messages;
+    private Map<UUID, ActionBarMessageTickTask> messages = new HashMap<>();
 
 
     public SpawnerWandInteraction(MobMechanics plugin) {
@@ -82,7 +84,7 @@ public class SpawnerWandInteraction implements Listener {
                 location = player.getTargetBlockExact(50).getLocation(); //We should consider calculating the actual maximum range instead of capping it at 50
             }
         } catch (NullPointerException ignore) {
-            //handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&cOut Of Range", weight), uuid));
+            handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&cOut Of Range", weight), uuid));
             return;
         }
 
@@ -96,29 +98,29 @@ public class SpawnerWandInteraction implements Listener {
                     case LEFT_CLICK_AIR:
                         if(plugin.getSpawnerManager().isSpawner(location)) {
                             plugin.getSpawnerManager().removeSpawner(location);
-                            //handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&aSpawner Removed", weight), uuid));
+                            handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&aSpawner Removed", weight), uuid));
                         }
                         else {
-                            //handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&cNo Spawner Found", weight), uuid));
+                            handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&cNo Spawner Found", weight), uuid));
                         }
                         break;
                     case RIGHT_CLICK_BLOCK:
                         placeSpawner(location, event.getBlockFace());
-                        //handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&aSpawner Placed", weight), uuid));
+                        handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&aSpawner Placed", weight), uuid));
                         break;
                     case RIGHT_CLICK_AIR:
                         List<Block> lastTwoTargetBlocks = player.getLastTwoTargetBlocks(null, 50);
                         if(lastTwoTargetBlocks.size()!=2) {
-                            //handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&cPlacement Failure", weight), uuid));
+                            handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&cPlacement Failure", weight), uuid));
                             return;
                         }
                         BlockFace blockFace = lastTwoTargetBlocks.get(1).getFace(lastTwoTargetBlocks.get(0));
                         if(blockFace==null) {
-                            //handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&cPlacement Failure", weight), uuid));
+                            handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&cPlacement Failure", weight), uuid));
                             return;
                         }
                         placeSpawner(location, blockFace);
-                        //handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&aSpawner Placed", weight), uuid));
+                        handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&aSpawner Placed", weight), uuid));
                         break;
                 }
             }
@@ -133,7 +135,7 @@ public class SpawnerWandInteraction implements Listener {
                             player.openInventory(plugin.getSpawnerManager().openGUI(location));
                         }
                         else {
-                            //handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&cNo Spawner Found", weight), uuid));
+                            handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&cNo Spawner Found", weight), uuid));
                         }
                         break;
                         /*
@@ -173,7 +175,6 @@ public class SpawnerWandInteraction implements Listener {
         plugin.getSpawnerManager().createSpawner(location);
     }
 
-    /*
     private void handleNewMessage(ActionBarMessageTickTask newMessageTickTask) {
         UUID recipient = newMessageTickTask.getRecipient();
         if (messages.containsKey(recipient)) {
@@ -184,5 +185,4 @@ public class SpawnerWandInteraction implements Listener {
         }
         messages.put(recipient, newMessageTickTask);
     }
-     */
 }

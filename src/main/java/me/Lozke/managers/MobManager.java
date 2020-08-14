@@ -42,8 +42,9 @@ public class MobManager {
     }
 
     public void loadMobs() {
-        if (!new File(plugin.getDataFolder().getPath() + "/Mobs.json").exists()) {
-            Logger.log("No mobs to load from Mobs.json");
+        //TODO handle MobManager folder/file creation (probably in main onEnable)
+        if (!new File(plugin.getDataFolder().getPath() + File.separator + "Mobs.json").exists()) {
+            Logger.log("No mobs file (Mobs.json) detected");
             return;
         }
         try {
@@ -60,7 +61,7 @@ public class MobManager {
             Logger.log("No mobs to save to Mobs.json");
             return;
         }
-        try (FileWriter writer = new FileWriter(new File(plugin.getDataFolder() + "/Mobs.json"))) {
+        try (FileWriter writer = new FileWriter(new File(plugin.getDataFolder() + File.separator + "Mobs.json"))) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(loadedMobs.values(), writer);
         } catch (IOException exception) {

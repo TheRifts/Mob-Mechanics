@@ -34,12 +34,13 @@ public class SpawnerManager {
     }
 
     public void loadSpawners() {
-        if (!new File(plugin.getDataFolder().getPath() + "/Spawners.json").exists()) {
-            Logger.log("No spawners to load from Spawners.json");
+        //TODO handle MobManager folder/file creation (probably in main onEnable)
+        if (!new File(plugin.getDataFolder().getPath() + File.separator + "Spawners.json").exists()) {
+            Logger.log("No spawner file (Spawners.json) detected");
             return;
         }
         try {
-            mobSpawners = new GsonBuilder().setPrettyPrinting().create().fromJson(new FileReader(plugin.getDataFolder().getPath() + "/Spawners.json"), new TypeToken<HashSet<MobSpawner>>(){}.getType());
+            mobSpawners = new GsonBuilder().setPrettyPrinting().create().fromJson(new FileReader(plugin.getDataFolder().getPath() + File.separator + "Spawners.json"), new TypeToken<HashSet<MobSpawner>>(){}.getType());
         } catch (FileNotFoundException exception) {
             //todo: handle this exception
             exception.printStackTrace();
@@ -51,7 +52,7 @@ public class SpawnerManager {
             Logger.log("No mobs to save to Mobs.json");
             return;
         }
-        try (FileWriter writer = new FileWriter(new File(plugin.getDataFolder() + "/Spawners.json"))) {
+        try (FileWriter writer = new FileWriter(new File(plugin.getDataFolder() + File.separator + "Spawners.json"))) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(mobSpawners, writer);
         } catch (IOException exception) {
@@ -103,7 +104,7 @@ public class SpawnerManager {
 
     //This method needs a better naming convention (or does it?)
     public boolean isSpawner(Location location) {
-        return getSpawners() != null;
+        return getSpawner(location) != null;
     }
 
     public Inventory openGUI(Location location) {
