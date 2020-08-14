@@ -39,6 +39,9 @@ public class SpawnerWandInteraction implements Listener {
 
     @EventHandler
     public void onInteraction(PlayerInteractEvent event) {
+        //TODO: Check player's Rank and if too low return here.
+        //Let's not run ANY code if the player is too low of a rank.
+
         //Prevents event from firing twice, we only care if player is using main hand!
         if (event.getHand() == EquipmentSlot.OFF_HAND) {
             return;
@@ -58,9 +61,6 @@ public class SpawnerWandInteraction implements Listener {
                 ignoredPlayers.remove(uuid);
             }
         }.runTaskLaterAsynchronously(MobMechanics.getInstance(), 1);
-
-
-        //TODO: Check player's Rank and if too low return here.
 
         ItemStack handItem = player.getInventory().getItemInMainHand();
         ItemMeta itemMeta = handItem.getItemMeta();
