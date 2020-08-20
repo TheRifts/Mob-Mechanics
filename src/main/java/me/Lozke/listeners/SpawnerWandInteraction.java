@@ -1,9 +1,10 @@
 package me.Lozke.listeners;
 
+import me.Lozke.AgorianRifts;
 import me.Lozke.MobMechanics;
 import me.Lozke.data.ARNamespacedKey;
-import me.Lozke.data.ActionBarMessage;
-import me.Lozke.tasks.ActionBarMessageTickTask;
+import me.Lozke.data.ActionBarType.ActionBarMessage;
+import me.Lozke.tasks.ActionBarMessenger;
 import me.Lozke.utils.NamespacedKeyWrapper;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -26,13 +27,15 @@ public class SpawnerWandInteraction implements Listener {
     private static int weight = 10;
 
     private MobMechanics plugin;
+    private ActionBarMessenger messenger;
+    private final String MESSAGE_ID = "spawner-wand";
 
     private List<UUID> ignoredPlayers;
-    private Map<UUID, ActionBarMessageTickTask> messages = new HashMap<>();
 
 
     public SpawnerWandInteraction(MobMechanics plugin) {
         this.plugin = plugin;
+        this.messenger = AgorianRifts.getPluginInstance().getActionBarMessenger();
         ignoredPlayers = new ArrayList<>();
         //messages = new HashMap<>();
     }
@@ -81,10 +84,12 @@ public class SpawnerWandInteraction implements Listener {
                 location = player.getTargetBlockExact(50).getLocation(); //We should consider calculating the actual maximum range instead of capping it at 50
             }
         } catch (NullPointerException ignore) {
-            handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&cOut Of Range", weight), uuid));
+            ActionBarMessage message = new ActionBarMessage(MESSAGE_ID,"&cOut Of Range");
+            messenger.addMessage(player, message);
             return;
         }
 
+        ActionBarMessage message;
         NamespacedKeyWrapper wrapper = new NamespacedKeyWrapper(handItem);
         if (wrapper.hasKey(ARNamespacedKey.SPAWNER_WAND_TOGGLE)) {
             boolean val = wrapper.getBoolean(ARNamespacedKey.SPAWNER_WAND_TOGGLE);
@@ -94,29 +99,35 @@ public class SpawnerWandInteraction implements Listener {
                     case LEFT_CLICK_AIR:
                         if(plugin.getSpawnerManager().isSpawner(location)) {
                             plugin.getSpawnerManager().removeSpawner(location);
-                            handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&aSpawner Removed", weight), uuid));
+                            message = new ActionBarMessage(MESSAGE_ID,"&aSpawner Removed");
+                            messenger.addMessage(player, message);
                         }
                         else {
-                            handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&cNo Spawner Found", weight), uuid));
+                            message = new ActionBarMessage(MESSAGE_ID,"&cNo Spawner Found");
+                            messenger.addMessage(player, message);
                         }
                         break;
                     case RIGHT_CLICK_BLOCK:
                         placeSpawner(location, event.getBlockFace());
-                        handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&aSpawner Placed", weight), uuid));
+                        message = new ActionBarMessage(MESSAGE_ID,"&aSpawner Placed");
+                        messenger.addMessage(player, message);
                         break;
                     case RIGHT_CLICK_AIR:
                         List<Block> lastTwoTargetBlocks = player.getLastTwoTargetBlocks(null, 50);
                         if(lastTwoTargetBlocks.size()!=2) {
-                            handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&cPlacement Failure", weight), uuid));
+                            message = new ActionBarMessage(MESSAGE_ID,"&cPlacement Failure");
+                            messenger.addMessage(player, message);
                             return;
                         }
                         BlockFace blockFace = lastTwoTargetBlocks.get(1).getFace(lastTwoTargetBlocks.get(0));
                         if(blockFace==null) {
-                            handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&cPlacement Failure", weight), uuid));
+                            message = new ActionBarMessage(MESSAGE_ID,"&cPlacement Failure");
+                            messenger.addMessage(player, message);
                             return;
                         }
                         placeSpawner(location, blockFace);
-                        handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&aSpawner Placed", weight), uuid));
+                        message = new ActionBarMessage(MESSAGE_ID,"&aSpawner Placed");
+                        messenger.addMessage(player, message);
                         break;
                 }
             }
@@ -131,7 +142,8 @@ public class SpawnerWandInteraction implements Listener {
                             player.openInventory(plugin.getSpawnerManager().openGUI(location));
                         }
                         else {
-                            handleNewMessage(new ActionBarMessageTickTask(new ActionBarMessage("&cNo Spawner Found", weight), uuid));
+                            message = new ActionBarMessage(MESSAGE_ID,"&cNo Spawner Found");
+                            messenger.addMessage(player, message);
                         }
                         break;
                         /*
@@ -169,16 +181,5 @@ public class SpawnerWandInteraction implements Listener {
                 break;
         }
         plugin.getSpawnerManager().createSpawner(location);
-    }
-
-    private void handleNewMessage(ActionBarMessageTickTask newMessageTickTask) {
-        UUID recipient = newMessageTickTask.getRecipient();
-        if (messages.containsKey(recipient)) {
-            ActionBarMessageTickTask existingMessageTickTask = messages.get(recipient);
-            if(!existingMessageTickTask.isCancelled()) {
-                messages.get(recipient).cancel();
-            }
-        }
-        messages.put(recipient, newMessageTickTask);
     }
 }
