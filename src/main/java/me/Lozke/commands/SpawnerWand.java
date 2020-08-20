@@ -16,8 +16,7 @@ public class SpawnerWand extends Command {
 
     @Override
     public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-        ItemWrapper wrapper = new ItemWrapper()
-                .setMaterial(Material.SHEARS)
+        ItemWrapper wrapper = new ItemWrapper(Material.SHEARS)
                 .setName("&eSpawner Wand")
                 .setLore(
                         Text.colorize("&8Press swap key to switch between placement and edit modes"),
