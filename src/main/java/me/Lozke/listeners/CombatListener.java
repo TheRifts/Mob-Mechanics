@@ -47,7 +47,6 @@ public class CombatListener implements Listener {
         if (victim instanceof LivingEntity && mobManager.isTracked(victim)) {
             ((LivingEntity) victim).setHealth(Math.max(((LivingEntity) victim).getHealth() - event.getDamage(), 0));
             mobManager.updateHealthDisplay(((LivingEntity) victim));
-            event.setDamage(0);
         }
     }
 
