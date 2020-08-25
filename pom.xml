@@ -69,6 +69,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper</artifactId>
+            <version>1.16.1-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>me.Lozke</groupId>
             <artifactId>AgorianRifts</artifactId>
             <version>1.0.0-alpha</version>
