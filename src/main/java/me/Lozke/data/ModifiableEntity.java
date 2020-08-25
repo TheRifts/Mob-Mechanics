@@ -1,5 +1,7 @@
 package me.Lozke.data;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import me.Lozke.utils.Items;
 import me.Lozke.utils.NumGenerator;
 import org.bukkit.Location;
@@ -7,10 +9,11 @@ import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.Field;
+import java.util.*;
 
 public class ModifiableEntity {
 
@@ -35,6 +38,7 @@ public class ModifiableEntity {
     private boolean drownImmune;
     private boolean dryOutImmune;
     private boolean dryStreak;
+    private String headBase64;
     private Map<EquipmentSlot, String> equipment = new HashMap<>();
 
     public LivingEntity spawnEntity(Location location) {
@@ -116,6 +120,7 @@ public class ModifiableEntity {
         le.setCustomNameVisible(showName);
         le.setCanPickupItems(false);
         le.getEquipment().setHelmet(Items.formatItem(Material.STONE_BUTTON, ""));
+        applyBase64Head(le);
 
         return le;
     }
@@ -141,6 +146,25 @@ public class ModifiableEntity {
         this.drownImmune = newModifiableEntity.drownImmune;
         this.dryOutImmune = newModifiableEntity.dryOutImmune;
         this.dryStreak = newModifiableEntity.dryStreak;
+        this.headBase64 = newModifiableEntity.headBase64;
+    }
+
+    private void applyBase64Head(LivingEntity entity) {
+        if (headBase64 == null) return;
+        ItemStack head = new ItemStack(Material.PLAYER_HEAD, 1, (short)3);
+        SkullMeta meta = (SkullMeta) head.getItemMeta();
+        GameProfile profile = new GameProfile(UUID.randomUUID(), "");
+        profile.getProperties().put("textures", new Property("textures", headBase64.toString()));
+        Field profileField;
+        try {
+            profileField = meta.getClass().getDeclaredField("profile");
+            profileField.setAccessible(true);
+            profileField.set(meta, profile);
+        } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+            e.printStackTrace();
+        }
+        head.setItemMeta(meta);
+        entity.getEquipment().setHelmet(head);
     }
 
     public String getName() {
@@ -322,5 +346,13 @@ public class ModifiableEntity {
 
     public void setSplitSpawnCount(int splitSpawnCount) {
         this.splitSpawnCount = splitSpawnCount;
+    }
+
+    public String getHeadBase64() {
+        return headBase64;
+    }
+
+    public void setHeadBase64(String headBase64) {
+        this.headBase64 = headBase64;
     }
 }
