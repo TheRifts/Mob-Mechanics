@@ -9,7 +9,7 @@ import me.Lozke.utils.ItemMenu.menus.ItemMenu;
 public class MobTypeSelector extends ItemMenu {
 
     public MobTypeSelector(MobSpawner spawner) {
-        super(Math.max((int) Math.ceil(MobMechanics.getInstance().getMobManager().getLoadedMobs().size() / 9), 1), "Mob Type Selector");
+        super(Math.max((int) Math.ceil(MobMechanics.getInstance().getMobManager().getLoadedMobs().size() / 9.0), 1), "Mob Type Selector");
         for (ModifiableEntity selectableMob : MobMechanics.getInstance().getMobManager().getLoadedMobs()) {
             addDisplayItem(new MobSelectionButton(spawner, selectableMob));
         }
