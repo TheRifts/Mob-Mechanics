@@ -148,7 +148,7 @@ public class ModifiableEntity {
         return prefixDictionary;
     }
 
-    public void setPrefixDictonary(ArrayList<String> prefixDictionary) {
+    public void setPrefixDictionary(ArrayList<String> prefixDictionary) {
         this.prefixDictionary = prefixDictionary;
     }
 
