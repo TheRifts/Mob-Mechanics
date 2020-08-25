@@ -1,6 +1,7 @@
 package me.Lozke.data;
 
 import me.Lozke.utils.Items;
+import me.Lozke.utils.NumGenerator;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -104,7 +105,14 @@ public class ModifiableEntity {
             le.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(100);
         }
 
-        le.setCustomName(name);
+        String prefix = "", suffix = "";
+        if (prefixDictionary != null && prefixDictionary.size() > 0) {
+            prefix = prefixDictionary.get(NumGenerator.index(prefixDictionary.size())) + " ";
+        }
+        if (suffixDictionary != null && suffixDictionary.size() > 0) {
+            suffix = suffixDictionary.get(NumGenerator.index(suffixDictionary.size())) + " ";
+        }
+        le.setCustomName(prefix + name + suffix);
         le.setCustomNameVisible(showName);
         le.setCanPickupItems(false);
         le.getEquipment().setHelmet(Items.formatItem(Material.STONE_BUTTON, ""));
