@@ -6,8 +6,6 @@ package me.Lozke.listeners;
 import me.Lozke.MobMechanics;
 import me.Lozke.managers.ItemWrapper;
 import me.Lozke.managers.MobManager;
-import me.Lozke.managers.SpawnerManager;
-import org.bukkit.EntityEffect;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -21,13 +19,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class CombatListener implements Listener {
 
-    private MobMechanics plugin;
-    private SpawnerManager spawnerManager;
     private MobManager mobManager;
 
     public CombatListener(MobMechanics plugin) {
-        this.plugin = plugin;
-        this.spawnerManager = plugin.getSpawnerManager();
         this.mobManager = plugin.getMobManager();
     }
 
@@ -45,14 +39,8 @@ public class CombatListener implements Listener {
         }
 
         if (victim instanceof LivingEntity && mobManager.isTracked(victim)) {
-            ((LivingEntity) victim).setHealth(Math.max(((LivingEntity) victim).getHealth() - event.getDamage(), 0));
             mobManager.updateHealthDisplay(((LivingEntity) victim));
         }
-    }
-
-    private void dealDamage(LivingEntity damaged, double damage) {
-        damaged.setHealth(damaged.getHealth()-damage);
-        damaged.playEffect(EntityEffect.HURT);
     }
 
     private double getDamage(Entity attacker) {
