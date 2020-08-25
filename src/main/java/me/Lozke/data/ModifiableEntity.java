@@ -7,6 +7,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EquipmentSlot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,8 @@ public class ModifiableEntity {
 
     private String id;
     private String name;
+    private ArrayList<String> prefixDictionary;
+    private ArrayList<String> suffixDictionary;
     private EntityType type;
     private int followRange = -1;
     private boolean showName;
@@ -112,6 +115,8 @@ public class ModifiableEntity {
     public void apply(ModifiableEntity newModifiableEntity) {
         this.id = newModifiableEntity.id;
         this.name = newModifiableEntity.name;
+        this.prefixDictionary = newModifiableEntity.prefixDictionary;
+        this.suffixDictionary = newModifiableEntity.suffixDictionary;
         this.type = newModifiableEntity.type;
         this.followRange = newModifiableEntity.followRange;
         this.showName = newModifiableEntity.showName;
@@ -136,6 +141,23 @@ public class ModifiableEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    public ArrayList<String> getPrefixDictionary() {
+        return prefixDictionary;
+    }
+
+    public void setPrefixDictonary(ArrayList<String> prefixDictionary) {
+        this.prefixDictionary = prefixDictionary;
+    }
+
+    public ArrayList<String> getSuffixDictionary() {
+        return suffixDictionary;
+    }
+
+    public void setSuffixDictionary(ArrayList<String> suffixDictionary) {
+        this.suffixDictionary = suffixDictionary;
     }
 
     public boolean isShowName() {
