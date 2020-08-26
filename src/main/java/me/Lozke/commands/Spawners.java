@@ -1,49 +1,50 @@
 package me.Lozke.commands;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.Subcommand;
 import me.Lozke.MobMechanics;
 import me.Lozke.managers.SpawnerManager;
 import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Spawners extends Command {
+public class Spawners extends BaseCommand {
 
-    private SpawnerManager spawnerManager;
+    private static SpawnerManager spawnerManager;
 
     public Spawners() {
-        super("spawners");
-        this.spawnerManager = MobMechanics.getInstance().getSpawnerManager();
+        spawnerManager = MobMechanics.getInstance().getSpawnerManager();
     }
 
-    @Override
-    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-        switch (args[0]) {
-            case "save":
-                spawnerManager.saveSpawners();
-                break;
-            case "load":
-                spawnerManager.loadSpawners();
-                break;
-            case "show":
-                spawnerManager.showSpawners();
-                break;
-            case "hide":
-                spawnerManager.hideSpawners();
-                break;
-            case "edit":
-                Player player = (Player) sender;
-                Location location;
-                try {
-                    location = player.getTargetBlockExact(50).getLocation();
-                } catch (NullPointerException ignore) {
-                    break;
-                }
-                if (spawnerManager.isSpawner(location)) {
-                    player.openInventory(spawnerManager.openGUI(location));
-                }
-                break;
+    @Subcommand("save")
+    public static void onSave() {
+        spawnerManager.saveSpawners();
+    }
+
+    @Subcommand("load")
+    public static void onLoad() {
+        spawnerManager.loadSpawners();
+    }
+
+    @Subcommand("show")
+    public static void onShow() {
+        spawnerManager.showSpawners();
+    }
+
+    @Subcommand("hide")
+    public static void onHide() {
+        spawnerManager.hideSpawners();
+    }
+
+    @Subcommand("edit")
+    public static void onEdit(Player player) {
+        Location location;
+        try {
+            location = player.getTargetBlockExact(50).getLocation();
+        } catch (NullPointerException ignore) {
+            return;
         }
-        return true;
+        if (spawnerManager.isSpawner(location)) {
+            player.openInventory(spawnerManager.openGUI(location));
+        }
     }
 }

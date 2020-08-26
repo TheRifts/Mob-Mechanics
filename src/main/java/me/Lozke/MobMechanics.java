@@ -1,5 +1,6 @@
 package me.Lozke;
 
+import co.aikar.commands.BukkitCommandManager;
 import me.Lozke.commands.*;
 import me.Lozke.listeners.*;
 import me.Lozke.managers.MobManager;
@@ -33,15 +34,17 @@ public class MobMechanics extends JavaPlugin {
         pm.registerEvents(new SlimeSplitListener(mobManager), this);
         pm.registerEvents(new SlimeJumpListener(), this);
 
+        BukkitCommandManager commandManager = new BukkitCommandManager(this);
+        commandManager.registerCommand(new Mobs());
+        commandManager.registerCommand(new Spawners());
+        commandManager.registerCommand(new SpawnerWand());
+        commandManager.registerCommand(new SpawnMob());
+
         try {
             String name = AgorianRifts.getPluginInstance().getName();
             Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
             bukkitCommandMap.setAccessible(true);
             CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
-            commandMap.register(name, new Spawners());
-            commandMap.register(name, new SpawnerWand());
-            commandMap.register(name, new SpawnMob());
-            commandMap.register(name, new Mobs());
             commandMap.register(name, new HoloTest());
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();

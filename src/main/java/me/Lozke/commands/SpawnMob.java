@@ -1,22 +1,16 @@
 package me.Lozke.commands;
 
-import me.Lozke.data.CustomMob;
-import me.Lozke.data.Rarity;
-import me.Lozke.data.Tier;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.EntityType;
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Default;
 import org.bukkit.entity.Player;
 
-public class SpawnMob extends Command {
+@CommandAlias("spawn")
+public class SpawnMob extends BaseCommand {
 
-    public SpawnMob() {
-        super("spawn");
-    }
-
-    @Override
-    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-        new CustomMob(EntityType.valueOf(args[0]), args[1], Tier.values()[Integer.parseInt(args[2])], Rarity.values()[Integer.parseInt(args[3])], null, ((Player)sender).getLocation());
+    @Default
+    public boolean onSpawnMob(Player player, String[] args) {
+        //new CustomMob(EntityType.valueOf(args[0]), args[1], Tier.values()[Integer.parseInt(args[2])], Rarity.values()[Integer.parseInt(args[3])], null, player.getLocation());
         return true;
     }
 }

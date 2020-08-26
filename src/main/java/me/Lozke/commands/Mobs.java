@@ -1,36 +1,33 @@
 package me.Lozke.commands;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Subcommand;
 import me.Lozke.MobMechanics;
 import me.Lozke.managers.MobManager;
-import me.Lozke.utils.Text;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Mobs extends Command {
+@CommandAlias("mob")
+public class Mobs extends BaseCommand {
 
-    private MobManager mobManager;
+    private static MobManager mobManager;
 
     public Mobs() {
-        super("mob");
-        this.mobManager = MobMechanics.getInstance().getMobManager();
+        mobManager = MobMechanics.getInstance().getMobManager();
     }
 
-    @Override
-    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-        switch (args[0]) {
-            case "save":
-                mobManager.saveMobs();
-                break;
-            case "load":
-                mobManager.loadMobs();
-                break;
-            case "selector":
-                mobManager.openEditor((Player) sender);
-                break;
-            default:
-                sender.sendMessage(Text.colorize("&cInvalid Args"));
-        }
-        return true;
+    @Subcommand("save")
+    public static void onSave() {
+        mobManager.saveMobs();
+    }
+
+    @Subcommand("load")
+    public static void onLoad() {
+        mobManager.loadMobs();
+    }
+
+    @Subcommand("select")
+    public static void onSelector(Player player) {
+        mobManager.openEditor(player);
     }
 }
