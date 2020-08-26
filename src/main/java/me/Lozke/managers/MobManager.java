@@ -44,6 +44,7 @@ public class MobManager {
             Logger.log("No mobs file (Mobs.json) detected");
             return;
         }
+        loadedMobs = new HashMap<>(); //Guarantees only mobs on Mobs.json will be loaded.
         try {
             ArrayList<ModifiableEntity> mobs = new GsonBuilder().setPrettyPrinting().create().fromJson(new FileReader(plugin.getDataFolder().getPath() + "/Mobs.json"), new TypeToken<ArrayList<ModifiableEntity>>(){}.getType());
             mobs.forEach(modifiableEntity -> loadedMobs.put(modifiableEntity.getId(), modifiableEntity));
