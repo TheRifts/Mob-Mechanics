@@ -4,10 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import me.Lozke.MobMechanics;
-import me.Lozke.data.ModifiableEntity;
-import me.Lozke.data.CalamityMob;
-import me.Lozke.data.Rarity;
-import me.Lozke.data.Tier;
+import me.Lozke.data.*;
 import me.Lozke.menus.MobSelector.MobSelectorMenu;
 import me.Lozke.utils.Logger;
 import me.Lozke.utils.Text;
@@ -77,13 +74,17 @@ public class MobManager {
         loadedMobs.put(mob.getId(), mob);
     }
 
-    public CalamityMob spawnMob(Tier tier, Rarity rarity, String mobID, Location location) {
-        ModifiableEntity mob = loadedMobs.get(mobID);
+    public CalamityMob spawnMob(MobSpawner spawner, Location location) {
+        ModifiableEntity mob = loadedMobs.get(spawner.getEntityID());
         if (mob == null) {
-            Logger.log("Unable to spawn mob with the id \"" + mobID + "\" at " + location);
+            Logger.log("Unable to spawn mob with the id \"" + spawner.getEntityID() + "\" at " + location);
             return null;
         }
-        return spawnMob(tier, rarity, mob, location);
+        CalamityMob spawnedMob = new CalamityMob(mob, spawner.getTier(), spawner.getRarity());
+        spawnedMob.setSpawner(spawner);
+        spawnedMob.spawnEntity(location);
+        trackEntity(spawnedMob);
+        return spawnedMob;
     }
 
     public CalamityMob spawnMob(Tier tier, Rarity rarity, ModifiableEntity modifiableEntity, Location location) {
@@ -95,6 +96,13 @@ public class MobManager {
 
     public void trackEntity(CalamityMob mob) {
         trackedEntities.put(mob.getEntity(), mob);
+    }
+
+    public void stopTracking(LivingEntity entity) {
+        trackedEntities.remove(entity);
+    }
+    public void stopTracking(CalamityMob mob) {
+        trackedEntities.remove(mob.getEntity());
     }
 
     public boolean isTracked(Entity entity) {

@@ -18,7 +18,6 @@ public class CalamityMob extends ModifiableEntity implements Cloneable {
     public CalamityMob(ModifiableEntity baseEntity, Tier tier, Rarity rarity) {
         this.tier = tier;
         this.rarity = rarity;
-
         apply(baseEntity);
     }
 
@@ -62,11 +61,13 @@ public class CalamityMob extends ModifiableEntity implements Cloneable {
     }
 
     public void setSpawner(MobSpawner spawner) {
-        this.spawner = spawner;
         setHome(spawner);
     }
 
     public void setHome(MobSpawner mobSpawner) {
+        if (spawner != null) spawner.setSpawnedMobsAmount(spawner.getSpawnedMobsAmount() - 1); // Decreases the spawned amount of the previous spawner home
+        this.spawner = mobSpawner;
+        spawner.setSpawnedMobsAmount(spawner.getSpawnedMobsAmount() + 1); // Add to the spawned amount of the new spawner home
         setHome(mobSpawner.getLocation());
     }
 

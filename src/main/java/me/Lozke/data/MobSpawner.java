@@ -4,11 +4,8 @@ import me.Lozke.menus.SpawnerEditor.pages.SpawnerEditorMenu;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.scheduler.BukkitTask;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class MobSpawner {
     private Map<String, Object> location;
@@ -19,10 +16,11 @@ public class MobSpawner {
     private boolean spawnerActive;
     private int spawnTime;
     private int radius;
-    private int amount;
+    private int spawnAmount;
     private int timeLeft;
+    private int maxMobAmount;
 
-    private transient Set<CustomMob> spawnedMobs;
+    private transient int spawnedMobsAmount;
 
     public MobSpawner(MobSpawner mobSpawner) {
         this.location = mobSpawner.getSerializedLocation();
@@ -34,11 +32,11 @@ public class MobSpawner {
         this.spawnTime = mobSpawner.getSpawnTime();
         this.timeLeft = spawnTime;
         this.radius = mobSpawner.getRadius();
-        this.amount = mobSpawner.getAmount();
-        this.spawnedMobs = new HashSet<>();
+        this.spawnAmount = mobSpawner.getAmount();
+        this.maxMobAmount = mobSpawner.getMaxMobAmount();
     }
 
-    public MobSpawner(Location location, Tier tier, Rarity rarity, String entityID, boolean elite, boolean spawnerActive, int timer, int radius, int amount) {
+    public MobSpawner(Location location, Tier tier, Rarity rarity, String entityID, boolean elite, boolean spawnerActive, int timer, int radius, int spawnAmount, int maxMobAmount) {
         this.location = location.serialize();
         this.tier = tier;
         this.rarity = rarity;
@@ -48,8 +46,8 @@ public class MobSpawner {
         this.spawnTime = timer;
         this.timeLeft = spawnTime;
         this.radius = radius;
-        this.amount = amount;
-        this.spawnedMobs = new HashSet<>();
+        this.spawnAmount = spawnAmount;
+        this.maxMobAmount = maxMobAmount;
     }
 
     public Location getLocation() {
@@ -120,10 +118,10 @@ public class MobSpawner {
     }
 
     public int getAmount() {
-        return amount;
+        return spawnAmount;
     }
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setAmount(int spawnAmount) {
+        this.spawnAmount = spawnAmount;
     }
 
     //Does not copy associated spawned mobs
@@ -149,7 +147,7 @@ public class MobSpawner {
     }
 
     public boolean canSpawn() {
-        return spawnedMobs.size() < amount;
+        return spawnedMobsAmount < spawnAmount;
     }
 
     public String getEntityID() {
@@ -158,6 +156,21 @@ public class MobSpawner {
 
     public void setEntityID(String entityID) {
         this.entityID = entityID;
+    }
+
+    public void setSpawnedMobsAmount(int amount) {
+        this.spawnedMobsAmount = amount;
+    }
+
+    public int getSpawnedMobsAmount() {
+        return spawnedMobsAmount;
+    }
+
+    public void setMaxMobAmount(int maxMobAmount) {
+        this.maxMobAmount = maxMobAmount;
+    }
+    public int getMaxMobAmount() {
+        return maxMobAmount;
     }
 
     /*

@@ -4,13 +4,10 @@
 package me.Lozke.listeners;
 
 import me.Lozke.MobMechanics;
-import me.Lozke.data.CustomMob;
+import me.Lozke.data.MobSpawner;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.UUID;
 
 public class MobDeath implements Listener {
 
@@ -22,6 +19,12 @@ public class MobDeath implements Listener {
 
     @EventHandler
     public void onMobDeath(EntityDeathEvent event) {
+        if (plugin.getMobManager().isTracked(event.getEntity())) {
+            MobSpawner spawner = plugin.getMobManager().asCalamityMob(event.getEntity()).getSpawner();
+            spawner.setSpawnedMobsAmount(spawner.getSpawnedMobsAmount() - 1);
+            MobMechanics.getInstance().getMobManager().stopTracking(event.getEntity());
+        }
+
         /*
         UUID uuid = event.getEntity().getUniqueId();
         CustomMob customMob = plugin.getMobManager().getCustomMob(uuid);
