@@ -150,6 +150,7 @@ public class MobManager {
             colorCode = "&c";
         }
 
-        entity.setCustomName(Text.colorize(mob.getTier().getColorCode() + "[" + mob.getRarity().getSymbol() + "] " ) + trackedEntities.get(entity).getName() + Text.colorize(" " + colorCode + (int) Math.ceil(hp) + "&c❤"));
+        String name = (String) entity.getPersistentDataContainer().get(MobNamespacedKey.CUSTOM_NAME.getNamespacedKey(), MobNamespacedKey.CUSTOM_NAME.getDataType());
+        entity.setCustomName(Text.colorize(mob.getTier().getColorCode() + "[" + mob.getRarity().getSymbol() + "] " ) + name + Text.colorize(" " + colorCode + (int) Math.ceil(hp) + "&c❤"));
     }
 }
