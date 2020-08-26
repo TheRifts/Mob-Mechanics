@@ -109,14 +109,16 @@ public class ModifiableEntity {
             le.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(100);
         }
 
-        String prefix = "", suffix = "";
+        StringBuilder mobName = new StringBuilder();
         if (prefixDictionary != null && prefixDictionary.size() > 0) {
-            prefix = prefixDictionary.get(NumGenerator.index(prefixDictionary.size())) + " ";
+            mobName.append(prefixDictionary.get(NumGenerator.index(prefixDictionary.size()))).append(" ");
         }
+        mobName.append(name);
         if (suffixDictionary != null && suffixDictionary.size() > 0) {
-            suffix = suffixDictionary.get(NumGenerator.index(suffixDictionary.size())) + " ";
+            mobName.append(" ").append(suffixDictionary.get(NumGenerator.index(suffixDictionary.size())));
         }
-        le.setCustomName(prefix + name + suffix);
+        le.getPersistentDataContainer().set(MobNamespacedKey.CUSTOM_NAME.getNamespacedKey(), MobNamespacedKey.CUSTOM_NAME.getDataType(), mobName.toString());
+        le.setCustomName(mobName.toString());
         le.setCustomNameVisible(showName);
         le.setCanPickupItems(false);
         le.getEquipment().setHelmet(Items.formatItem(Material.STONE_BUTTON, ""));
