@@ -25,16 +25,12 @@ public class MobManager {
     private HashMap<String, ModifiableEntity> loadedMobs = new HashMap<>();
     private HashMap<LivingEntity, CalamityMob> trackedEntities = new HashMap<>();
 
-    //private MobSelector mobSelectorInstance;
-
     public MobManager(MobMechanics plugin) {
         this.plugin = plugin;
-        //mobSelectorInstance = new MobSelector();
         loadMobs();
     }
 
     public void openEditor(Player player) {
-        //mobSelectorInstance.showMenu(player);
         new MobSelectorMenu().openMenu(player);
     }
 
