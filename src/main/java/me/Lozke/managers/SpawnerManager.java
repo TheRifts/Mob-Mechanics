@@ -110,4 +110,17 @@ public class SpawnerManager {
     public Inventory openGUI(Location location) {
         return getSpawner(location).editor();
     }
+
+
+    public void swapID(String oldID, String newID) {
+        if (!MobMechanics.getInstance().getMobManager().isLoaded(newID)) {
+            Logger.log("Attempted to change spawners with ID '" + oldID + "' to '" + newID + "', but '" + newID + "' is invalid!");
+            return;
+        }
+        for (MobSpawner spawner : mobSpawners) {
+            if (spawner.getEntityID().equalsIgnoreCase(oldID)) {
+                spawner.setEntityID(newID);
+            }
+        }
+    }
 }

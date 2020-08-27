@@ -67,6 +67,15 @@ public class MobManager {
         }
     }
 
+    public boolean isLoaded(String mobID) {
+        for (ModifiableEntity loaded : loadedMobs.values()) {
+            if (loaded.getId().equals(mobID)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Collection<ModifiableEntity> getLoadedMobs() {
         return loadedMobs.values();
     }

@@ -7,7 +7,7 @@ import me.Lozke.MobMechanics;
 import me.Lozke.managers.MobManager;
 import org.bukkit.entity.Player;
 
-@CommandAlias("mob")
+@CommandAlias("mob|mobs")
 public class Mobs extends BaseCommand {
 
     private static MobManager mobManager;

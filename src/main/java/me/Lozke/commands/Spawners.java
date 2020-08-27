@@ -1,12 +1,15 @@
 package me.Lozke.commands;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Subcommand;
 import me.Lozke.MobMechanics;
 import me.Lozke.managers.SpawnerManager;
+import me.Lozke.utils.Text;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+@CommandAlias("spawner|spawners")
 public class Spawners extends BaseCommand {
 
     private static SpawnerManager spawnerManager;
@@ -45,6 +48,16 @@ public class Spawners extends BaseCommand {
         }
         if (spawnerManager.isSpawner(location)) {
             player.openInventory(spawnerManager.openGUI(location));
+        }
+    }
+
+    @Subcommand("swap")
+    public static void onSwap(Player player, String oldID, String newID) {
+        if (!(MobMechanics.getInstance().getMobManager().isLoaded(newID))) {
+            player.sendMessage(Text.colorize("&c" + newID + " is not a valid mob id"));
+        }
+        else {
+            spawnerManager.swapID(oldID, newID);
         }
     }
 }
