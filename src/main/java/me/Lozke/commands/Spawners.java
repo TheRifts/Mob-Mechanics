@@ -2,6 +2,7 @@ package me.Lozke.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Subcommand;
 import me.Lozke.MobMechanics;
 import me.Lozke.managers.SpawnerManager;
@@ -52,6 +53,7 @@ public class Spawners extends BaseCommand {
     }
 
     @Subcommand("swap")
+    @CommandCompletion("@mob-ids @mob-ids")
     public static void onSwap(Player player, String oldID, String newID) {
         if (!(MobMechanics.getInstance().getMobManager().isLoaded(newID))) {
             player.sendMessage(Text.colorize("&c" + newID + " is not a valid mob id"));

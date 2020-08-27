@@ -52,6 +52,7 @@ public class MobManager {
             //todo: handle this exception
             exception.printStackTrace();
         }
+        plugin.registerCommandCompletion("mob-ids", loadedMobs.keySet());
     }
 
     public void saveMobs() {
