@@ -81,7 +81,11 @@ public class MobManager {
         return loadedMobs.values();
     }
 
-    public void cacheMob(ModifiableEntity mob) {
+    public ModifiableEntity getModifiableEntity(String string) {
+        return loadedMobs.get(string);
+    }
+
+    public void addModifiableEntity(ModifiableEntity mob) {
         loadedMobs.put(mob.getId(), mob);
     }
 
