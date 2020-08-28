@@ -34,7 +34,7 @@ public class MobMechanics extends JavaPlugin {
         pm.registerEvents(new SpawnerWandInteraction(this), this);
         pm.registerEvents(new SpawnerWandToggle(), this);
         pm.registerEvents(new MobDeath(this), this);
-        pm.registerEvents(new CombatListener(this), this);
+        pm.registerEvents(new MobDamagedListener(this), this);
         pm.registerEvents(new SlimeSplitListener(mobManager), this);
         pm.registerEvents(new SlimeJumpListener(), this);
 
