@@ -10,7 +10,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class MobDamagedListener implements Listener {
 
@@ -21,7 +21,7 @@ public class MobDamagedListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onDamage(EntityDamageEvent event) {
+    public void onDamage(EntityDamageByEntityEvent event) {
         Entity victim = event.getEntity();
         if (victim instanceof LivingEntity && mobManager.isTracked(victim)) {
             mobManager.updateHealthDisplay(((LivingEntity) victim));
