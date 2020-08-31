@@ -382,4 +382,21 @@ public class ModifiableEntity {
     public void removeWeaponType(WeaponType type) {
         if (weaponTypes != null) weaponTypes.remove(type);
     }
+
+    public ArrayList<WeaponType> getWeaponTypes() {
+        return weaponTypes;
+    }
+
+    public void setWeaponTypes(ArrayList<WeaponType> weaponTypes) {
+        this.weaponTypes = weaponTypes;
+    }
+
+    public void addWeaponType(WeaponType type) {
+        if (weaponTypes == null) weaponTypes = new ArrayList<>();
+        weaponTypes.add(type);
+    }
+
+    public void removeWeaponType(WeaponType type) {
+        if (weaponTypes != null) weaponTypes.remove(type);
+    }
 }
