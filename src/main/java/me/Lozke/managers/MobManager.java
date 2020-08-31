@@ -89,6 +89,7 @@ public class MobManager {
         ModifiableEntity mob = loadedMobs.get(spawner.getEntityID());
         if (mob == null) {
             Logger.log("Unable to spawn mob with the id \"" + spawner.getEntityID() + "\" at " + location);
+            spawner.setSpawnedMobsAmount(spawner.getSpawnedMobsAmount() - 1);
             return null;
         }
         CalamityMob spawnedMob = new CalamityMob(mob, spawner.getTier(), spawner.getRarity());

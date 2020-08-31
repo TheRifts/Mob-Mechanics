@@ -60,14 +60,8 @@ public class CalamityMob extends ModifiableEntity implements Cloneable {
         return spawner;
     }
 
-    public void setSpawner(MobSpawner spawner) {
-        setHome(spawner);
-    }
-
-    public void setHome(MobSpawner mobSpawner) {
-        if (spawner != null) spawner.setSpawnedMobsAmount(spawner.getSpawnedMobsAmount() - 1); // Decreases the spawned amount of the previous spawner home
+    public void setSpawner(MobSpawner mobSpawner) {
         this.spawner = mobSpawner;
-        spawner.setSpawnedMobsAmount(spawner.getSpawnedMobsAmount() + 1); // Add to the spawned amount of the new spawner home
         setHome(mobSpawner.getLocation());
     }
 

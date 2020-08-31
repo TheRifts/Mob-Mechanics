@@ -27,11 +27,12 @@ public class TickSpawnersTask extends BukkitRunnable {
             }
             int timeLeft = spawner.getTimeLeft();
             if (timeLeft == 0 && spawner.getSpawnedMobsAmount() < spawner.getMaxMobAmount()) {
-                for (int i = 0; i < spawner.getAmount() && spawner.getSpawnedMobsAmount() < spawner.getMaxMobAmount(); i++) {
+                for (int spawnedMobAmount = 0; spawnedMobAmount < spawner.getAmount() && spawner.getSpawnedMobsAmount() < spawner.getMaxMobAmount(); spawnedMobAmount++) {
                     double a = NumGenerator.fraction() * 2 * Math.PI;
                     double dist = NumGenerator.fraction() * spawner.getRadius();
                     Location loc = spawner.getLocation().clone().add(dist * Math.sin(a), 0, dist * Math.cos(a)).add(0.5, 0, 0.5);
                     syncSpawnMob(spawner, loc);
+                    spawner.setSpawnedMobsAmount(spawner.getSpawnedMobsAmount() + 1);
                 }
                 timeLeft = spawner.getSpawnTime()-1;
             }
