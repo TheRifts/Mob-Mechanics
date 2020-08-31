@@ -21,6 +21,8 @@ public class MobDeath implements Listener {
     public void onMobDeath(EntityDeathEvent event) {
         if (plugin.getMobManager().isTracked(event.getEntity())) {
             MobSpawner spawner = plugin.getMobManager().asCalamityMob(event.getEntity()).getSpawner();
+            if (spawner == null) return;
+
             spawner.setSpawnedMobsAmount(spawner.getSpawnedMobsAmount() - 1);
             MobMechanics.getInstance().getMobManager().stopTracking(event.getEntity());
         }
