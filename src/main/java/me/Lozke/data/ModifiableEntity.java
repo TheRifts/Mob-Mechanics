@@ -22,40 +22,43 @@ public class ModifiableEntity {
     private ArrayList<String> prefixDictionary;
     private ArrayList<String> suffixDictionary;
     private EntityType type;
-    private int followRange = -1;
-    private boolean showName;
-    private int size;
-    private int minSize;
-    private boolean canSplit;
-    private int splitSpawnCount;
-    private boolean baby;
-    private boolean angry;
-    private boolean armsRaised;
-    private boolean powered;
-    private boolean knockbackImmune;
-    private boolean burnImmune;
-    private boolean fallImmune;
-    private boolean drownImmune;
-    private boolean dryOutImmune;
-    private boolean dryStreak;
+    private Integer followRange;
+    private Boolean showName;
+    private Integer size;
+    private Integer minSize;
+    private Boolean canSplit;
+    private Integer splitSpawnCount;
+    private Boolean baby;
+    private Boolean angry;
+    private Boolean armsRaised;
+    private Boolean powered;
+    private Boolean knockbackImmune;
+    private Boolean burnImmune;
+    private Boolean fallImmune;
+    private Boolean drownImmune;
+    private Boolean dryOutImmune;
+    private Boolean dryStreak;
     private String headBase64;
-    private Map<EquipmentSlot, String> equipment = new HashMap<>();
+    private ArrayList<WeaponType> weaponTypes;
+    private Map<EquipmentSlot, String> equipment;
 
     public LivingEntity spawnEntity(Location location) {
         LivingEntity le = (LivingEntity) location.getWorld().spawnEntity(location, type);
 
         if (le instanceof Zombie) {
-            ((Zombie) le).setBaby(baby);
+            if (baby == null) ((Zombie) le).setBaby(false);
+            else ((Zombie) le).setBaby(baby);
         }
         else if (le instanceof Rabbit) {
             ((Rabbit) le).setRabbitType(Rabbit.Type.THE_KILLER_BUNNY);
             ((Rabbit) le).setAdult();
         }
         else if (le instanceof Creeper) {
-            ((Creeper) le).setPowered(powered);
+            if (powered == null) ((Creeper) le).setPowered(false);
+            else ((Creeper) le).setPowered(powered);
         }
         else if (le instanceof Slime) {
-            if (size < 1) {
+            if (size == null || size < 1) {
                 ((Slime) le).setSize(2 + (int) (Math.random() * 3));
             }
             else {
@@ -63,11 +66,11 @@ public class ModifiableEntity {
             }
         }
         else if (le instanceof Phantom) {
-            if (size < 1) {
-                ((Slime) le).setSize(1 + (int) (Math.random() * 3));
+            if (size == null || size < 1) {
+                ((Phantom) le).setSize(1 + (int) (Math.random() * 3));
             }
             else {
-                ((Slime) le).setSize(Math.min(size, 64));
+                ((Phantom) le).setSize(Math.min(size, 64));
             }
         }
         else if (le instanceof Raider) {
@@ -80,7 +83,8 @@ public class ModifiableEntity {
         else if (le instanceof Piglin) {
             ((Piglin) le).setImmuneToZombification(true);
             ((Piglin) le).setIsAbleToHunt(false);
-            ((Piglin) le).setBaby(baby);
+            if (baby == null) ((Piglin) le).setBaby(false);
+            else ((Piglin) le).setBaby(baby);
         }
         else if (le instanceof Hoglin) {
             ((Hoglin) le).setImmuneToZombification(true);
@@ -88,7 +92,7 @@ public class ModifiableEntity {
 
         if (le instanceof Ageable) {
             ((Ageable) le).setAgeLock(true);
-            if (baby) {
+            if (baby != null && baby) {
                 ((Ageable) le).setBaby();
             }
             else {
@@ -96,7 +100,7 @@ public class ModifiableEntity {
             }
         }
 
-        if (angry) {
+        if (angry != null && angry) {
             if (le instanceof Wolf) {
                 ((Wolf) le).setAngry(true);
             }
@@ -105,22 +109,24 @@ public class ModifiableEntity {
             }
         }
 
-        if (knockbackImmune && le.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE) != null) {
+        if (knockbackImmune != null && knockbackImmune && le.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE) != null) {
             le.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(100);
         }
 
         StringBuilder mobName = new StringBuilder();
-        if (prefixDictionary != null && prefixDictionary.size() > 0) {
+        if (prefixDictionary != null && !prefixDictionary.isEmpty()) {
             mobName.append(prefixDictionary.get(NumGenerator.index(prefixDictionary.size()))).append(" ");
         }
         mobName.append(name);
-        if (suffixDictionary != null && suffixDictionary.size() > 0) {
+        if (suffixDictionary != null && !suffixDictionary.isEmpty()) {
             mobName.append(" ").append(suffixDictionary.get(NumGenerator.index(suffixDictionary.size())));
         }
         le.getPersistentDataContainer().set(MobNamespacedKey.CUSTOM_NAME.getNamespacedKey(), MobNamespacedKey.CUSTOM_NAME.getDataType(), mobName.toString());
         le.setCustomName(mobName.toString());
         le.setCustomNameVisible(showName);
+
         le.setCanPickupItems(false);
+
         le.getEquipment().setHelmet(Items.formatItem(Material.STONE_BUTTON, ""));
         applyBase64Head(le);
 
@@ -149,6 +155,8 @@ public class ModifiableEntity {
         this.dryOutImmune = newModifiableEntity.dryOutImmune;
         this.dryStreak = newModifiableEntity.dryStreak;
         this.headBase64 = newModifiableEntity.headBase64;
+        this.weaponTypes = newModifiableEntity.weaponTypes;
+        this.equipment = newModifiableEntity.equipment;
     }
 
     private void applyBase64Head(LivingEntity entity) {
@@ -356,5 +364,22 @@ public class ModifiableEntity {
 
     public void setHeadBase64(String headBase64) {
         this.headBase64 = headBase64;
+    }
+
+    public ArrayList<WeaponType> getWeaponTypes() {
+        return weaponTypes;
+    }
+
+    public void setWeaponTypes(ArrayList<WeaponType> weaponTypes) {
+        this.weaponTypes = weaponTypes;
+    }
+
+    public void addWeaponType(WeaponType type) {
+        if (weaponTypes == null) weaponTypes = new ArrayList<>();
+        weaponTypes.add(type);
+    }
+
+    public void removeWeaponType(WeaponType type) {
+        if (weaponTypes != null) weaponTypes.remove(type);
     }
 }
