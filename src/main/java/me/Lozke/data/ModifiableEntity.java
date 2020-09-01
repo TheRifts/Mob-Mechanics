@@ -87,6 +87,11 @@ public class ModifiableEntity {
             if (baby == null) ((Piglin) le).setBaby(false);
             else ((Piglin) le).setBaby(baby);
         }
+        else if (le instanceof PiglinBrute) {
+            ((PiglinBrute) le).setImmuneToZombification(true);
+            if (baby == null) ((PiglinBrute) le).setBaby(false);
+            else ((PiglinBrute) le).setBaby(baby);
+        }
         else if (le instanceof Hoglin) {
             ((Hoglin) le).setImmuneToZombification(true);
         }
