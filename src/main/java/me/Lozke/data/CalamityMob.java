@@ -1,10 +1,12 @@
 package me.Lozke.data;
 
+import me.Lozke.MobMechanics;
 import me.Lozke.utils.Logger;
 import me.Lozke.utils.NumGenerator;
 import me.Lozke.utils.Text;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -44,6 +46,7 @@ public class CalamityMob extends ModifiableEntity implements Cloneable {
     public LivingEntity spawnEntity(Location location) {
         entity = super.spawnEntity(location);
 
+        applyMount();
         applyDefaultEquipment();
         formatName();
 
@@ -123,5 +126,18 @@ public class CalamityMob extends ModifiableEntity implements Cloneable {
             }
             applyEquipment(slot, stack);
         }
+    }
+
+    public void applyMount() {
+        if (entity == null || !entity.isValid()) return;
+        String mount = getMount();
+        if (mount == null) return;
+        LivingEntity mountEntity;
+
+        ModifiableEntity mountTemplate = MobMechanics.getInstance().getMobManager().getModifiableEntity(mount);
+        if (mountTemplate != null) mountEntity = mountTemplate.spawnEntity(entity.getLocation());
+        else mountEntity = (LivingEntity) entity.getLocation().getWorld().spawnEntity(entity.getLocation(), EntityType.valueOf(mount));
+
+        if (mountEntity != null) mountEntity.setPassenger(entity);
     }
 }

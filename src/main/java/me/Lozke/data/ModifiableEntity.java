@@ -22,6 +22,7 @@ public class ModifiableEntity {
     private ArrayList<String> prefixDictionary;
     private ArrayList<String> suffixDictionary;
     private EntityType type;
+    private String mount;
     private Integer followRange;
     private Boolean showName;
     private Integer size;
@@ -139,6 +140,7 @@ public class ModifiableEntity {
         this.prefixDictionary = newModifiableEntity.prefixDictionary;
         this.suffixDictionary = newModifiableEntity.suffixDictionary;
         this.type = newModifiableEntity.type;
+        this.mount = newModifiableEntity.mount;
         this.followRange = newModifiableEntity.followRange;
         this.showName = newModifiableEntity.showName;
         this.size = newModifiableEntity.size;
@@ -232,6 +234,14 @@ public class ModifiableEntity {
 
     public void setType(EntityType type) {
         this.type = type;
+    }
+
+    public String getMount() {
+        return mount;
+    }
+
+    public void setMount(String mount) {
+        this.mount = mount;
     }
 
     public String getId() {
