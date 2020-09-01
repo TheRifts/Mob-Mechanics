@@ -111,6 +111,10 @@ public class CalamityMob extends ModifiableEntity implements Cloneable {
             String value = equipment.get(slot);
             if (value == null) {
                 if (slot == EquipmentSlot.OFF_HAND) continue;
+                if (slot == EquipmentSlot.HEAD && baseEntity.getHeadBase64() != null) {
+                    applyBase64Head(entity);
+                    continue;
+                }
                 if (slot == EquipmentSlot.HAND) {
                     if (baseEntity.getWeaponTypes() != null)
                         stack = baseEntity
