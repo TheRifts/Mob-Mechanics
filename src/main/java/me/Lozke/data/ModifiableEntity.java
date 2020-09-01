@@ -161,7 +161,7 @@ public class ModifiableEntity {
         this.equipment = newModifiableEntity.equipment;
     }
 
-    private void applyBase64Head(LivingEntity entity) {
+    public void applyBase64Head(LivingEntity entity) {
         if (headBase64 == null) return;
         ItemStack head = new ItemStack(Material.PLAYER_HEAD, 1, (short)3);
         SkullMeta meta = (SkullMeta) head.getItemMeta();
