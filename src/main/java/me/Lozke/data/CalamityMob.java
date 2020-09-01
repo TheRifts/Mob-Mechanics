@@ -6,7 +6,6 @@ import me.Lozke.utils.NumGenerator;
 import me.Lozke.utils.Text;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -134,14 +133,16 @@ public class CalamityMob extends ModifiableEntity implements Cloneable {
 
     public void applyMount() {
         if (entity == null || !entity.isValid()) return;
-        String mount = getMount();
-        if (mount == null) return;
-        LivingEntity mountEntity;
+        String mountID = getMount();
+        if (mountID == null) return;
 
-        ModifiableEntity mountTemplate = MobMechanics.getInstance().getMobManager().getModifiableEntity(mount);
-        if (mountTemplate != null) mountEntity = mountTemplate.spawnEntity(entity.getLocation());
-        else mountEntity = (LivingEntity) entity.getLocation().getWorld().spawnEntity(entity.getLocation(), EntityType.valueOf(mount));
+        ModifiableEntity mountTemplate = MobMechanics.getInstance().getMobManager().getModifiableEntity(mountID);
+        if (mountTemplate == null) return;
 
-        if (mountEntity != null) mountEntity.setPassenger(entity);
+        MobMechanics.getInstance()
+                .getMobManager()
+                .spawnMob(tier, rarity, mountTemplate, entity.getLocation())
+                .getEntity()
+                .setPassenger(entity);
     }
 }
