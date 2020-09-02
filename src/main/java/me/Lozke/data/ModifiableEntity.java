@@ -29,6 +29,8 @@ public class ModifiableEntity {
     private Integer minSize;
     private Boolean canSplit;
     private Integer splitSpawnCount;
+    private Villager.Profession professionType;
+    private Villager.Type villagerType;
     private Boolean baby;
     private Boolean angry;
     private Boolean armsRaised;
@@ -49,6 +51,14 @@ public class ModifiableEntity {
         if (le instanceof Zombie) {
             if (baby == null) ((Zombie) le).setBaby(false);
             else ((Zombie) le).setBaby(baby);
+            if (le instanceof ZombieVillager) {
+                if (villagerType != null) ((ZombieVillager) le).setVillagerType(villagerType);
+                if (professionType != null) ((ZombieVillager) le).setVillagerProfession(professionType);
+            }
+        }
+        else if (le instanceof Villager) {
+            if (villagerType != null) ((Villager) le).setVillagerType(villagerType);
+            if (professionType != null) ((Villager) le).setProfession(professionType);
         }
         else if (le instanceof Rabbit) {
             ((Rabbit) le).setRabbitType(Rabbit.Type.THE_KILLER_BUNNY);
@@ -152,6 +162,8 @@ public class ModifiableEntity {
         this.minSize = newModifiableEntity.minSize;
         this.canSplit = newModifiableEntity.canSplit;
         this.splitSpawnCount = newModifiableEntity.splitSpawnCount;
+        this.professionType = newModifiableEntity.professionType;
+        this.villagerType = newModifiableEntity.villagerType;
         this.baby = newModifiableEntity.baby;
         this.angry = newModifiableEntity.angry;
         this.armsRaised = newModifiableEntity.armsRaised;
@@ -371,6 +383,20 @@ public class ModifiableEntity {
 
     public void setSplitSpawnCount(int splitSpawnCount) {
         this.splitSpawnCount = splitSpawnCount;
+    }
+
+    public Villager.Type getVillagerType() {
+        return villagerType;
+    }
+    public void setVillagerType(Villager.Type villagerType) {
+        this.villagerType = villagerType;
+    }
+
+    public Villager.Profession getVillagerProfession() {
+        return professionType;
+    }
+    public void setVillagerProfession(Villager.Profession villagerProfession) {
+        this.professionType = villagerProfession;
     }
 
     public String getHeadBase64() {
