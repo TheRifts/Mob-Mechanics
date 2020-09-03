@@ -47,8 +47,7 @@ public class MobAmountButton extends MenuIcon {
                 subtract(10);
                 break;
             case DROP:
-                spawner.setAmount(1);
-                updateIcon();
+                subtract(spawner.getAmount());
                 break;
         }
     }

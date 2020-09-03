@@ -47,8 +47,7 @@ public class RadiusButton extends MenuIcon {
                 subtract(10);
                 break;
             case DROP:
-                spawner.setRadius(1);
-                updateIcon();
+                subtract(spawner.getRadius());
                 break;
         }
     }

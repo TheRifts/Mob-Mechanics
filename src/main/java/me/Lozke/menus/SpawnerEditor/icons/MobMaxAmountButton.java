@@ -27,7 +27,7 @@ public class MobMaxAmountButton extends MenuIcon {
 
     @Override
     public void updateIcon() {
-        setDisplayName("&fEdit Amount (" + spawner.getMaxMobAmount() + ")");
+        setDisplayName("&fEdit Max Amount (" + spawner.getMaxMobAmount() + ")");
         getParent().updateIcon(this);
     }
 
@@ -47,8 +47,7 @@ public class MobMaxAmountButton extends MenuIcon {
                 subtract(10);
                 break;
             case DROP:
-                spawner.setAmount(1);
-                updateIcon();
+                subtract(spawner.getMaxMobAmount());
                 break;
         }
     }
