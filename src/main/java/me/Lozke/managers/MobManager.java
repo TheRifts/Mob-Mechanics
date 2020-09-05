@@ -134,6 +134,9 @@ public class MobManager {
 
         switch (damageCause) {
             case FIRE_TICK:
+                //Should the setFireTicks part be moved outside this method to some other part of damage handling? This
+                //  method is named canResist, rather than handleResist or something.
+                //Shouldn't it depend on the result of mob.isBurnImmune?
                 entity.setFireTicks(0);
                 return mob.isBurnImmune();
             default:
