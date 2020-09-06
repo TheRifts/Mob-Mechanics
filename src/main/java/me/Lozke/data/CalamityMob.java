@@ -21,6 +21,8 @@ public class CalamityMob extends ModifiableEntity implements Cloneable {
     private Tier tier;
     private Rarity rarity;
 
+    private WeaponType weaponType;
+
     private MobSpawner spawner;
     private Location location; //Position mob is leashed to.
 
@@ -94,6 +96,10 @@ public class CalamityMob extends ModifiableEntity implements Cloneable {
         return rarity;
     }
 
+    public WeaponType getWeaponType() {
+        return weaponType;
+    }
+
     public void applyEquipment(EquipmentSlot slot, ItemStack stack) {
         if (entity == null || !entity.isValid()) return;
         if (entity.getEquipment() != null) {
@@ -127,6 +133,7 @@ public class CalamityMob extends ModifiableEntity implements Cloneable {
             else {
                 stack = new ItemStack(Material.valueOf(value));
             }
+            weaponType = WeaponType.getWeaponType(stack);
             applyEquipment(slot, stack);
         }
     }

@@ -32,42 +32,39 @@ public class MobDeath implements Listener {
         LivingEntity dyingEntity = event.getEntity();
         if (plugin.getMobManager().isTracked(dyingEntity)) {
             CalamityMob calamityMob = plugin.getMobManager().asCalamityMob(dyingEntity);
-            MobSpawner spawner = calamityMob.getSpawner();
-            if (spawner == null) return;
-
-            spawner.setSpawnedMobsAmount(spawner.getSpawnedMobsAmount() - 1);
             Tier tier = calamityMob.getTier();
             Rarity rarity = calamityMob.getRarity();
+
+            //Spawner update
+            MobSpawner spawner = calamityMob.getSpawner();
+            if (spawner != null) spawner.setSpawnedMobsAmount(spawner.getSpawnedMobsAmount() - 1);
+
+            //Drop check and production
             event.setDroppedExp(0);
             event.getDrops().clear();
-            //TODO handle drops
-            EntityDamageEvent edEvent = event.getEntity().getLastDamageCause();
-            if (edEvent.getCause() == DamageCause.ENTITY_ATTACK) {
-                EntityDamageByEntityEvent edbeEvent = (EntityDamageByEntityEvent) edEvent;
-                Entity damager = edbeEvent.getDamager();
-                if (damager instanceof Player) {
-                    CustomPlayer customPlayer = PlayerMechanics.getInstance().getPlayerManager().getCustomPlayer(damager.getUniqueId());
-                    if (customPlayer != null && customPlayer.getsDropFromMob(tier, rarity)) {
-                        ItemStack drop;
-                        int value = NumGenerator.roll(5);
-                        if (value == 5) {
-                            WeaponType weaponType = WeaponType.getWeaponType(dyingEntity.getEquipment().getItemInMainHand());
-                            if (weaponType != null) {
-                                drop = ItemFactory.newWeapon(tier, rarity, weaponType);
-                            }
-                            else {
-                                drop = ItemFactory.newWeapon(tier, rarity, WeaponType.SWORD);
-                            }
-                        }
-                        else {
-                            drop = ItemFactory.newArmour(tier, rarity, ArmourType.values()[value]);
-                        }
-                        event.getDrops().add(drop);
-                    }
-                }
+            CustomPlayer customPlayer = getPlayerKiller(event);
+            if (customPlayer != null && customPlayer.getsDropFromMob(tier, rarity)) {
+                ItemStack drop;
+                int value = NumGenerator.roll(5);
+                if (value == 5) drop = ItemFactory.newWeapon(tier, rarity, calamityMob.getWeaponType());
+                else drop = ItemFactory.newArmour(tier, rarity, ArmourType.values()[value]);
+                event.getDrops().add(drop);
             }
 
+            //Mob manager update
             MobMechanics.getInstance().getMobManager().stopTracking(event.getEntity());
         }
+    }
+
+    private CustomPlayer getPlayerKiller(EntityDeathEvent event) {
+        EntityDamageEvent edEvent = event.getEntity().getLastDamageCause();
+        if (edEvent.getCause() == DamageCause.ENTITY_ATTACK) {
+            EntityDamageByEntityEvent edbeEvent = (EntityDamageByEntityEvent) edEvent;
+            Entity damager = edbeEvent.getDamager();
+            if (damager instanceof Player) {
+                return PlayerMechanics.getInstance().getPlayerManager().getCustomPlayer(damager.getUniqueId());
+            }
+        }
+        return null;
     }
 }
