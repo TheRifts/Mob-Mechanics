@@ -51,7 +51,13 @@ public class MobDeath implements Listener {
                         ItemStack drop;
                         int value = NumGenerator.roll(5);
                         if (value == 5) {
-                            drop = ItemFactory.newWeapon(tier, rarity, WeaponType.getWeaponType(dyingEntity.getEquipment().getItemInMainHand()));
+                            WeaponType weaponType = WeaponType.getWeaponType(dyingEntity.getEquipment().getItemInMainHand());
+                            if (weaponType != null) {
+                                drop = ItemFactory.newWeapon(tier, rarity, weaponType);
+                            }
+                            else {
+                                drop = ItemFactory.newWeapon(tier, rarity, WeaponType.SWORD);
+                            }
                         }
                         else {
                             drop = ItemFactory.newArmour(tier, rarity, ArmourType.values()[value]);
