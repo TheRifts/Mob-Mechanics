@@ -43,7 +43,7 @@ public class MobDeath implements Listener {
             event.setDroppedExp(0);
             event.getDrops().clear();
             CustomPlayer customPlayer = getPlayerKiller(event);
-            if (customPlayer != null && customPlayer.getsDropFromMob(tier, rarity)) {
+            if (customPlayer != null && customPlayer.reportMobKillAndCheckForDrop(tier, rarity)) {
                 ItemStack drop;
                 int value = NumGenerator.roll(5);
                 if (value == 5) drop = ItemFactory.newWeapon(tier, rarity, calamityMob.getWeaponType());
