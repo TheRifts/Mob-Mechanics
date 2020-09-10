@@ -13,9 +13,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CalamityMob extends ModifiableEntity implements Cloneable {
+public class RiftsMob extends BaseEntity implements Cloneable {
 
-    private ModifiableEntity baseEntity;
+    private BaseEntity baseEntity;
     private LivingEntity entity;
 
     private final Map<RiftsStat, Integer> baseStats = new HashMap<>();
@@ -28,17 +28,17 @@ public class CalamityMob extends ModifiableEntity implements Cloneable {
     private MobSpawner spawner;
     private Location location; //Position mob is leashed to.
 
-    public CalamityMob(ModifiableEntity baseEntity, Tier tier, Rarity rarity) {
+    public RiftsMob(BaseEntity baseEntity, Tier tier, Rarity rarity) {
         this.baseEntity = baseEntity;
         this.tier = tier;
         this.rarity = rarity;
         apply(baseEntity);
     }
 
-    public CalamityMob clone(){
-        CalamityMob clone = null;
+    public RiftsMob clone(){
+        RiftsMob clone = null;
         try {
-            clone = (CalamityMob)super.clone();
+            clone = (RiftsMob)super.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
@@ -145,7 +145,7 @@ public class CalamityMob extends ModifiableEntity implements Cloneable {
         String mountID = getMount();
         if (mountID == null) return;
 
-        ModifiableEntity mountTemplate = MobMechanics.getInstance().getMobManager().getModifiableEntity(mountID);
+        BaseEntity mountTemplate = MobMechanics.getInstance().getMobManager().getModifiableEntity(mountID);
         if (mountTemplate == null) return;
 
         MobMechanics.getInstance()

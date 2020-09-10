@@ -1,6 +1,6 @@
 package me.Lozke.menus.MobEditor;
 
-import me.Lozke.data.ModifiableEntity;
+import me.Lozke.data.BaseEntity;
 import me.Lozke.data.MobSpawner;
 import me.Lozke.menus.MobEditor.icons.DryStreakButton;
 import me.Lozke.menus.MobEditor.icons.EliteToggleButton;
@@ -12,7 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryType;
 
 public class MobEditorMenu extends ItemMenu {
-    public MobEditorMenu(ModifiableEntity mob, MobSpawner spawner) {
+    public MobEditorMenu(BaseEntity mob, MobSpawner spawner) {
         super(InventoryType.CHEST, 1, "Mob Editor");
         addDisplayItem(
                 Items.formatItem(
@@ -33,7 +33,7 @@ public class MobEditorMenu extends ItemMenu {
         addDisplayItem(new ReturnIcon(Items.formatItem(Material.RED_CONCRETE, Text.colorize("&cReturn"))));
     }
 
-    public MobEditorMenu(ModifiableEntity mob) {
+    public MobEditorMenu(BaseEntity mob) {
         this(mob, null);
     }
 }

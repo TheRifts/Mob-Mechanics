@@ -15,7 +15,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class ModifiableEntity {
+public class BaseEntity {
 
     private String id;
     private String name;
@@ -149,33 +149,33 @@ public class ModifiableEntity {
         return le;
     }
 
-    public void apply(ModifiableEntity newModifiableEntity) {
-        this.id = newModifiableEntity.id;
-        this.name = newModifiableEntity.name;
-        this.prefixDictionary = newModifiableEntity.prefixDictionary;
-        this.suffixDictionary = newModifiableEntity.suffixDictionary;
-        this.type = newModifiableEntity.type;
-        this.mount = newModifiableEntity.mount;
-        this.followRange = newModifiableEntity.followRange;
-        this.showName = newModifiableEntity.showName;
-        this.size = newModifiableEntity.size;
-        this.minSize = newModifiableEntity.minSize;
-        this.canSplit = newModifiableEntity.canSplit;
-        this.splitSpawnCount = newModifiableEntity.splitSpawnCount;
-        this.professionType = newModifiableEntity.professionType;
-        this.villagerType = newModifiableEntity.villagerType;
-        this.baby = newModifiableEntity.baby;
-        this.angry = newModifiableEntity.angry;
-        this.armsRaised = newModifiableEntity.armsRaised;
-        this.knockbackImmune = newModifiableEntity.knockbackImmune;
-        this.burnImmune = newModifiableEntity.burnImmune;
-        this.fallImmune = newModifiableEntity.fallImmune;
-        this.drownImmune = newModifiableEntity.drownImmune;
-        this.dryOutImmune = newModifiableEntity.dryOutImmune;
-        this.dryStreak = newModifiableEntity.dryStreak;
-        this.headBase64 = newModifiableEntity.headBase64;
-        this.weaponTypes = newModifiableEntity.weaponTypes;
-        this.equipment = newModifiableEntity.equipment;
+    public void apply(BaseEntity newBaseEntity) {
+        this.id = newBaseEntity.id;
+        this.name = newBaseEntity.name;
+        this.prefixDictionary = newBaseEntity.prefixDictionary;
+        this.suffixDictionary = newBaseEntity.suffixDictionary;
+        this.type = newBaseEntity.type;
+        this.mount = newBaseEntity.mount;
+        this.followRange = newBaseEntity.followRange;
+        this.showName = newBaseEntity.showName;
+        this.size = newBaseEntity.size;
+        this.minSize = newBaseEntity.minSize;
+        this.canSplit = newBaseEntity.canSplit;
+        this.splitSpawnCount = newBaseEntity.splitSpawnCount;
+        this.professionType = newBaseEntity.professionType;
+        this.villagerType = newBaseEntity.villagerType;
+        this.baby = newBaseEntity.baby;
+        this.angry = newBaseEntity.angry;
+        this.armsRaised = newBaseEntity.armsRaised;
+        this.knockbackImmune = newBaseEntity.knockbackImmune;
+        this.burnImmune = newBaseEntity.burnImmune;
+        this.fallImmune = newBaseEntity.fallImmune;
+        this.drownImmune = newBaseEntity.drownImmune;
+        this.dryOutImmune = newBaseEntity.dryOutImmune;
+        this.dryStreak = newBaseEntity.dryStreak;
+        this.headBase64 = newBaseEntity.headBase64;
+        this.weaponTypes = newBaseEntity.weaponTypes;
+        this.equipment = newBaseEntity.equipment;
     }
 
     public void applyBase64Head(LivingEntity entity) {

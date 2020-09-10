@@ -1,7 +1,7 @@
 package me.Lozke.listeners;
 
 import me.Lozke.MobMechanics;
-import me.Lozke.data.CalamityMob;
+import me.Lozke.data.RiftsMob;
 import me.Lozke.managers.MobManager;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
@@ -19,7 +19,7 @@ public class SlimeSplitListener implements Listener {
     @EventHandler
     public void onSplit(SlimeSplitEvent event) {
         event.setCancelled(true);
-        CalamityMob mob = MobMechanics.getInstance().getMobManager().asCalamityMob(event.getEntity());
+        RiftsMob mob = MobMechanics.getInstance().getMobManager().asCalamityMob(event.getEntity());
 
         if (mob == null || !mob.isSplittable() || event.getEntity().getSize() - 1 < mob.getMinSize()) {
             return;
@@ -30,7 +30,7 @@ public class SlimeSplitListener implements Listener {
 
         Location location = event.getEntity().getLocation();
         for (int i = 0; i < mob.getSplitSpawnCount(); i++) {
-            CalamityMob clone = mob.clone();
+            RiftsMob clone = mob.clone();
             clone.spawnEntity(location);
             mobManager.trackEntity(clone);
         }

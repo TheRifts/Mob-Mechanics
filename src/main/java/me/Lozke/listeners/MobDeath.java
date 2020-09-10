@@ -31,12 +31,12 @@ public class MobDeath implements Listener {
     public void onMobDeath(EntityDeathEvent event) {
         LivingEntity dyingEntity = event.getEntity();
         if (plugin.getMobManager().isTracked(dyingEntity)) {
-            CalamityMob calamityMob = plugin.getMobManager().asCalamityMob(dyingEntity);
-            Tier tier = calamityMob.getTier();
-            Rarity rarity = calamityMob.getRarity();
+            RiftsMob riftsMob = plugin.getMobManager().asCalamityMob(dyingEntity);
+            Tier tier = riftsMob.getTier();
+            Rarity rarity = riftsMob.getRarity();
 
             //Spawner update
-            MobSpawner spawner = calamityMob.getSpawner();
+            MobSpawner spawner = riftsMob.getSpawner();
             if (spawner != null) spawner.setSpawnedMobsAmount(spawner.getSpawnedMobsAmount() - 1);
 
             //Drop check and production
@@ -46,7 +46,7 @@ public class MobDeath implements Listener {
             if (customPlayer != null && customPlayer.reportMobKillAndCheckForDrop(tier, rarity)) {
                 ItemStack drop;
                 int value = NumGenerator.roll(5);
-                if (value == 5) drop = ItemFactory.newWeapon(tier, rarity, calamityMob.getWeaponType());
+                if (value == 5) drop = ItemFactory.newWeapon(tier, rarity, riftsMob.getWeaponType());
                 else drop = ItemFactory.newArmour(tier, rarity, ArmourType.values()[value]);
                 event.getDrops().add(drop);
             }

@@ -20,8 +20,8 @@ public class MobManager {
 
     private MobMechanics plugin;
 
-    private HashMap<String, ModifiableEntity> loadedMobs = new HashMap<>();
-    private HashMap<LivingEntity, CalamityMob> trackedEntities = new HashMap<>();
+    private HashMap<String, BaseEntity> loadedMobs = new HashMap<>();
+    private HashMap<LivingEntity, RiftsMob> trackedEntities = new HashMap<>();
 
     public MobManager(MobMechanics plugin) {
         this.plugin = plugin;
@@ -40,7 +40,7 @@ public class MobManager {
         }
         loadedMobs = new HashMap<>(); //Guarantees only mobs on Mobs.json will be loaded.
         try {
-            ArrayList<ModifiableEntity> mobs = new GsonBuilder().setPrettyPrinting().create().fromJson(new FileReader(plugin.getDataFolder().getPath() + "/Mobs.json"), new TypeToken<ArrayList<ModifiableEntity>>(){}.getType());
+            ArrayList<BaseEntity> mobs = new GsonBuilder().setPrettyPrinting().create().fromJson(new FileReader(plugin.getDataFolder().getPath() + "/Mobs.json"), new TypeToken<ArrayList<BaseEntity>>(){}.getType());
             mobs.forEach(modifiableEntity -> loadedMobs.put(modifiableEntity.getId(), modifiableEntity));
         } catch (FileNotFoundException exception) {
             //todo: handle this exception
@@ -63,7 +63,7 @@ public class MobManager {
     }
 
     public boolean isLoaded(String mobID) {
-        for (ModifiableEntity loaded : loadedMobs.values()) {
+        for (BaseEntity loaded : loadedMobs.values()) {
             if (loaded.getId().equals(mobID)) {
                 return true;
             }
@@ -71,47 +71,47 @@ public class MobManager {
         return false;
     }
 
-    public Collection<ModifiableEntity> getLoadedMobs() {
+    public Collection<BaseEntity> getLoadedMobs() {
         return loadedMobs.values();
     }
 
-    public ModifiableEntity getModifiableEntity(String string) {
+    public BaseEntity getModifiableEntity(String string) {
         return loadedMobs.get(string);
     }
 
-    public void addModifiableEntity(ModifiableEntity mob) {
+    public void addModifiableEntity(BaseEntity mob) {
         loadedMobs.put(mob.getId(), mob);
     }
 
-    public CalamityMob spawnMob(MobSpawner spawner, Location location) {
-        ModifiableEntity mob = loadedMobs.get(spawner.getEntityID());
+    public RiftsMob spawnMob(MobSpawner spawner, Location location) {
+        BaseEntity mob = loadedMobs.get(spawner.getEntityID());
         if (mob == null) {
             Logger.log("Unable to spawn mob with the id \"" + spawner.getEntityID() + "\" at " + location);
             spawner.setSpawnedMobsAmount(spawner.getSpawnedMobsAmount() - 1);
             return null;
         }
-        CalamityMob spawnedMob = new CalamityMob(mob, spawner.getTier(), spawner.getRarity());
+        RiftsMob spawnedMob = new RiftsMob(mob, spawner.getTier(), spawner.getRarity());
         spawnedMob.setSpawner(spawner);
         spawnedMob.spawnEntity(location);
         trackEntity(spawnedMob);
         return spawnedMob;
     }
 
-    public CalamityMob spawnMob(Tier tier, Rarity rarity, ModifiableEntity modifiableEntity, Location location) {
-        CalamityMob spawnedMob = new CalamityMob(modifiableEntity, tier, rarity);
+    public RiftsMob spawnMob(Tier tier, Rarity rarity, BaseEntity baseEntity, Location location) {
+        RiftsMob spawnedMob = new RiftsMob(baseEntity, tier, rarity);
         spawnedMob.spawnEntity(location);
         trackEntity(spawnedMob);
         return spawnedMob;
     }
 
-    public void trackEntity(CalamityMob mob) {
+    public void trackEntity(RiftsMob mob) {
         trackedEntities.put(mob.getEntity(), mob);
     }
 
     public void stopTracking(LivingEntity entity) {
         trackedEntities.remove(entity);
     }
-    public void stopTracking(CalamityMob mob) {
+    public void stopTracking(RiftsMob mob) {
         trackedEntities.remove(mob.getEntity());
     }
 
@@ -119,15 +119,15 @@ public class MobManager {
         return trackedEntities.containsKey(entity);
     }
 
-    public CalamityMob asCalamityMob(LivingEntity entity) {
+    public RiftsMob asCalamityMob(LivingEntity entity) {
         return trackedEntities.get(entity);
     }
 
-    public void updateHealthDisplay(CalamityMob calamityMob) {
-        updateHealthDisplay(calamityMob.getEntity());
+    public void updateHealthDisplay(RiftsMob riftsMob) {
+        updateHealthDisplay(riftsMob.getEntity());
     }
     public void updateHealthDisplay(LivingEntity entity) {
-        CalamityMob mob = trackedEntities.get(entity);
+        RiftsMob mob = trackedEntities.get(entity);
 
         if (mob == null) {
             return;

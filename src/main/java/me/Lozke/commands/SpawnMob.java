@@ -6,7 +6,7 @@ import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Syntax;
 import me.Lozke.MobMechanics;
-import me.Lozke.data.ModifiableEntity;
+import me.Lozke.data.BaseEntity;
 import me.Lozke.data.Rarity;
 import me.Lozke.data.Tier;
 import me.Lozke.utils.Text;
@@ -19,7 +19,7 @@ public class SpawnMob extends BaseCommand {
     @Syntax("<mob id> <rarity>")
     @CommandCompletion("@mob-ids")
     public static void onSpawnMob(Player player, String mobID, @Default("T1") Tier tier, @Default("COMMON")  Rarity rarity) {
-        ModifiableEntity entity = MobMechanics.getInstance().getMobManager().getModifiableEntity(mobID);
+        BaseEntity entity = MobMechanics.getInstance().getMobManager().getModifiableEntity(mobID);
         if (entity == null) {
             player.sendMessage(Text.colorize("&cInvalid Mob ID! Mob ID is case sensitive."));
             return;

@@ -1,6 +1,6 @@
 package me.Lozke.menus.MobEditor.icons;
 
-import me.Lozke.data.ModifiableEntity;
+import me.Lozke.data.BaseEntity;
 import me.Lozke.utils.ItemMenu.events.MenuClickEvent;
 import me.Lozke.utils.ItemMenu.icons.MenuIcon;
 import me.Lozke.utils.Items;
@@ -10,9 +10,9 @@ import org.bukkit.inventory.ItemStack;
 public class DryStreakButton extends MenuIcon {
 
     private ItemStack defaultIcon;
-    private ModifiableEntity mob;
+    private BaseEntity mob;
 
-    public DryStreakButton(ModifiableEntity mob) {
+    public DryStreakButton(BaseEntity mob) {
         this.defaultIcon = new ItemStack(Material.TRIPWIRE_HOOK);
         this.mob = mob;
 
