@@ -10,10 +10,8 @@ import me.Lozke.utils.Logger;
 import me.Lozke.utils.Text;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.io.*;
 import java.util.*;
@@ -117,33 +115,17 @@ public class MobManager {
         trackedEntities.remove(mob.getEntity());
     }
 
-    public boolean isTracked(Entity entity) {
+    public boolean isTracked(LivingEntity entity) {
         return trackedEntities.containsKey(entity);
     }
 
-    public CalamityMob asCalamityMob(Entity entity) {
+    public CalamityMob asCalamityMob(LivingEntity entity) {
         return trackedEntities.get(entity);
     }
 
-    public boolean canResist(Entity entity, EntityDamageEvent.DamageCause damageCause) {
-        if (!isTracked(entity)) {
-            return false;
-        }
-
-        CalamityMob mob = trackedEntities.get((LivingEntity) entity);
-
-        switch (damageCause) {
-            case FIRE_TICK:
-                //Should the setFireTicks part be moved outside this method to some other part of damage handling? This
-                //  method is named canResist, rather than handleResist or something.
-                //Shouldn't it depend on the result of mob.isBurnImmune?
-                entity.setFireTicks(0);
-                return mob.isBurnImmune();
-            default:
-                return false;
-        }
+    public void updateHealthDisplay(CalamityMob calamityMob) {
+        updateHealthDisplay(calamityMob.getEntity());
     }
-
     public void updateHealthDisplay(LivingEntity entity) {
         CalamityMob mob = trackedEntities.get(entity);
 

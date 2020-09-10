@@ -23,7 +23,7 @@ public class MobDamagedListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageByEntityEvent event) {
         Entity victim = event.getEntity();
-        if (victim instanceof LivingEntity && mobManager.isTracked(victim)) {
+        if (victim instanceof LivingEntity && mobManager.isTracked((LivingEntity) victim)) {
             mobManager.updateHealthDisplay((LivingEntity) victim);
         }
     }
