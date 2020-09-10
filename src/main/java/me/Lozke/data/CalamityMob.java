@@ -18,6 +18,8 @@ public class CalamityMob extends ModifiableEntity implements Cloneable {
     private ModifiableEntity baseEntity;
     private LivingEntity entity;
 
+    private final Map<RiftsStat, Integer> baseStats = new HashMap<>();
+
     private Tier tier;
     private Rarity rarity;
 
@@ -151,5 +153,17 @@ public class CalamityMob extends ModifiableEntity implements Cloneable {
                 .spawnMob(tier, rarity, mountTemplate, entity.getLocation())
                 .getEntity()
                 .setPassenger(entity);
+    }
+
+    public int getStat(RiftsStat stat) {
+        return baseStats.getOrDefault(stat, 0);
+    }
+
+    public void setBaseStat(RiftsStat stat, int value) {
+        baseStats.put(stat, value);
+    }
+
+    public Map<RiftsStat, Integer> getBaseStats() {
+        return baseStats;
     }
 }
