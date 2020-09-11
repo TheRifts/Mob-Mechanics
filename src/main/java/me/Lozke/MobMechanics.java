@@ -3,6 +3,7 @@ package me.Lozke;
 import co.aikar.commands.BukkitCommandManager;
 import me.Lozke.commands.*;
 import me.Lozke.listeners.*;
+import me.Lozke.managers.BaseEntityManager;
 import me.Lozke.managers.MobManager;
 import me.Lozke.managers.SpawnerManager;
 import org.bukkit.Bukkit;
@@ -18,6 +19,7 @@ public class MobMechanics extends JavaPlugin {
     private static MobMechanics plugin;
     private BukkitCommandManager bukkitCommandManager;
 
+    private BaseEntityManager baseEntityManager;
     private SpawnerManager spawnerManager;
     private MobManager mobManager;
 
@@ -27,6 +29,7 @@ public class MobMechanics extends JavaPlugin {
 
         bukkitCommandManager = new BukkitCommandManager(this);
 
+        baseEntityManager = new BaseEntityManager(this);
         mobManager = new MobManager(this);
         spawnerManager = new SpawnerManager(this);
 
@@ -35,7 +38,7 @@ public class MobMechanics extends JavaPlugin {
         pm.registerEvents(new SpawnerWandToggle(), this);
         pm.registerEvents(new MobDeath(this), this);
         pm.registerEvents(new MobDamagedListener(this), this);
-        pm.registerEvents(new SlimeSplitListener(mobManager), this);
+        pm.registerEvents(new SlimeSplitListener(this), this);
         pm.registerEvents(new SlimeJumpListener(), this);
 
         bukkitCommandManager.registerCommand(new Mobs());
@@ -67,6 +70,10 @@ public class MobMechanics extends JavaPlugin {
 
     public static MobMechanics getInstance() {
         return plugin;
+    }
+
+    public BaseEntityManager getBaseEntityManager() {
+        return baseEntityManager;
     }
 
     public SpawnerManager getSpawnerManager() {

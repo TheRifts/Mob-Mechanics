@@ -19,11 +19,11 @@ public class SpawnMob extends BaseCommand {
     @Syntax("<mob id> <rarity>")
     @CommandCompletion("@mob-ids")
     public static void onSpawnMob(Player player, String mobID, @Default("T1") Tier tier, @Default("COMMON")  Rarity rarity) {
-        BaseEntity entity = MobMechanics.getInstance().getMobManager().getModifiableEntity(mobID);
+        BaseEntity entity = MobMechanics.getInstance().getBaseEntityManager().getBaseEntity(mobID);
         if (entity == null) {
             player.sendMessage(Text.colorize("&cInvalid Mob ID! Mob ID is case sensitive."));
             return;
         }
-        MobMechanics.getInstance().getMobManager().spawnMob(tier, rarity, entity, player.getLocation());
+        MobMechanics.getInstance().getBaseEntityManager().spawnBaseEntity(entity, player.getLocation(), tier, rarity);
     }
 }

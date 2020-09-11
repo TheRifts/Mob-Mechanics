@@ -1,38 +1,45 @@
 package me.Lozke.listeners;
 
 import me.Lozke.MobMechanics;
+import me.Lozke.data.BaseEntity;
 import me.Lozke.data.RiftsMob;
+import me.Lozke.managers.BaseEntityManager;
 import me.Lozke.managers.MobManager;
 import org.bukkit.Location;
+import org.bukkit.entity.Mob;
+import org.bukkit.entity.Slime;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.SlimeSplitEvent;
 
 public class SlimeSplitListener implements Listener {
 
-    MobManager mobManager;
+    private MobManager mobManager;
+    private BaseEntityManager baseEntityManager;
 
-    public SlimeSplitListener(MobManager mobManager) {
-        this.mobManager = mobManager;
+    public SlimeSplitListener(MobMechanics plugin) {
+        this.mobManager = plugin.getMobManager();
+        this.baseEntityManager = plugin.getBaseEntityManager();
     }
 
     @EventHandler
     public void onSplit(SlimeSplitEvent event) {
         event.setCancelled(true);
-        RiftsMob mob = MobMechanics.getInstance().getMobManager().asCalamityMob(event.getEntity());
+        Slime entity = event.getEntity();
+        RiftsMob mob = mobManager.asCalamityMob(entity);
+        BaseEntity baseEntity = baseEntityManager.getBaseEntity(mob.getBaseEntityID());
 
-        if (mob == null || !mob.isSplittable() || event.getEntity().getSize() - 1 < mob.getMinSize()) {
+        if (baseEntity == null || !baseEntity.isSplittable() || event.getEntity().getSize() - 1 < baseEntity.getMinSize()) {
             return;
         }
 
-        mob.setSize(mob.getSize() - 1);
+        entity.setSize(entity.getSize() - 1);
         mob.formatName();
 
         Location location = event.getEntity().getLocation();
-        for (int i = 0; i < mob.getSplitSpawnCount(); i++) {
-            RiftsMob clone = mob.clone();
-            clone.spawnEntity(location);
-            mobManager.trackEntity(clone);
+        for (int i = 0; i < baseEntity.getSplitSpawnCount(); i++) {
+            RiftsMob newMob = baseEntityManager.spawnBaseEntity(baseEntity, entity.getLocation(), mob.getTier(), mob.getRarity());
+            mobManager.trackEntity(newMob);
         }
     }
 

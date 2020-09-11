@@ -113,7 +113,7 @@ public class SpawnerManager {
 
 
     public void swapID(String oldID, String newID) {
-        if (!MobMechanics.getInstance().getMobManager().isLoaded(newID)) {
+        if (!MobMechanics.getInstance().getBaseEntityManager().isLoaded(newID)) {
             Logger.log("Attempted to change spawners with ID '" + oldID + "' to '" + newID + "', but '" + newID + "' is invalid!");
             return;
         }

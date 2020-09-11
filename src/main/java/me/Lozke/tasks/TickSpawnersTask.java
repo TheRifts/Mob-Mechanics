@@ -2,6 +2,7 @@ package me.Lozke.tasks;
 
 import me.Lozke.MobMechanics;
 import me.Lozke.data.MobSpawner;
+import me.Lozke.data.RiftsMob;
 import me.Lozke.managers.SpawnerManager;
 import me.Lozke.utils.NumGenerator;
 import org.bukkit.Location;
@@ -47,7 +48,9 @@ public class TickSpawnersTask extends BukkitRunnable {
         new BukkitRunnable() {
             @Override
             public void run() {
-                MobMechanics.getInstance().getMobManager().spawnMob(spawner, location);
+                RiftsMob mob = MobMechanics.getInstance().getBaseEntityManager().spawnBaseEntity(spawner, location);
+                MobMechanics.getInstance().getMobManager().updateHealthDisplay(mob);
+                MobMechanics.getInstance().getMobManager().trackEntity(mob);
             }
         }.runTask(MobMechanics.getInstance());
     }

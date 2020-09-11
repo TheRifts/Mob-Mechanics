@@ -1,107 +1,27 @@
 package me.Lozke.managers;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import me.Lozke.MobMechanics;
 import me.Lozke.data.*;
 import me.Lozke.menus.MobSelector.MobSelectorMenu;
-import me.Lozke.utils.Logger;
 import me.Lozke.utils.Text;
-import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import java.io.*;
 import java.util.*;
 
 public class MobManager {
 
     private MobMechanics plugin;
 
-    private HashMap<String, BaseEntity> loadedMobs = new HashMap<>();
     private HashMap<LivingEntity, RiftsMob> trackedEntities = new HashMap<>();
 
     public MobManager(MobMechanics plugin) {
         this.plugin = plugin;
-        loadMobs();
     }
 
     public void openEditor(Player player) {
         new MobSelectorMenu().openMenu(player);
-    }
-
-    public void loadMobs() {
-        //TODO handle MobManager folder/file creation (probably in main onEnable)
-        if (!new File(plugin.getDataFolder().getPath() + File.separator + "Mobs.json").exists()) {
-            Logger.log("No mobs file (Mobs.json) detected");
-            return;
-        }
-        loadedMobs = new HashMap<>(); //Guarantees only mobs on Mobs.json will be loaded.
-        try {
-            ArrayList<BaseEntity> mobs = new GsonBuilder().setPrettyPrinting().create().fromJson(new FileReader(plugin.getDataFolder().getPath() + "/Mobs.json"), new TypeToken<ArrayList<BaseEntity>>(){}.getType());
-            mobs.forEach(modifiableEntity -> loadedMobs.put(modifiableEntity.getId(), modifiableEntity));
-        } catch (FileNotFoundException exception) {
-            //todo: handle this exception
-            exception.printStackTrace();
-        }
-        plugin.registerCommandCompletion("mob-ids", loadedMobs.keySet());
-    }
-
-    public void saveMobs() {
-        if (loadedMobs.isEmpty()) {
-            Logger.log("No mobs to save to Mobs.json");
-            return;
-        }
-        try (FileWriter writer = new FileWriter(new File(plugin.getDataFolder() + File.separator + "Mobs.json"))) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            gson.toJson(loadedMobs.values(), writer);
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-    }
-
-    public boolean isLoaded(String mobID) {
-        for (BaseEntity loaded : loadedMobs.values()) {
-            if (loaded.getId().equals(mobID)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Collection<BaseEntity> getLoadedMobs() {
-        return loadedMobs.values();
-    }
-
-    public BaseEntity getModifiableEntity(String string) {
-        return loadedMobs.get(string);
-    }
-
-    public void addModifiableEntity(BaseEntity mob) {
-        loadedMobs.put(mob.getId(), mob);
-    }
-
-    public RiftsMob spawnMob(MobSpawner spawner, Location location) {
-        BaseEntity mob = loadedMobs.get(spawner.getEntityID());
-        if (mob == null) {
-            Logger.log("Unable to spawn mob with the id \"" + spawner.getEntityID() + "\" at " + location);
-            spawner.setSpawnedMobsAmount(spawner.getSpawnedMobsAmount() - 1);
-            return null;
-        }
-        RiftsMob spawnedMob = new RiftsMob(mob, spawner.getTier(), spawner.getRarity());
-        spawnedMob.setSpawner(spawner);
-        spawnedMob.spawnEntity(location);
-        trackEntity(spawnedMob);
-        return spawnedMob;
-    }
-
-    public RiftsMob spawnMob(Tier tier, Rarity rarity, BaseEntity baseEntity, Location location) {
-        RiftsMob spawnedMob = new RiftsMob(baseEntity, tier, rarity);
-        spawnedMob.spawnEntity(location);
-        trackEntity(spawnedMob);
-        return spawnedMob;
     }
 
     public void trackEntity(RiftsMob mob) {
@@ -123,16 +43,15 @@ public class MobManager {
         return trackedEntities.get(entity);
     }
 
-    public void updateHealthDisplay(RiftsMob riftsMob) {
-        updateHealthDisplay(riftsMob.getEntity());
-    }
     public void updateHealthDisplay(LivingEntity entity) {
         RiftsMob mob = trackedEntities.get(entity);
-
         if (mob == null) {
             return;
         }
-
+        updateHealthDisplay(mob);
+    }
+    public void updateHealthDisplay(RiftsMob mob) {
+        LivingEntity entity = mob.getEntity();
         double hp = entity.getHealth();
         double maxHP = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
         double healthPercentage = hp/maxHP;
@@ -146,7 +65,6 @@ public class MobManager {
         else {
             colorCode = "&c";
         }
-
         String name = (String) entity.getPersistentDataContainer().get(MobNamespacedKey.CUSTOM_NAME.getNamespacedKey(), MobNamespacedKey.CUSTOM_NAME.getDataType());
         entity.setCustomName(Text.colorize(mob.getTier().getColorCode() + "[" + mob.getRarity().getSymbol() + "] " + name + " " + colorCode + (int) Math.ceil(hp) + "&c❤"));
     }

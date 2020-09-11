@@ -55,7 +55,7 @@ public class Spawners extends BaseCommand {
     @Subcommand("swap")
     @CommandCompletion("@mob-ids @mob-ids")
     public static void onSwap(Player player, String oldID, String newID) {
-        if (!(MobMechanics.getInstance().getMobManager().isLoaded(newID))) {
+        if (!(MobMechanics.getInstance().getBaseEntityManager().isLoaded(newID))) {
             player.sendMessage(Text.colorize("&c" + newID + " is not a valid mob id"));
         }
         else {

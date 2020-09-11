@@ -1,18 +1,8 @@
 package me.Lozke.data;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
-import me.Lozke.utils.Items;
-import me.Lozke.utils.NumGenerator;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
 public class BaseEntity {
@@ -45,157 +35,6 @@ public class BaseEntity {
     private ArrayList<WeaponType> weaponTypes;
     private Map<EquipmentSlot, String> equipment;
 
-    public LivingEntity spawnEntity(Location location) {
-        LivingEntity le = (LivingEntity) location.getWorld().spawnEntity(location, type);
-
-        if (le instanceof Zombie) {
-            if (baby == null) ((Zombie) le).setBaby(false);
-            else ((Zombie) le).setBaby(baby);
-            if (le instanceof ZombieVillager) {
-                if (villagerType != null) ((ZombieVillager) le).setVillagerType(villagerType);
-                if (professionType != null) ((ZombieVillager) le).setVillagerProfession(professionType);
-            }
-        }
-        else if (le instanceof Villager) {
-            if (villagerType != null) ((Villager) le).setVillagerType(villagerType);
-            if (professionType != null) ((Villager) le).setProfession(professionType);
-        }
-        else if (le instanceof Rabbit) {
-            ((Rabbit) le).setRabbitType(Rabbit.Type.THE_KILLER_BUNNY);
-            ((Rabbit) le).setAdult();
-        }
-        else if (le instanceof Creeper) {
-            if (powered == null) ((Creeper) le).setPowered(false);
-            else ((Creeper) le).setPowered(powered);
-        }
-        else if (le instanceof Slime) {
-            if (size == null || size < 1) {
-                ((Slime) le).setSize(2 + (int) (Math.random() * 3));
-            }
-            else {
-                ((Slime) le).setSize(Math.min(size, 256));
-            }
-        }
-        else if (le instanceof Phantom) {
-            if (size == null || size < 1) {
-                ((Phantom) le).setSize(1 + (int) (Math.random() * 3));
-            }
-            else {
-                ((Phantom) le).setSize(Math.min(size, 64));
-            }
-        }
-        else if (le instanceof Raider) {
-            ((Raider) le).setCanJoinRaid(false);
-            ((Raider) le).setPatrolLeader(false);
-        }
-        else if (le instanceof Bee) {
-            ((Bee) le).setCannotEnterHiveTicks(Integer.MAX_VALUE);
-        }
-        else if (le instanceof Piglin) {
-            ((Piglin) le).setImmuneToZombification(true);
-            ((Piglin) le).setIsAbleToHunt(false);
-            if (baby == null) ((Piglin) le).setBaby(false);
-            else ((Piglin) le).setBaby(baby);
-        }
-        else if (le instanceof PiglinBrute) {
-            ((PiglinBrute) le).setImmuneToZombification(true);
-            if (baby == null) ((PiglinBrute) le).setBaby(false);
-            else ((PiglinBrute) le).setBaby(baby);
-        }
-        else if (le instanceof Hoglin) {
-            ((Hoglin) le).setImmuneToZombification(true);
-        }
-
-        if (le instanceof Ageable) {
-            ((Ageable) le).setAgeLock(true);
-            if (baby != null && baby) {
-                ((Ageable) le).setBaby();
-            }
-            else {
-                ((Ageable) le).setAdult();
-            }
-        }
-
-        if (angry != null && angry) {
-            if (le instanceof Wolf) {
-                ((Wolf) le).setAngry(true);
-            }
-            else if (le instanceof Bee) {
-                ((Bee) le).setAnger(Integer.MAX_VALUE);
-            }
-        }
-
-        if (knockbackImmune != null && knockbackImmune && le.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE) != null) {
-            le.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(100);
-        }
-
-        StringBuilder mobName = new StringBuilder();
-        if (prefixDictionary != null && !prefixDictionary.isEmpty()) {
-            mobName.append(prefixDictionary.get(NumGenerator.index(prefixDictionary.size()))).append(" ");
-        }
-        mobName.append(name);
-        if (suffixDictionary != null && !suffixDictionary.isEmpty()) {
-            mobName.append(" ").append(suffixDictionary.get(NumGenerator.index(suffixDictionary.size())));
-        }
-        le.getPersistentDataContainer().set(MobNamespacedKey.CUSTOM_NAME.getNamespacedKey(), MobNamespacedKey.CUSTOM_NAME.getDataType(), mobName.toString());
-        le.setCustomName(mobName.toString());
-        le.setCustomNameVisible(showName);
-
-        le.setCanPickupItems(false);
-
-        le.getEquipment().setHelmet(Items.formatItem(Material.STONE_BUTTON, ""));
-        applyBase64Head(le);
-
-        return le;
-    }
-
-    public void apply(BaseEntity newBaseEntity) {
-        this.id = newBaseEntity.id;
-        this.name = newBaseEntity.name;
-        this.prefixDictionary = newBaseEntity.prefixDictionary;
-        this.suffixDictionary = newBaseEntity.suffixDictionary;
-        this.type = newBaseEntity.type;
-        this.mount = newBaseEntity.mount;
-        this.followRange = newBaseEntity.followRange;
-        this.showName = newBaseEntity.showName;
-        this.size = newBaseEntity.size;
-        this.minSize = newBaseEntity.minSize;
-        this.canSplit = newBaseEntity.canSplit;
-        this.splitSpawnCount = newBaseEntity.splitSpawnCount;
-        this.professionType = newBaseEntity.professionType;
-        this.villagerType = newBaseEntity.villagerType;
-        this.baby = newBaseEntity.baby;
-        this.angry = newBaseEntity.angry;
-        this.armsRaised = newBaseEntity.armsRaised;
-        this.knockbackImmune = newBaseEntity.knockbackImmune;
-        this.burnImmune = newBaseEntity.burnImmune;
-        this.fallImmune = newBaseEntity.fallImmune;
-        this.drownImmune = newBaseEntity.drownImmune;
-        this.dryOutImmune = newBaseEntity.dryOutImmune;
-        this.dryStreak = newBaseEntity.dryStreak;
-        this.headBase64 = newBaseEntity.headBase64;
-        this.weaponTypes = newBaseEntity.weaponTypes;
-        this.equipment = newBaseEntity.equipment;
-    }
-
-    public void applyBase64Head(LivingEntity entity) {
-        if (headBase64 == null) return;
-        ItemStack head = new ItemStack(Material.PLAYER_HEAD, 1, (short)3);
-        SkullMeta meta = (SkullMeta) head.getItemMeta();
-        GameProfile profile = new GameProfile(UUID.randomUUID(), "");
-        profile.getProperties().put("textures", new Property("textures", headBase64.toString()));
-        Field profileField;
-        try {
-            profileField = meta.getClass().getDeclaredField("profile");
-            profileField.setAccessible(true);
-            profileField.set(meta, profile);
-        } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
-            e.printStackTrace();
-        }
-        head.setItemMeta(meta);
-        entity.getEquipment().setHelmet(head);
-    }
-
     public String getName() {
         return name;
     }
@@ -203,7 +42,6 @@ public class BaseEntity {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public ArrayList<String> getPrefixDictionary() {
         return prefixDictionary;
@@ -222,6 +60,7 @@ public class BaseEntity {
     }
 
     public boolean isShowName() {
+        if (showName == null) return false;
         return showName;
     }
 
@@ -230,6 +69,7 @@ public class BaseEntity {
     }
 
     public boolean isBaby() {
+        if (baby == null) return false;
         return baby;
     }
 
@@ -238,6 +78,7 @@ public class BaseEntity {
     }
 
     public boolean isAngry() {
+        if (angry == null) return false;
         return angry;
     }
 
@@ -270,6 +111,7 @@ public class BaseEntity {
     }
 
     public boolean isArmsRaised() {
+        if (armsRaised == null) return false;
         return armsRaised;
     }
 
@@ -278,6 +120,7 @@ public class BaseEntity {
     }
 
     public boolean isKnockbackImmune() {
+        if (knockbackImmune == null) return false;
         return knockbackImmune;
     }
 
@@ -286,6 +129,7 @@ public class BaseEntity {
     }
 
     public boolean isBurnImmune() {
+        if (burnImmune == null) return false;
         return burnImmune;
     }
 
@@ -294,6 +138,7 @@ public class BaseEntity {
     }
 
     public boolean isFallImmune() {
+        if (fallImmune == null) return false;
         return fallImmune;
     }
 
@@ -302,6 +147,7 @@ public class BaseEntity {
     }
 
     public boolean isDryStreak() {
+        if (dryStreak == null) return false;
         return dryStreak;
     }
 
@@ -310,6 +156,7 @@ public class BaseEntity {
     }
 
     public int getFollowRange() {
+        if (showName == null) return 0;
         return followRange;
     }
 
@@ -330,6 +177,7 @@ public class BaseEntity {
     }
 
     public boolean isDrownImmune() {
+        if (drownImmune == null) return false;
         return drownImmune;
     }
 
@@ -338,6 +186,7 @@ public class BaseEntity {
     }
 
     public boolean isDryOutImmune() {
+        if (dryOutImmune == null) return false;
         return dryOutImmune;
     }
 
@@ -346,6 +195,7 @@ public class BaseEntity {
     }
 
     public int getSize() {
+        if (size == null) return 0;
         return size;
     }
 
@@ -354,6 +204,7 @@ public class BaseEntity {
     }
 
     public boolean isPowered() {
+        if (powered == null) return false;
         return powered;
     }
 
@@ -362,6 +213,7 @@ public class BaseEntity {
     }
 
     public boolean isSplittable() {
+        if (canSplit == null) return false;
         return canSplit;
     }
 
@@ -370,6 +222,7 @@ public class BaseEntity {
     }
 
     public int getMinSize() {
+        if (minSize == null) return 0;
         return minSize;
     }
 
@@ -378,6 +231,7 @@ public class BaseEntity {
     }
 
     public int getSplitSpawnCount() {
+        if (splitSpawnCount == null) return 0;
         return splitSpawnCount;
     }
 
