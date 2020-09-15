@@ -86,7 +86,6 @@ public class BaseEntityManager  {
     public RiftsMob spawnBaseEntity(MobSpawner spawner, Location location) {
         return spawnBaseEntity(spawner.getEntityID(), location, spawner.getTier(), spawner.getRarity());
     }
-
     public RiftsMob spawnBaseEntity(String entityID, Location location, Tier tier, Rarity rarity) {
         BaseEntity baseEntity = loadedMobs.get(entityID);
         if (baseEntity == null) {
@@ -95,7 +94,6 @@ public class BaseEntityManager  {
         }
         return spawnBaseEntity(baseEntity, location, tier, rarity);
     }
-
     public RiftsMob spawnBaseEntity(BaseEntity baseEntity, Location location, Tier tier, Rarity rarity) {
         if (location == null) {
             Logger.log("Unable to spawn mob with the id \"" + baseEntity.getId() + "\" due to null location");

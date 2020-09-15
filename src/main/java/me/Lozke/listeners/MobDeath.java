@@ -45,8 +45,8 @@ public class MobDeath implements Listener {
             RiftsPlayer riftsPlayer = getPlayerKiller(event);
             if (riftsPlayer != null && riftsPlayer.reportMobKillAndCheckForDrop(tier, rarity)) {
                 ItemStack drop;
-                int value = NumGenerator.roll(5);
-                if (value == 5) drop = ItemFactory.newWeapon(tier, rarity, riftsMob.getWeaponType());
+                int value = NumGenerator.index(5);
+                if (value == 4) drop = ItemFactory.newWeapon(tier, rarity, riftsMob.getWeaponType());
                 else drop = ItemFactory.newArmour(tier, rarity, ArmourType.values()[value]);
                 event.getDrops().add(drop);
             }
