@@ -1,8 +1,12 @@
 package me.Lozke.data;
 
+import me.Lozke.MobMechanics;
 import me.Lozke.utils.Logger;
+import me.Lozke.utils.NumGenerator;
 import me.Lozke.utils.Text;
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.HashMap;
@@ -14,6 +18,7 @@ public class RiftsMob implements Cloneable {
     private String baseEntityID;
 
     private final Map<RiftsStat, Integer> baseStats = new HashMap<>();
+    private final int[] damageRange = new int[2];
 
     private Tier tier;
     private Rarity rarity;
@@ -103,5 +108,31 @@ public class RiftsMob implements Cloneable {
 
     public Map<RiftsStat, Integer> getBaseStats() {
         return baseStats;
+    }
+
+    //TODO: Add damage modifiers from stats
+    public int getDamage() {
+        return NumGenerator.rollInclusive(getDamageLo(), getDamageHi());
+    }
+
+    public int getDamageLo() {
+        return damageRange[0];
+    }
+
+    public int getDamageHi() {
+        return damageRange[1];
+    }
+
+    public void updateStats() {
+        damageRange[0] = getStat(RiftsStat.DMG_LO);
+        damageRange[1] = getStat(RiftsStat.DMG_HI);
+
+        AttributeInstance healthAttribute = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        if (healthAttribute != null) {
+            int HP = getStat(RiftsStat.HP);
+            healthAttribute.setBaseValue(HP);
+            entity.setHealth(HP);
+            MobMechanics.getInstance().getMobManager().updateHealthDisplay(this);
+        }
     }
 }

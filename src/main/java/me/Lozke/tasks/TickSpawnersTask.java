@@ -1,8 +1,8 @@
 package me.Lozke.tasks;
 
 import me.Lozke.MobMechanics;
-import me.Lozke.data.MobSpawner;
-import me.Lozke.data.RiftsMob;
+import me.Lozke.data.*;
+import me.Lozke.managers.ItemFactory;
 import me.Lozke.managers.SpawnerManager;
 import me.Lozke.utils.NumGenerator;
 import org.bukkit.Location;
@@ -49,8 +49,19 @@ public class TickSpawnersTask extends BukkitRunnable {
             @Override
             public void run() {
                 RiftsMob mob = MobMechanics.getInstance().getBaseEntityManager().spawnBaseEntity(spawner, location);
-                MobMechanics.getInstance().getMobManager().updateHealthDisplay(mob);
                 MobMechanics.getInstance().getMobManager().trackEntity(mob);
+
+                Tier tier = mob.getTier();
+                Rarity rarity = mob.getRarity();
+
+                int minHp = ItemFactory.getArmourHP(tier, rarity, ItemFactory.RangeType.LOW);
+                int maxHP = ItemFactory.getArmourHP(tier, rarity, ItemFactory.RangeType.HIGH);
+                mob.setBaseStat(RiftsStat.HP, NumGenerator.rollInclusive(minHp, maxHP));
+
+                mob.setBaseStat(RiftsStat.DMG_LO, ItemFactory.getDamage(tier, rarity, ItemFactory.RangeType.LOW));
+                mob.setBaseStat(RiftsStat.DMG_HI, ItemFactory.getDamage(tier, rarity, ItemFactory.RangeType.HIGH));
+
+                mob.updateStats();
             }
         }.runTask(MobMechanics.getInstance());
     }
