@@ -44,13 +44,19 @@ public class MobManager {
     }
 
     public void updateHealthDisplay(LivingEntity entity) {
+        updateHealthDisplay(entity, entity.getHealth());
+    }
+    public void updateHealthDisplay(LivingEntity entity, double hp) {
         RiftsMob mob = trackedEntities.get(entity);
         if (mob == null) {
             return;
         }
-        updateHealthDisplay(mob);
+        updateHealthDisplay(mob, hp);
     }
     public void updateHealthDisplay(RiftsMob mob) {
+        updateHealthDisplay(mob, mob.getEntity().getHealth());
+    }
+    public void updateHealthDisplay(RiftsMob mob, double hp) {
         LivingEntity entity = mob.getEntity();
         double hp = entity.getHealth();
         double maxHP = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
