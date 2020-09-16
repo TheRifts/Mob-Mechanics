@@ -24,7 +24,8 @@ public class MobDamagedListener implements Listener {
     public void onDamage(EntityDamageByEntityEvent event) {
         Entity victim = event.getEntity();
         if (victim instanceof LivingEntity && mobManager.isTracked((LivingEntity) victim)) {
-            mobManager.updateHealthDisplay((LivingEntity) victim);
+            LivingEntity le = (LivingEntity) victim;
+            mobManager.updateHealthDisplay(le, le.getHealth() - event.getDamage());
         }
     }
 }
