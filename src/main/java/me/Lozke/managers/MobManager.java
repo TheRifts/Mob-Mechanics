@@ -58,7 +58,7 @@ public class MobManager {
     }
     public void updateHealthDisplay(RiftsMob mob, double hp) {
         LivingEntity entity = mob.getEntity();
-        double hp = entity.getHealth();
+        hp = Math.max(hp, 0);
         double maxHP = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
         double healthPercentage = hp/maxHP;
         String colorCode;
