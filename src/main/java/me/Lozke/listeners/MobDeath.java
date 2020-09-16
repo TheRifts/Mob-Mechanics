@@ -31,7 +31,7 @@ public class MobDeath implements Listener {
     public void onMobDeath(EntityDeathEvent event) {
         LivingEntity dyingEntity = event.getEntity();
         if (plugin.getMobManager().isTracked(dyingEntity)) {
-            RiftsMob riftsMob = plugin.getMobManager().asCalamityMob(dyingEntity);
+            RiftsMob riftsMob = plugin.getMobManager().asRiftsMob(dyingEntity);
             Tier tier = riftsMob.getTier();
             Rarity rarity = riftsMob.getRarity();
 

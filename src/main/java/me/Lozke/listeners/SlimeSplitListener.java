@@ -6,7 +6,6 @@ import me.Lozke.data.RiftsMob;
 import me.Lozke.managers.BaseEntityManager;
 import me.Lozke.managers.MobManager;
 import org.bukkit.Location;
-import org.bukkit.entity.Mob;
 import org.bukkit.entity.Slime;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,7 +25,7 @@ public class SlimeSplitListener implements Listener {
     public void onSplit(SlimeSplitEvent event) {
         event.setCancelled(true);
         Slime entity = event.getEntity();
-        RiftsMob mob = mobManager.asCalamityMob(entity);
+        RiftsMob mob = mobManager.asRiftsMob(entity);
         BaseEntity baseEntity = baseEntityManager.getBaseEntity(mob.getBaseEntityID());
 
         if (baseEntity == null || !baseEntity.isSplittable() || event.getEntity().getSize() - 1 < baseEntity.getMinSize()) {

@@ -39,7 +39,7 @@ public class MobManager {
         return trackedEntities.containsKey(entity);
     }
 
-    public RiftsMob asCalamityMob(LivingEntity entity) {
+    public RiftsMob asRiftsMob(LivingEntity entity) {
         return trackedEntities.get(entity);
     }
 
