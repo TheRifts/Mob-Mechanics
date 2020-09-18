@@ -5,8 +5,13 @@ import me.Lozke.data.*;
 import me.Lozke.managers.ItemFactory;
 import me.Lozke.managers.SpawnerManager;
 import me.Lozke.utils.NumGenerator;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class TickSpawnersTask extends BukkitRunnable {
 
@@ -27,11 +32,14 @@ public class TickSpawnersTask extends BukkitRunnable {
                 continue;
             }
             int timeLeft = spawner.getTimeLeft();
-            if (timeLeft == 0 && spawner.getSpawnedMobsAmount() < spawner.getMaxMobAmount()) {
+            if (timeLeft == 0 && spawner.getSpawnedMobsAmount() < spawner.getMaxMobAmount() && spawner.getLocation().isChunkLoaded() && arePlayersNearby(spawner.getLocation(), spawner.getActiveRange())) {
                 for (int spawnedMobAmount = 0; spawnedMobAmount < spawner.getAmount() && spawner.getSpawnedMobsAmount() < spawner.getMaxMobAmount(); spawnedMobAmount++) {
                     double a = NumGenerator.fraction() * 2 * Math.PI;
                     double dist = NumGenerator.fraction() * spawner.getRadius();
-                    Location loc = spawner.getLocation().clone().add(dist * Math.sin(a), 0, dist * Math.cos(a)).add(0.5, 0, 0.5);
+                    Location loc = null;
+                    while (loc == null) {
+                        loc = assureValidLocation(spawner.getLocation().clone().add(dist * Math.sin(a), 0, dist * Math.cos(a)).add(0.5, 0, 0.5));
+                    }
                     syncSpawnMob(spawner, loc);
                     spawner.setSpawnedMobsAmount(spawner.getSpawnedMobsAmount() + 1);
                 }
@@ -44,12 +52,48 @@ public class TickSpawnersTask extends BukkitRunnable {
         }
     }
 
+    private boolean arePlayersNearby(Location location, double range) {
+        if (range == 0) { //If default then ignore checking for nearby players
+            return true;
+        }
+        Set<Player> players = new HashSet<>();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.getWorld() != location.getWorld()) {
+                continue;
+            }
+            if (player.getLocation().distanceSquared(location) <= Math.pow(range, 2)) {
+                players.add(player);
+            }
+        }
+        return !players.isEmpty();
+    }
+
+    private Location assureValidLocation(Location location) {
+       for (int i = 0; i < 3; i++) {
+           Location clonedLoc = location.clone();
+           clonedLoc.add(0, i, 0);
+           boolean isValid = true;
+           for (int j = 0; j < 2; j++) {
+               clonedLoc.add(0, j, 0);
+               if (clonedLoc.getBlock().getType().isSolid()) {
+                   isValid = false;
+               }
+           }
+           if (isValid) {
+               location.add(0, i, 0);
+               return location;
+           }
+       }
+       return null;
+    }
+
     private void syncSpawnMob(MobSpawner spawner, Location location) {
         new BukkitRunnable() {
             @Override
             public void run() {
                 RiftsMob mob = MobMechanics.getInstance().getBaseEntityManager().spawnBaseEntity(spawner, location);
                 MobMechanics.getInstance().getMobManager().trackEntity(mob);
+                mob.setSpawner(spawner);
 
                 Tier tier = mob.getTier();
                 Rarity rarity = mob.getRarity();

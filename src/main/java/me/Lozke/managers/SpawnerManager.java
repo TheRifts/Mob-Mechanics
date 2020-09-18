@@ -19,6 +19,7 @@ import java.util.*;
 public class SpawnerManager {
 
     private MobMechanics plugin;
+    private TickSpawnersTask tickSpawnersTask;
 
     private HashSet<MobSpawner> mobSpawners = new HashSet<>();
     private boolean visible;
@@ -26,7 +27,18 @@ public class SpawnerManager {
     public SpawnerManager(MobMechanics plugin) {
         this.plugin = plugin;
         loadSpawners();
-        new TickSpawnersTask(this);
+        startSpawnerTask();
+    }
+
+    public void startSpawnerTask() {
+        this.tickSpawnersTask = new TickSpawnersTask(this);
+    }
+
+    public void stopSpawnerTask() {
+        if (tickSpawnersTask == null || tickSpawnersTask.isCancelled()) {
+            return;
+        }
+        tickSpawnersTask.cancel();
     }
 
     public HashSet<MobSpawner> getSpawners() {

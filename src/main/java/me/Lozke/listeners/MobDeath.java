@@ -35,10 +35,6 @@ public class MobDeath implements Listener {
             Tier tier = riftsMob.getTier();
             Rarity rarity = riftsMob.getRarity();
 
-            //Spawner update
-            MobSpawner spawner = riftsMob.getSpawner();
-            if (spawner != null) spawner.setSpawnedMobsAmount(spawner.getSpawnedMobsAmount() - 1);
-
             //Drop check and production
             event.setDroppedExp(0);
             event.getDrops().clear();
@@ -52,13 +48,13 @@ public class MobDeath implements Listener {
             }
 
             //Mob manager update
-            MobMechanics.getInstance().getMobManager().stopTracking(event.getEntity());
+            MobMechanics.getInstance().getMobManager().stopTracking(riftsMob);
         }
     }
 
     private RiftsPlayer getPlayerKiller(EntityDeathEvent event) {
         EntityDamageEvent edEvent = event.getEntity().getLastDamageCause();
-        if (edEvent.getCause() == DamageCause.ENTITY_ATTACK) {
+        if (edEvent != null && edEvent.getCause() == DamageCause.ENTITY_ATTACK) {
             EntityDamageByEntityEvent edbeEvent = (EntityDamageByEntityEvent) edEvent;
             Entity damager = edbeEvent.getDamager();
             if (damager instanceof Player) {

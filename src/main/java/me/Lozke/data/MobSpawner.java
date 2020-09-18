@@ -16,6 +16,7 @@ public class MobSpawner {
     private boolean spawnerActive;
     private int spawnTime;
     private int radius;
+    private int activeRange;
     private int spawnAmount;
     private int timeLeft;
     private int maxMobAmount;
@@ -117,6 +118,13 @@ public class MobSpawner {
         this.radius = radius;
     }
 
+    public int getActiveRange() {
+        return activeRange;
+    }
+    public void setActiveRange(int activeRange) {
+        this.activeRange = activeRange;
+    }
+
     public int getAmount() {
         return spawnAmount;
     }
@@ -156,6 +164,10 @@ public class MobSpawner {
 
     public void setEntityID(String entityID) {
         this.entityID = entityID;
+    }
+
+    public void incrementSpawnedMobsAmountBy(int amount) {
+        this.spawnedMobsAmount = Math.max((spawnedMobsAmount + amount), 0);
     }
 
     public void setSpawnedMobsAmount(int amount) {

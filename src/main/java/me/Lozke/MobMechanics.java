@@ -40,6 +40,7 @@ public class MobMechanics extends JavaPlugin {
         pm.registerEvents(new MobDamagedListener(this), this);
         pm.registerEvents(new SlimeSplitListener(this), this);
         pm.registerEvents(new SlimeJumpListener(), this);
+        pm.registerEvents(new MobUnloadListener(this), this);
 
         bukkitCommandManager.registerCommand(new Mobs());
         bukkitCommandManager.registerCommand(new Spawners());
@@ -60,7 +61,10 @@ public class MobMechanics extends JavaPlugin {
     @Override
     public void onDisable() {
         spawnerManager.saveSpawners();
-        spawnerManager.hideSpawners();
+        spawnerManager.stopSpawnerTask();
+
+        mobManager.stopTrackingAllMobs();
+
         Bukkit.getScheduler().cancelTasks(this);
     }
 

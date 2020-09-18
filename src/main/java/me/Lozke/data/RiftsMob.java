@@ -9,12 +9,13 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RiftsMob implements Cloneable {
+public class RiftsMob {
 
-    private LivingEntity entity;
+    private final WeakReference<LivingEntity> entity;
     private String baseEntityID;
 
     private final Map<RiftsStat, Integer> baseStats = new HashMap<>();
@@ -29,19 +30,9 @@ public class RiftsMob implements Cloneable {
     private Location location; //Position mob is leashed to.
 
     public RiftsMob(LivingEntity entity, Tier tier, Rarity rarity) {
-        this.entity = entity;
+        this.entity = new WeakReference<>(entity);
         this.tier = tier;
         this.rarity = rarity;
-    }
-
-    public RiftsMob clone(){
-        RiftsMob clone = null;
-        try {
-            clone = (RiftsMob) super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        return clone;
     }
 
     public String getBaseEntityID() {
@@ -52,17 +43,8 @@ public class RiftsMob implements Cloneable {
         this.baseEntityID = string;
     }
 
-    public void formatName() {
-        if (entity == null) {
-            Logger.log("Attempted to formatName for " + baseEntityID + " but entity is invalid!");
-            return;
-        }
-        String name = (String) entity.getPersistentDataContainer().get(MobNamespacedKey.CUSTOM_NAME.getNamespacedKey(), MobNamespacedKey.CUSTOM_NAME.getDataType());
-        entity.setCustomName(Text.colorize(tier.getColorCode() + "[" + rarity.getSymbol() + "] " + name));
-    }
-
     public LivingEntity getEntity() {
-        return entity;
+        return entity.get();
     }
 
     public MobSpawner getSpawner() {
@@ -110,7 +92,6 @@ public class RiftsMob implements Cloneable {
         return baseStats;
     }
 
-    //TODO: Add damage modifiers from stats
     public int getDamage() {
         return NumGenerator.rollInclusive(getDamageLo(), getDamageHi());
     }
@@ -127,11 +108,11 @@ public class RiftsMob implements Cloneable {
         damageRange[0] = getStat(RiftsStat.DMG_LO);
         damageRange[1] = getStat(RiftsStat.DMG_HI);
 
-        AttributeInstance healthAttribute = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        AttributeInstance healthAttribute = getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (healthAttribute != null) {
             int HP = getStat(RiftsStat.HP);
             healthAttribute.setBaseValue(HP);
-            entity.setHealth(HP);
+            getEntity().setHealth(HP);
             MobMechanics.getInstance().getMobManager().updateHealthDisplay(this);
         }
     }

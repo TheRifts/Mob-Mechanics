@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 public class RaritySelector extends ItemMenu {
 
     public RaritySelector(MobSpawner spawner) {
-        super(InventoryType.CHEST, 1, "Rarity Editor");
+        super(InventoryType.HOPPER, "Rarity Editor");
         for (Rarity rarity : Rarity.types) {
             if (spawner.getRarity() == rarity) {
                 addDisplayItem(new me.Lozke.menus.SpawnerEditor.icons.RaritySelector(Items.makeGlow(new ItemStack(rarity.getIcon())), spawner, rarity));

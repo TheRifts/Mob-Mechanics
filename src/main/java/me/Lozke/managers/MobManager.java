@@ -12,9 +12,8 @@ import java.util.*;
 
 public class MobManager {
 
-    private MobMechanics plugin;
-
-    private HashMap<LivingEntity, RiftsMob> trackedEntities = new HashMap<>();
+    private final MobMechanics plugin;
+    private final Map<LivingEntity, RiftsMob> trackedEntities = new WeakHashMap<>();
 
     public MobManager(MobMechanics plugin) {
         this.plugin = plugin;
@@ -29,10 +28,26 @@ public class MobManager {
     }
 
     public void stopTracking(LivingEntity entity) {
-        trackedEntities.remove(entity);
+        stopTracking(asRiftsMob(entity));
     }
     public void stopTracking(RiftsMob mob) {
-        trackedEntities.remove(mob.getEntity());
+        if (mob == null) {
+            return;
+        }
+        MobSpawner spawner = mob.getSpawner();
+        if (spawner != null) {
+            spawner.incrementSpawnedMobsAmountBy(-1);
+        }
+        LivingEntity entity = mob.getEntity();
+        if (entity.isValid() || !entity.isDead()) {
+            entity.remove();
+        }
+        trackedEntities.remove(entity);
+    }
+    public void stopTrackingAllMobs() {
+        for (RiftsMob mob : trackedEntities.values()) {
+            stopTracking(mob);
+        }
     }
 
     public boolean isTracked(LivingEntity entity) {

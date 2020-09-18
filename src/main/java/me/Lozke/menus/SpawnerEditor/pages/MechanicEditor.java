@@ -1,6 +1,7 @@
 package me.Lozke.menus.SpawnerEditor.pages;
 
 import me.Lozke.data.MobSpawner;
+import me.Lozke.menus.SpawnerEditor.icons.ActiveRangeButton;
 import me.Lozke.menus.SpawnerEditor.icons.MobAmountButton;
 import me.Lozke.menus.SpawnerEditor.icons.MobMaxAmountButton;
 import me.Lozke.menus.SpawnerEditor.icons.RadiusButton;
@@ -14,6 +15,7 @@ public class MechanicEditor extends ItemMenu {
 
     public MechanicEditor(MobSpawner spawner) {
         super(InventoryType.HOPPER, "Spawner Mechanics");
+        addDisplayItem(new ActiveRangeButton(spawner));
         addDisplayItem(new RadiusButton(spawner));
         addDisplayItem(new MobAmountButton(spawner));
         addDisplayItem(new MobMaxAmountButton(spawner));

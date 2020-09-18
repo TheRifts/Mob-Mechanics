@@ -33,7 +33,6 @@ public class SlimeSplitListener implements Listener {
         }
 
         entity.setSize(entity.getSize() - 1);
-        mob.formatName();
 
         Location location = event.getEntity().getLocation();
         for (int i = 0; i < baseEntity.getSplitSpawnCount(); i++) {
