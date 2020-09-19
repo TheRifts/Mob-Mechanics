@@ -53,7 +53,7 @@
         </repository>
         <repository>
             <id>github</id>
-            <url>https://maven.pkg.github.com/AgorianRifts/packages/</url>
+            <url>https://maven.pkg.github.com/TheRifts/packages/</url>
         </repository>
         <repository>
             <id>dmulloy2-repo</id>
