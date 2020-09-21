@@ -1,9 +1,7 @@
 package me.Lozke.data;
 
 import me.Lozke.MobMechanics;
-import me.Lozke.utils.Logger;
 import me.Lozke.utils.NumGenerator;
-import me.Lozke.utils.Text;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;

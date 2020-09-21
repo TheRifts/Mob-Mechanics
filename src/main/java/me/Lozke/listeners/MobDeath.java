@@ -6,7 +6,7 @@ package me.Lozke.listeners;
 import me.Lozke.MobMechanics;
 import me.Lozke.PlayerMechanics;
 import me.Lozke.data.*;
-import me.Lozke.managers.ItemFactory;
+import me.Lozke.utils.ItemFactory;
 import me.Lozke.utils.NumGenerator;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;

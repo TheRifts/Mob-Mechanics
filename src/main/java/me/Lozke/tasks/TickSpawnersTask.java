@@ -2,8 +2,8 @@ package me.Lozke.tasks;
 
 import me.Lozke.MobMechanics;
 import me.Lozke.data.*;
-import me.Lozke.managers.ItemFactory;
 import me.Lozke.managers.SpawnerManager;
+import me.Lozke.utils.ItemFactory;
 import me.Lozke.utils.NumGenerator;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
