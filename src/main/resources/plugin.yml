@@ -2,6 +2,7 @@ name: MobMechanics
 version: 1.0.0
 main: me.Lozke.MobMechanics
 author: Lozke
-depend: [ProtocolLib, AgorianRifts, Loot]
 description: Let us pray it does mob things.
 api-version: 1.16
+depend: [ProtocolLib, AgorianRifts, Loot]
+softdepend: [PlayerMechanics]
