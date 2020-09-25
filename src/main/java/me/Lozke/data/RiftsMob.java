@@ -11,7 +11,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RiftsMob {
+public class RiftsMob implements RiftsEntity {
 
     private final WeakReference<LivingEntity> entity;
     private String baseEntityID;
