@@ -8,7 +8,7 @@ import org.bukkit.inventory.Inventory;
 import java.util.Map;
 
 public class MobSpawner {
-    private Map<String, Object> location;
+    private Map<String, Object> location; //Serialized Location. Null if not yet placed in world.
     private Tier tier;
     private Rarity rarity;
     private String entityID;
@@ -33,12 +33,18 @@ public class MobSpawner {
         this.spawnTime = mobSpawner.getSpawnTime();
         this.timeLeft = spawnTime;
         this.radius = mobSpawner.getRadius();
+        this.activeRange = mobSpawner.getActiveRange();
         this.spawnAmount = mobSpawner.getAmount();
         this.maxMobAmount = mobSpawner.getMaxMobAmount();
     }
 
-    public MobSpawner(Location location, Tier tier, Rarity rarity, String entityID, boolean elite, boolean spawnerActive, int timer, int radius, int spawnAmount, int maxMobAmount) {
-        this.location = location.serialize();
+    public MobSpawner(Location location, Tier tier, Rarity rarity, String entityID, boolean elite, boolean spawnerActive, int timer, int radius, int activeRange, int spawnAmount, int maxMobAmount) {
+        if (location == null) {
+            this.location = null;
+        }
+        else {
+            this.location = location.serialize();
+        }
         this.tier = tier;
         this.rarity = rarity;
         this.entityID = entityID;
@@ -47,11 +53,19 @@ public class MobSpawner {
         this.spawnTime = timer;
         this.timeLeft = spawnTime;
         this.radius = radius;
+        this.activeRange = activeRange;
         this.spawnAmount = spawnAmount;
         this.maxMobAmount = maxMobAmount;
     }
 
+    public MobSpawner(Tier tier, Rarity rarity, String entityID, boolean elite, boolean spawnerActive, int timer, int radius, int activeRange, int spawnAmount, int maxMobAmount) {
+        this(null, tier, rarity, entityID, elite, spawnerActive, timer, radius, activeRange, spawnAmount, maxMobAmount);
+    }
+
     public Location getLocation() {
+        if (location == null) {
+            return null;
+        }
         return Location.deserialize(location);
     }
     public Map<String, Object> getSerializedLocation() {
