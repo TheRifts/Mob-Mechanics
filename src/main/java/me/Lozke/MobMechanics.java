@@ -51,7 +51,8 @@ public class MobMechanics extends JavaPlugin {
         registerCommandCompletion("tier", Stream.of(Tier.types).map(Enum::name).collect(Collectors.toList()));
         registerCommandCompletion("rarity", Stream.of(Rarity.types).map(Enum::name).collect(Collectors.toList()));
         registerCommandCompletion("entity", Stream.of(EntityType.values()).map(Enum::name).collect(Collectors.toList()));
-        
+
+        bukkitCommandManager.registerCommand(new CreateMob(baseEntityManager));
         bukkitCommandManager.registerCommand(new Mobs());
         bukkitCommandManager.registerCommand(new Spawners());
         bukkitCommandManager.registerCommand(new SpawnerWand());
