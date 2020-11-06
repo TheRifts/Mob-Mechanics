@@ -200,6 +200,7 @@ public class BaseEntityManager  {
         le.setCustomName(mobName.toString());
         le.setCustomNameVisible(baseEntity.isShowName());
 
+        le.setRemoveWhenFarAway(false);
         le.setCanPickupItems(false);
 
         RiftsMob riftsMob = new RiftsMob(le, tier, rarity);
