@@ -5,9 +5,11 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Subcommand;
 import me.Lozke.MobMechanics;
+import me.Lozke.data.MobSpawner;
 import me.Lozke.managers.SpawnerManager;
 import me.Lozke.utils.Text;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 @CommandAlias("spawner|spawners")
@@ -61,5 +63,17 @@ public class Spawners extends BaseCommand {
         else {
             spawnerManager.swapID(oldID, newID);
         }
+    }
+
+    @Subcommand("debug")
+    public static void onDebug(Player player) {
+        Block block = player.getTargetBlockExact(50).getLocation().getBlock();
+        MobSpawner spawner = spawnerManager.getSpawner(block.getLocation());
+        if (spawner == null) {
+            return;
+        }
+        player.sendMessage("Spawner Debug:");
+        player.sendMessage("Entity ID: " + spawner.getEntityID());
+        player.sendMessage("Spawned Mob Amount: " + spawner.getSpawnedMobsAmount() + "/" + spawner.getMaxMobAmount());
     }
 }
