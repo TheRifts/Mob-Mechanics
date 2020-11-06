@@ -31,4 +31,12 @@ public class SpawnerWand extends BaseCommand {
         player.getInventory().addItem(wrapper.getItem());
         return true;
     }
+
+    @CommandAlias("review")
+    public void onReview(Player player) {
+        ItemWrapper wrapper = new ItemWrapper(player.getInventory().getItemInMainHand());
+        MobSpawner spawner = (MobSpawner) wrapper.get(SpawnerWandPersistentDataType.DATA_TAG, new SpawnerWandPersistentDataType());
+        Logger.broadcast("Parsing spawner wand data: ");
+        Logger.broadcast(spawner.getEntityID());
+    }
 }
