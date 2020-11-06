@@ -4,6 +4,8 @@ import me.Lozke.AgorianRifts;
 import me.Lozke.MobMechanics;
 import me.Lozke.data.ARNamespacedKey;
 import me.Lozke.data.ActionBarType.ActionBarMessage;
+import me.Lozke.data.MobSpawner;
+import me.Lozke.managers.SpawnerManager;
 import me.Lozke.tasks.ActionBarMessenger;
 import me.Lozke.utils.NamespacedKeyWrapper;
 import org.bukkit.Location;
@@ -27,6 +29,7 @@ public class SpawnerWandInteraction implements Listener {
     private static int weight = 10;
 
     private MobMechanics plugin;
+    private SpawnerManager spawnerMananger;
     private ActionBarMessenger messenger;
     private final String MESSAGE_ID = "spawner-wand";
 
@@ -35,6 +38,7 @@ public class SpawnerWandInteraction implements Listener {
 
     public SpawnerWandInteraction(MobMechanics plugin) {
         this.plugin = plugin;
+        this.spawnerMananger = plugin.getSpawnerManager();
         this.messenger = AgorianRifts.getPluginInstance().getActionBarMessenger();
         ignoredPlayers = new ArrayList<>();
         //messages = new HashMap<>();
