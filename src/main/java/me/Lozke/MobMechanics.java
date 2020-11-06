@@ -2,17 +2,22 @@ package me.Lozke;
 
 import co.aikar.commands.BukkitCommandManager;
 import me.Lozke.commands.*;
+import me.Lozke.data.Rarity;
+import me.Lozke.data.Tier;
 import me.Lozke.listeners.*;
 import me.Lozke.managers.BaseEntityManager;
 import me.Lozke.managers.MobManager;
 import me.Lozke.managers.SpawnerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
+import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MobMechanics extends JavaPlugin {
 
@@ -42,6 +47,10 @@ public class MobMechanics extends JavaPlugin {
         pm.registerEvents(new SlimeJumpListener(), this);
         pm.registerEvents(new MobUnloadListener(this), this);
 
+        registerCommandCompletion("tier", Stream.of(Tier.types).map(Enum::name).collect(Collectors.toList()));
+        registerCommandCompletion("rarity", Stream.of(Rarity.types).map(Enum::name).collect(Collectors.toList()));
+        registerCommandCompletion("entity", Stream.of(EntityType.values()).map(Enum::name).collect(Collectors.toList()));
+        
         bukkitCommandManager.registerCommand(new Mobs());
         bukkitCommandManager.registerCommand(new Spawners());
         bukkitCommandManager.registerCommand(new SpawnerWand());
