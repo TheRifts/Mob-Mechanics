@@ -23,6 +23,7 @@ public class CreateMob extends BaseCommand {
         baseEntity.setId(mobID);
         baseEntity.setName(mobID);
         baseEntity.setType(type);
+        baseEntity.setShowName(true);
 
         baseEntityManager.addBaseEntity(baseEntity);
     }
