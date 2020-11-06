@@ -98,8 +98,8 @@ public class SpawnerManager {
         return visible;
     }
 
-    public void createSpawner(Location location) {
-        mobSpawners.add(new MobSpawner(location, Tier.T1, Rarity.ANCIENT, "HOGLIN", false, true, 10, 4, 3, 3).showSpawner());
+    public void addSpawner(MobSpawner spawner) {
+        mobSpawners.add(spawner.showSpawner());
     }
 
     //Make this async?
