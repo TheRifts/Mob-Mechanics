@@ -41,6 +41,7 @@ public class MobMechanics extends JavaPlugin {
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new SpawnerWandInteraction(this), this);
         pm.registerEvents(new SpawnerWandToggle(), this);
+        pm.registerEvents(new SpawnerSneakListener(spawnerManager), this);
         pm.registerEvents(new MobDeath(this), this);
         pm.registerEvents(new MobDamagedListener(this), this);
         pm.registerEvents(new SlimeSplitListener(this), this);
