@@ -1,7 +1,6 @@
 package me.Lozke.data;
 
-import me.Lozke.managers.ItemFactory;
-import me.Lozke.managers.ItemWrapper;
+import me.Lozke.utils.ItemFactory;
 import me.Lozke.utils.NumGenerator;
 import me.Lozke.utils.Text;
 import org.bukkit.Bukkit;
