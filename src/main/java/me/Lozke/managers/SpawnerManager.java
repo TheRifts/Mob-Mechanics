@@ -48,7 +48,8 @@ public class SpawnerManager {
     public void loadSpawners() {
         //TODO handle MobManager folder/file creation (probably in main onEnable)
         if (!new File(plugin.getDataFolder().getPath() + File.separator + "Spawners.json").exists()) {
-            Logger.log("No spawner file (Spawners.json) detected");
+            Logger.warn("No spawner file (Spawners.json) detected");
+            mobSpawners = new HashSet<>();
             return;
         }
         try {
@@ -56,6 +57,9 @@ public class SpawnerManager {
         } catch (FileNotFoundException exception) {
             //todo: handle this exception
             exception.printStackTrace();
+        }
+        if (mobSpawners == null) {
+            mobSpawners = new HashSet<>();
         }
     }
 
@@ -122,7 +126,6 @@ public class SpawnerManager {
     public Inventory openGUI(Location location) {
         return getSpawner(location).editor();
     }
-
 
     public void swapID(String oldID, String newID) {
         if (!MobMechanics.getInstance().getBaseEntityManager().isLoaded(newID)) {
