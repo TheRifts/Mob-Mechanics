@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 public class SpawnMob extends BaseCommand {
 
     @Default
-    @Syntax("<mob id> <rarity>")
+    @Syntax("<mob id> <tier> <rarity>")
     @CommandCompletion("@mob-ids")
     public static void onSpawnMob(Player player, String mobID, @Default("T1") Tier tier, @Default("COMMON")  Rarity rarity) {
         BaseEntity entity = MobMechanics.getInstance().getBaseEntityManager().getBaseEntity(mobID);
