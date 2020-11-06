@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class MobSpawner {
     private Map<String, Object> location; //Serialized Location. Null if not yet placed in world.
+    private Long chunkKey;
     private Tier tier;
     private Rarity rarity;
     private String entityID;
@@ -25,6 +26,7 @@ public class MobSpawner {
 
     public MobSpawner(MobSpawner mobSpawner) {
         this.location = mobSpawner.getSerializedLocation();
+        this.chunkKey = mobSpawner.getChunkKey();
         this.tier = mobSpawner.getTier();
         this.rarity = mobSpawner.getRarity();
         this.entityID = mobSpawner.getEntityID();
@@ -41,9 +43,11 @@ public class MobSpawner {
     public MobSpawner(Location location, Tier tier, Rarity rarity, String entityID, boolean elite, boolean spawnerActive, int timer, int radius, int activeRange, int spawnAmount, int maxMobAmount) {
         if (location == null) {
             this.location = null;
+            this.chunkKey = null;
         }
         else {
             this.location = location.serialize();
+            this.chunkKey = location.getChunk().getChunkKey();
         }
         this.tier = tier;
         this.rarity = rarity;
@@ -73,9 +77,14 @@ public class MobSpawner {
     }
     public void setLocation(Location location) {
         this.location = location.serialize();
+        this.chunkKey = location.getChunk().getChunkKey();
     }
-    public void setLocation(Map<String, Object> serialiezedLocation) {
-        this.location = serialiezedLocation;
+    public void setLocation(Map<String, Object> serializedLocation) {
+        this.location = serializedLocation;
+    }
+
+    public Long getChunkKey() {
+        return chunkKey;
     }
 
     public Tier getTier() {
