@@ -112,7 +112,7 @@ public class SpawnerWandInteraction implements Listener {
                         }
                         break;
                     case RIGHT_CLICK_BLOCK:
-                        placeSpawner(location, event.getBlockFace());
+                        placeSpawner(spawnerMananger.parseSpawnerWandData(handItem), location, event.getBlockFace());
                         message = new ActionBarMessage(MESSAGE_ID,"&aSpawner Placed");
                         messenger.addMessage(player, message);
                         break;
@@ -129,7 +129,7 @@ public class SpawnerWandInteraction implements Listener {
                             messenger.addMessage(player, message);
                             return;
                         }
-                        placeSpawner(location, blockFace);
+                        placeSpawner(spawnerMananger.parseSpawnerWandData(handItem), location, blockFace);
                         message = new ActionBarMessage(MESSAGE_ID,"&aSpawner Placed");
                         messenger.addMessage(player, message);
                         break;
@@ -162,7 +162,7 @@ public class SpawnerWandInteraction implements Listener {
         }
     }
 
-    private void placeSpawner(Location location, BlockFace blockFace) {
+    private void placeSpawner(MobSpawner spawner, Location location, BlockFace blockFace) {
         //TODO: Change these to only add to the affected coordinate. Less maths!
         switch (blockFace) {
             case NORTH:
@@ -184,6 +184,7 @@ public class SpawnerWandInteraction implements Listener {
                 location.add(0, -1, 0);
                 break;
         }
-        plugin.getSpawnerManager().createSpawner(location);
+        spawner.setLocation(location);
+        plugin.getSpawnerManager().addSpawner(spawner);
     }
 }
