@@ -5,13 +5,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import me.Lozke.MobMechanics;
 import me.Lozke.data.MobSpawner;
-import me.Lozke.data.Rarity;
-import me.Lozke.data.Tier;
+import me.Lozke.data.SpawnerWandPersistentDataType;
 import me.Lozke.tasks.TickSpawnersTask;
 import me.Lozke.utils.Logger;
+import me.Lozke.utils.NamespacedKeyWrapper;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.*;
 import java.util.*;
@@ -137,5 +138,10 @@ public class SpawnerManager {
                 spawner.setEntityID(newID);
             }
         }
+    }
+
+    public MobSpawner parseSpawnerWandData(ItemStack stack) {
+        NamespacedKeyWrapper wrapper = new NamespacedKeyWrapper(stack);
+        return (MobSpawner) wrapper.get(SpawnerWandPersistentDataType.DATA_TAG, new SpawnerWandPersistentDataType());
     }
 }
