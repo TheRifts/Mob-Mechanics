@@ -26,7 +26,7 @@ public class MobManager {
 
     public void trackEntity(RiftsMob mob) {
         trackedEntities.put(mob.getEntity(), mob);
-        new TrackMobTask(mob.getEntity());
+        new TrackMobTask(mob);
     }
 
     public void stopTracking(LivingEntity entity) {
