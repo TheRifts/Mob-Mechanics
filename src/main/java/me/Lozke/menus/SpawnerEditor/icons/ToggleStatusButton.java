@@ -22,7 +22,7 @@ public class ToggleStatusButton extends MenuIcon {
     public void onItemClick(MenuClickEvent event) {
         spawner.toggleSpawnerActive();
         updateButton();
-        event.getMenu().updateIcon(this);
+        event.getMenu().updateMenu();
     }
 
     private void updateButton() {
