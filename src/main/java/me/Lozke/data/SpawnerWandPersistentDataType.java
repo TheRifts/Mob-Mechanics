@@ -34,6 +34,7 @@ public class SpawnerWandPersistentDataType implements PersistentDataType<Persist
         wrapper.addInt(key("RANGE"), spawner.getActiveRange());
         wrapper.addInt(key("AMOUNT"), spawner.getAmount());
         wrapper.addInt(key("MAX-AMOUNT"), spawner.getMaxMobAmount());
+        wrapper.addInt(key("LEASH"), spawner.getLeashRange());
         return wrapper.getDataContainer();
     }
 
@@ -50,7 +51,8 @@ public class SpawnerWandPersistentDataType implements PersistentDataType<Persist
         int activeRange = wrapper.getInt(key("RANGE"));
         int spawnAmount = wrapper.getInt(key("AMOUNT"));
         int maxMobAmount = wrapper.getInt(key("MAX-AMOUNT"));
-        return new MobSpawner(tier, rarity, entityID, elite, spawnerActive, timer, radius, activeRange, spawnAmount, maxMobAmount);
+        int leashRange = wrapper.getInt(key("LEASH"));
+        return new MobSpawner(tier, rarity, entityID, elite, spawnerActive, timer, radius, activeRange, spawnAmount, maxMobAmount, leashRange);
     }
 
     private static NamespacedKey key(String string) {

@@ -21,6 +21,7 @@ public class MobSpawner {
     private int spawnAmount;
     private int timeLeft;
     private int maxMobAmount;
+    private int leashRange;
 
     private transient int spawnedMobsAmount;
 
@@ -38,9 +39,10 @@ public class MobSpawner {
         this.activeRange = mobSpawner.getActiveRange();
         this.spawnAmount = mobSpawner.getAmount();
         this.maxMobAmount = mobSpawner.getMaxMobAmount();
+        this.leashRange = mobSpawner.getLeashRange();
     }
 
-    public MobSpawner(Location location, Tier tier, Rarity rarity, String entityID, boolean elite, boolean spawnerActive, int timer, int radius, int activeRange, int spawnAmount, int maxMobAmount) {
+    public MobSpawner(Location location, Tier tier, Rarity rarity, String entityID, boolean elite, boolean spawnerActive, int timer, int radius, int activeRange, int spawnAmount, int maxMobAmount, int leashRange) {
         if (location == null) {
             this.location = null;
             this.chunkKey = null;
@@ -60,10 +62,11 @@ public class MobSpawner {
         this.activeRange = activeRange;
         this.spawnAmount = spawnAmount;
         this.maxMobAmount = maxMobAmount;
+        this.leashRange = leashRange;
     }
 
-    public MobSpawner(Tier tier, Rarity rarity, String entityID, boolean elite, boolean spawnerActive, int timer, int radius, int activeRange, int spawnAmount, int maxMobAmount) {
-        this(null, tier, rarity, entityID, elite, spawnerActive, timer, radius, activeRange, spawnAmount, maxMobAmount);
+    public MobSpawner(Tier tier, Rarity rarity, String entityID, boolean elite, boolean spawnerActive, int timer, int radius, int activeRange, int spawnAmount, int maxMobAmount, int leashRange) {
+        this(null, tier, rarity, entityID, elite, spawnerActive, timer, radius, activeRange, spawnAmount, maxMobAmount, leashRange);
     }
 
     public Location getLocation() {
@@ -224,4 +227,11 @@ public class MobSpawner {
         return null;
     }
      */
+
+    public void setLeashRange(int range) {
+        this.leashRange = range;
+    }
+    public int getLeashRange() {
+        return leashRange;
+    }
 }

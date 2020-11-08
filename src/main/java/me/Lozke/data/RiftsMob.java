@@ -25,7 +25,7 @@ public class RiftsMob implements RiftsEntity {
     private WeaponType weaponType;
 
     private MobSpawner spawner;
-    private Location location; //Position mob is leashed to.
+    private Location leashLocation; //Position mob is leashed to.
 
     public RiftsMob(LivingEntity entity, Tier tier, Rarity rarity) {
         this.entity = new WeakReference<>(entity);
@@ -55,7 +55,10 @@ public class RiftsMob implements RiftsEntity {
     }
 
     public void setHome(Location location) {
-        this.location = location;
+        this.leashLocation = location;
+    }
+    public Location getHome() {
+        return leashLocation;
     }
 
     public Tier getTier() {

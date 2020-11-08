@@ -17,9 +17,9 @@ public class SpawnerWand extends BaseCommand {
 
     @Default
     @CommandCompletion("@tier @rarity @mob-ids")
-    @Syntax("<tier> <rarity> <mob id> <timer> <radius> <range> <spawn amount> <max amount>")
-    public boolean onGibWand(Player player, Tier tier, Rarity rarity, String mobID, int timer, int radius, int activeRange, int spawnAmount, int maxAmount) {
-        MobSpawner spawner = new MobSpawner(tier, rarity, mobID, false, true, timer, radius, activeRange, spawnAmount, maxAmount);
+    @Syntax("<tier> <rarity> <mob id> <timer> <radius> <range> <leash distance> <spawn amount> <max amount>")
+    public boolean onGibWand(Player player, Tier tier, Rarity rarity, String mobID, int timer, int radius, int activeRange, int leashRange, int spawnAmount, int maxAmount) {
+        MobSpawner spawner = new MobSpawner(tier, rarity, mobID, false, true, timer, radius, activeRange, spawnAmount, maxAmount, leashRange);
         ItemWrapper wrapper = new ItemWrapper(Material.SHEARS)
                 .setName("&eSpawner Wand")
                 .setLore(
