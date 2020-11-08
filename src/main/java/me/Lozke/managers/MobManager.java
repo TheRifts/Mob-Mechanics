@@ -3,6 +3,7 @@ package me.Lozke.managers;
 import me.Lozke.MobMechanics;
 import me.Lozke.data.*;
 import me.Lozke.menus.MobSelector.MobSelectorMenu;
+import me.Lozke.tasks.TrackMobTask;
 import me.Lozke.utils.Text;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
@@ -25,6 +26,7 @@ public class MobManager {
 
     public void trackEntity(RiftsMob mob) {
         trackedEntities.put(mob.getEntity(), mob);
+        new TrackMobTask(mob.getEntity());
     }
 
     public void stopTracking(LivingEntity entity) {
