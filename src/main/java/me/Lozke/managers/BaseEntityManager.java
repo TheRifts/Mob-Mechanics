@@ -95,6 +95,7 @@ public class BaseEntityManager  {
     public RiftsMob spawnBaseEntity(BaseEntity baseEntity, Location location, Tier tier, Rarity rarity) {
         if (location == null) {
             Logger.log("Unable to spawn mob with the id \"" + baseEntity.getId() + "\" due to null location");
+            return null;
         }
 
         assert baseEntity.getType().getEntityClass() != null;
@@ -200,6 +201,7 @@ public class BaseEntityManager  {
         le.setCustomName(mobName.toString());
         le.setCustomNameVisible(baseEntity.isShowName());
 
+        le.setMaximumNoDamageTicks(0);
         le.setRemoveWhenFarAway(false);
         le.setCanPickupItems(false);
 
