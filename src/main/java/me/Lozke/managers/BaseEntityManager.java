@@ -99,7 +99,9 @@ public class BaseEntityManager  {
             Logger.log("Unable to spawn mob with the id \"" + baseEntity.getId() + "\" due to null location");
         }
 
-        LivingEntity le = (LivingEntity) location.getWorld().spawnEntity(location, baseEntity.getType());
+        assert baseEntity.getType().getEntityClass() != null;
+        LivingEntity le = (LivingEntity) Objects.requireNonNull(location.getWorld().spawn(
+                location, baseEntity.getType().getEntityClass()));
 
         if (le instanceof Zombie) {
             ((Zombie) le).setBaby(baseEntity.isBaby());
