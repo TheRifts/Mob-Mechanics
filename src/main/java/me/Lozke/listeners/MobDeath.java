@@ -12,6 +12,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -27,7 +28,7 @@ public class MobDeath implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.MONITOR)
     public void onMobDeath(EntityDeathEvent event) {
         LivingEntity dyingEntity = event.getEntity();
         if (plugin.getMobManager().isTracked(dyingEntity)) {
@@ -48,7 +49,7 @@ public class MobDeath implements Listener {
             }
 
             //Mob manager update
-            MobMechanics.getInstance().getMobManager().stopTracking(riftsMob);
+            plugin.getMobManager().stopTracking(riftsMob);
         }
     }
 
