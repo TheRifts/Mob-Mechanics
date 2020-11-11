@@ -32,6 +32,9 @@ public class SpawnerManager {
     }
 
     public void startSpawnerTask() {
+        if (tickSpawnersTask != null && !tickSpawnersTask.isCancelled()) {
+            tickSpawnersTask.cancel();
+        }
         this.tickSpawnersTask = new TickSpawnersTask(this);
     }
 
