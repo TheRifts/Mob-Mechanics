@@ -47,6 +47,7 @@ public class MobMechanics extends JavaPlugin {
         pm.registerEvents(new SlimeSplitListener(this), this);
         pm.registerEvents(new SlimeJumpListener(), this);
         pm.registerEvents(new MobUnloadListener(this), this);
+        pm.registerEvents(new CreatureSpawnListener(), this);
 
         registerCommandCompletion("tier", Stream.of(Tier.types).map(Enum::name).collect(Collectors.toList()));
         registerCommandCompletion("rarity", Stream.of(Rarity.types).map(Enum::name).collect(Collectors.toList()));
