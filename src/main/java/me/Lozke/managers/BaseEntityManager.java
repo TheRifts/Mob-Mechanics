@@ -7,9 +7,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import me.Lozke.MobMechanics;
 import me.Lozke.data.*;
-import me.Lozke.utils.Items;
-import me.Lozke.utils.Logger;
-import me.Lozke.utils.NumGenerator;
+import me.Lozke.utils.*;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -211,9 +209,19 @@ public class BaseEntityManager  {
         wrapper.addKey(ARNamespacedKey.MOB_ID, baseEntity.getId());
 
         RiftsMob riftsMob = new RiftsMob(le, tier, rarity);
+        riftsMob.setHome(location);
         riftsMob.setBaseEntityID(baseEntity.getId());
+
+        int minHp = ItemFactory.getMobHP(tier, rarity, ItemFactory.RangeType.LOW);
+        int maxHP = ItemFactory.getMobHP(tier, rarity, ItemFactory.RangeType.HIGH);
+        riftsMob.setBaseStat(RiftsStat.HP, NumGenerator.rollInclusive(minHp, maxHP));
+        riftsMob.setBaseStat(RiftsStat.DMG_LO, ItemFactory.getDamage(tier, rarity, ItemFactory.RangeType.LOW));
+        riftsMob.setBaseStat(RiftsStat.DMG_HI, ItemFactory.getDamage(tier, rarity, ItemFactory.RangeType.HIGH));
+        riftsMob.updateStats();
+
         applyEquipment(baseEntity, le, riftsMob);
         applyMount(riftsMob);
+
         return riftsMob;
     }
 
