@@ -54,6 +54,7 @@ public class MobMechanics extends JavaPlugin {
 
         bukkitCommandManager.registerCommand(new CreateMob(baseEntityManager));
         bukkitCommandManager.registerCommand(new Mobs());
+        bukkitCommandManager.registerCommand(new Slaughter(mobManager));
         bukkitCommandManager.registerCommand(new Spawners());
         bukkitCommandManager.registerCommand(new SpawnerWand());
         bukkitCommandManager.registerCommand(new SpawnMob());
