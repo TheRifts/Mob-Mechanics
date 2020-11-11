@@ -12,6 +12,8 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import java.util.Set;
+
 @CommandAlias("spawner|spawners")
 public class Spawners extends BaseCommand {
 
@@ -75,5 +77,12 @@ public class Spawners extends BaseCommand {
         player.sendMessage("Spawner Debug:");
         player.sendMessage("Entity ID: " + spawner.getEntityID());
         player.sendMessage("Spawned Mob Amount: " + spawner.getSpawnedMobsAmount() + "/" + spawner.getMaxMobAmount());
+    }
+
+    @Subcommand("forcespawn")
+    @CommandAlias("forcespawnerspawn")
+    public static void onForceSpawn() {
+        Set<MobSpawner> spawners = spawnerManager.getSpawners();
+        spawners.forEach(spawner -> spawner.setTimeLeft(0));
     }
 }
