@@ -1,10 +1,7 @@
 package me.Lozke.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
-import co.aikar.commands.annotation.Default;
-import co.aikar.commands.annotation.Syntax;
+import co.aikar.commands.annotation.*;
 import me.Lozke.data.*;
 import me.Lozke.utils.ItemWrapper;
 import me.Lozke.utils.Logger;
@@ -32,7 +29,7 @@ public class SpawnerWand extends BaseCommand {
         return true;
     }
 
-    @CommandAlias("review")
+    @Subcommand("review")
     public void onReview(Player player) {
         ItemWrapper wrapper = new ItemWrapper(player.getInventory().getItemInMainHand());
         MobSpawner spawner = (MobSpawner) wrapper.get(SpawnerWandPersistentDataType.DATA_TAG, new SpawnerWandPersistentDataType());
