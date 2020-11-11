@@ -205,6 +205,11 @@ public class BaseEntityManager  {
         le.setRemoveWhenFarAway(false);
         le.setCanPickupItems(false);
 
+        NamespacedKeyWrapper wrapper = new NamespacedKeyWrapper(le.getPersistentDataContainer());
+        wrapper.addKey(ARNamespacedKey.TIER, tier.name());
+        wrapper.addKey(ARNamespacedKey.RARITY, rarity.name());
+        wrapper.addKey(ARNamespacedKey.MOB_ID, baseEntity.getId());
+
         RiftsMob riftsMob = new RiftsMob(le, tier, rarity);
         riftsMob.setBaseEntityID(baseEntity.getId());
         applyEquipment(baseEntity, le, riftsMob);
