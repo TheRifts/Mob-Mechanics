@@ -8,17 +8,23 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class TrackMobTask extends BukkitRunnable {
 
+    private final MobMechanics plugin;
     private final RiftsMob trackedMob;
     private final LivingEntity trackedEntity;
 
     public TrackMobTask(RiftsMob mob) {
+        this.plugin = MobMechanics.getInstance();
         this.trackedMob = mob;
         this.trackedEntity = mob.getEntity();
-        runTaskTimerAsynchronously(MobMechanics.getInstance(), 0L, 100L);
+        runTaskTimer(MobMechanics.getInstance(), 0L, 100L);
     }
 
     @Override
     public void run() {
+        if (!plugin.getMobManager().isTracked(trackedEntity)) {
+            cancel();
+            return;
+        }
         if (trackedEntity == null || trackedEntity.isDead() || !trackedEntity.isValid()) {
             MobMechanics.getInstance().getMobManager().stopTracking(trackedEntity);
             cancel();
