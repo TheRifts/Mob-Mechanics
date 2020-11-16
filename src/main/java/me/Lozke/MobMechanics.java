@@ -74,7 +74,6 @@ public class MobMechanics extends JavaPlugin {
     @Override
     public void onDisable() {
         spawnerManager.saveSpawners();
-        spawnerManager.stopSpawnerTask();
 
         mobManager.stopTrackingAllMobs();
 
