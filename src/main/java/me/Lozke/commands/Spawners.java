@@ -85,4 +85,16 @@ public class Spawners extends BaseCommand {
         Set<MobSpawner> spawners = spawnerManager.getSpawners();
         spawners.forEach(spawner -> spawner.setTimeLeft(0));
     }
+
+    @Subcommand("start")
+    @CommandAlias("startspawners")
+    public static void onStart() {
+        spawnerManager.startSpawnerTask();
+    }
+
+    @Subcommand("stop")
+    @CommandAlias("stopspawners")
+    public static void onStop() {
+        spawnerManager.stopSpawnerTask();
+    }
 }
