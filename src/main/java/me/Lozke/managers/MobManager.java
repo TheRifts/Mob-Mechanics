@@ -33,7 +33,7 @@ public class MobManager {
         stopTracking(asRiftsMob(entity));
     }
     public void stopTracking(RiftsMob mob) {
-        if (mob == null || !isTracked(mob.getEntity())) {
+        if (mob == null) {
             return;
         }
         MobSpawner spawner = mob.getSpawner();
@@ -47,7 +47,10 @@ public class MobManager {
         trackedEntities.remove(entity);
     }
     public void stopTrackingAllMobs() {
-        for (RiftsMob mob : trackedEntities.values()) {
+        Iterator<RiftsMob> iterator = trackedEntities.values().iterator();
+        while (iterator.hasNext()) {
+            RiftsMob mob = iterator.next();
+            iterator.remove();
             stopTracking(mob);
         }
     }
