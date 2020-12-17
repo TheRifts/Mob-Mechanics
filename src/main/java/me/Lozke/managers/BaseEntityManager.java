@@ -202,7 +202,6 @@ public class BaseEntityManager  {
         le.setCustomName(mobName.toString());
         le.setCustomNameVisible(baseEntity.isShowName());
 
-        le.setMaximumNoDamageTicks(0);
         le.setRemoveWhenFarAway(false);
         le.setCanPickupItems(false);
 
