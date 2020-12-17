@@ -36,9 +36,10 @@ public class BaseEntityManager  {
             Logger.log("No mobs file (Mobs.json) detected");
             return;
         }
-        loadedMobs = new HashMap<>(); //Guarantees only mobs on Mobs.json will be loaded.
+        loadedMobs = new HashMap<>();
         try {
             ArrayList<BaseEntity> mobs = new GsonBuilder().setPrettyPrinting().create().fromJson(new FileReader(plugin.getDataFolder().getPath() + "/Mobs.json"), new TypeToken<ArrayList<BaseEntity>>(){}.getType());
+            if (mobs == null || mobs.isEmpty()) return;
             mobs.forEach(modifiableEntity -> loadedMobs.put(modifiableEntity.getId(), modifiableEntity));
         } catch (FileNotFoundException exception) {
             //todo: handle this exception

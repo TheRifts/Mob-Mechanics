@@ -9,6 +9,7 @@ public class BaseEntity {
 
     private String id;
     private String name;
+    private ArrayList<String> abilities;
     private ArrayList<String> prefixDictionary;
     private ArrayList<String> suffixDictionary;
     private EntityType type;
@@ -41,6 +42,14 @@ public class BaseEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public ArrayList<String> getAbilities() {
+        return abilities;
+    }
+
+    public void setAbilities(ArrayList<String> abilities) {
+        this.abilities = abilities;
     }
 
     public ArrayList<String> getPrefixDictionary() {

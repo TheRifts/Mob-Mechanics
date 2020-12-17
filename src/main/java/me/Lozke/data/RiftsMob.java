@@ -1,5 +1,6 @@
 package me.Lozke.data;
 
+import me.Lozke.tasks.EntityAbilityTimer;
 import me.Lozke.MobMechanics;
 import me.Lozke.utils.NumGenerator;
 import org.bukkit.Location;

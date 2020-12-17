@@ -5,9 +5,12 @@ import me.Lozke.commands.*;
 import me.Lozke.data.Rarity;
 import me.Lozke.data.Tier;
 import me.Lozke.listeners.*;
+import me.Lozke.managers.AbilityManager;
+import me.Lozke.managers.EffectManager;
 import me.Lozke.managers.BaseEntityManager;
 import me.Lozke.managers.MobManager;
 import me.Lozke.managers.SpawnerManager;
+import me.Lozke.tasks.TickAbilitiesTask;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.EntityType;
@@ -25,6 +28,8 @@ public class MobMechanics extends JavaPlugin {
     private BukkitCommandManager bukkitCommandManager;
 
     private BaseEntityManager baseEntityManager;
+    private AbilityManager abilityManager;
+    private EffectManager effectManager;
     private SpawnerManager spawnerManager;
     private MobManager mobManager;
 
@@ -34,9 +39,13 @@ public class MobMechanics extends JavaPlugin {
 
         bukkitCommandManager = new BukkitCommandManager(this);
 
+        effectManager = new EffectManager(this);
+        abilityManager = new AbilityManager(this);
         baseEntityManager = new BaseEntityManager(this);
         mobManager = new MobManager(this);
         spawnerManager = new SpawnerManager(this);
+
+        new TickAbilitiesTask(abilityManager).runTaskTimer(this, 60L, 5L);
 
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new SpawnerWandInteraction(this), this);
@@ -53,6 +62,8 @@ public class MobMechanics extends JavaPlugin {
         registerCommandCompletion("rarity", Stream.of(Rarity.types).map(Enum::name).collect(Collectors.toList()));
         registerCommandCompletion("entity", Stream.of(EntityType.values()).map(Enum::name).collect(Collectors.toList()));
 
+        bukkitCommandManager.registerCommand(new Abilities());
+        bukkitCommandManager.registerCommand(new Effects());
         bukkitCommandManager.registerCommand(new CreateMob(baseEntityManager));
         bukkitCommandManager.registerCommand(new Mobs());
         bukkitCommandManager.registerCommand(new Slaughter(mobManager));
@@ -90,6 +101,14 @@ public class MobMechanics extends JavaPlugin {
 
     public BaseEntityManager getBaseEntityManager() {
         return baseEntityManager;
+    }
+
+    public AbilityManager getAbilityManager() {
+        return abilityManager;
+    }
+
+    public EffectManager getEffectManager() {
+        return effectManager;
     }
 
     public SpawnerManager getSpawnerManager() {
