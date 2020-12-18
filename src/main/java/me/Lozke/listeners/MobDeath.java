@@ -48,6 +48,14 @@ public class MobDeath implements Listener {
                 event.getDrops().add(drop);
             }
 
+            if (NumGenerator.fraction() <= 0.15) {
+                ItemStack drop;
+                int value = NumGenerator.index(5);
+                if (value >= 4) drop = ItemFactory.newPouch(tier);
+                else drop = ItemFactory.newScrap(tier, value);
+                event.getDrops().add(drop);
+            }
+
             //Mob manager update
             plugin.getMobManager().stopTracking(riftsMob);
         }
