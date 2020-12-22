@@ -205,6 +205,12 @@ public class BaseEntityManager  {
         le.setRemoveWhenFarAway(false);
         le.setCanPickupItems(false);
 
+        double movementMulti = baseEntity.getMovementMultiplier();
+        if (movementMulti > 0 && le.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+            double base = le.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue();
+            le.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(base * movementMulti);
+        }
+
         NamespacedKeyWrapper wrapper = new NamespacedKeyWrapper(le.getPersistentDataContainer());
         wrapper.addKey(ARNamespacedKey.TIER, tier.name());
         wrapper.addKey(ARNamespacedKey.RARITY, rarity.name());

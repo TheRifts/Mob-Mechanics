@@ -16,6 +16,7 @@ public class BaseEntity {
     private String mount;
     private Integer followRange;
     private Boolean showName;
+    private Double movementMultiplier;
     private Integer size;
     private Integer minSize;
     private Boolean canSplit;
@@ -285,5 +286,13 @@ public class BaseEntity {
 
     public void removeWeaponType(WeaponType type) {
         if (weaponTypes != null) weaponTypes.remove(type);
+    }
+
+    public void setMovementMultiplier(double multiplier) {
+        this.movementMultiplier = multiplier;
+    }
+    public double getMovementMultiplier() {
+        if (movementMultiplier == null) return 0D;
+        return movementMultiplier;
     }
 }
