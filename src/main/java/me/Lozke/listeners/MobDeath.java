@@ -50,9 +50,9 @@ public class MobDeath implements Listener {
 
             if (NumGenerator.fraction() <= 0.15) {
                 ItemStack drop;
-                int value = NumGenerator.index(5);
-                if (value >= 4) drop = ItemFactory.newPouch(tier);
-                else drop = ItemFactory.newScrap(tier, value);
+                int value = NumGenerator.roll(100);
+                if (value > 80) drop = ItemFactory.newPouch(tier);
+                else drop = ItemFactory.newScrap(tier, NumGenerator.index(3));
                 event.getDrops().add(drop);
             }
 
