@@ -4,5 +4,5 @@ main: me.Lozke.MobMechanics
 author: Lozke
 description: Let us pray it does mob things.
 api-version: 1.16
-depend: [ProtocolLib, AgorianRifts, Loot]
+depend: [ProtocolLib, RiftsCore, RiftsLoot]
 softdepend: [PlayerMechanics]
