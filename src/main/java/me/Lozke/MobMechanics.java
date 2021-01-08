@@ -72,7 +72,7 @@ public class MobMechanics extends JavaPlugin {
         bukkitCommandManager.registerCommand(new SpawnMob());
 
         try {
-            String name = AgorianRifts.getPluginInstance().getName();
+            String name = RiftsCore.getPluginInstance().getName();
             Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
             bukkitCommandMap.setAccessible(true);
             CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());

@@ -1,6 +1,6 @@
 package me.Lozke.listeners;
 
-import me.Lozke.AgorianRifts;
+import me.Lozke.RiftsCore;
 import me.Lozke.data.ARNamespacedKey;
 import me.Lozke.data.ActionBarType.ActionBarMessage;
 import me.Lozke.tasks.ActionBarMessenger;
@@ -34,7 +34,7 @@ public class SpawnerWandToggle implements Listener {
             boolean keyVal = wrapper.getBoolean(toggle);
             wrapper.addKey(toggle, !keyVal);
 
-            ActionBarMessenger messenger = AgorianRifts.getPluginInstance().getActionBarMessenger();
+            ActionBarMessenger messenger = RiftsCore.getPluginInstance().getActionBarMessenger();
             ActionBarMessage message = new ActionBarMessage("spawner-wand-toggle", "", time);
             if (keyVal) message.setMessage("&eEdit Mode Activated");
             else message.setMessage("&ePlacement Mode Activated");

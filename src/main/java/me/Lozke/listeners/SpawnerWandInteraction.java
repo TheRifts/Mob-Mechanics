@@ -1,7 +1,7 @@
 package me.Lozke.listeners;
 
-import me.Lozke.AgorianRifts;
 import me.Lozke.MobMechanics;
+import me.Lozke.RiftsCore;
 import me.Lozke.data.ARNamespacedKey;
 import me.Lozke.data.ActionBarType.ActionBarMessage;
 import me.Lozke.data.MobSpawner;
@@ -39,7 +39,7 @@ public class SpawnerWandInteraction implements Listener {
     public SpawnerWandInteraction(MobMechanics plugin) {
         this.plugin = plugin;
         this.spawnerMananger = plugin.getSpawnerManager();
-        this.messenger = AgorianRifts.getPluginInstance().getActionBarMessenger();
+        this.messenger = RiftsCore.getPluginInstance().getActionBarMessenger();
         ignoredPlayers = new ArrayList<>();
         //messages = new HashMap<>();
     }

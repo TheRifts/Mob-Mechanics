@@ -1,7 +1,7 @@
 package me.Lozke.tasks;
 
-import me.Lozke.AgorianRifts;
 import me.Lozke.MobMechanics;
+import me.Lozke.RiftsCore;
 import me.Lozke.data.*;
 import me.Lozke.managers.SpawnerManager;
 import me.Lozke.utils.NumGenerator;
@@ -32,7 +32,7 @@ public class TickSpawnersTask extends BukkitRunnable {
                 continue;
             }
             int timeLeft = spawner.getTimeLeft();
-            boolean isChunkLoaded = AgorianRifts.getPluginInstance().getChunkManager().isChuckLoaded(spawner.getLocation(), spawner.getChunkKey());
+            boolean isChunkLoaded = RiftsCore.getPluginInstance().getChunkManager().isChuckLoaded(spawner.getLocation(), spawner.getChunkKey());
             if (timeLeft == 0 && spawner.getSpawnedMobsAmount() < spawner.getMaxMobAmount() && isChunkLoaded && arePlayersNearby(spawner.getLocation(), spawner.getActiveRange())) {
                 for (int spawnedMobAmount = 0; spawnedMobAmount < spawner.getAmount() && spawner.getSpawnedMobsAmount() < spawner.getMaxMobAmount(); spawnedMobAmount++) {
                     double a = NumGenerator.fraction() * 2 * Math.PI;
